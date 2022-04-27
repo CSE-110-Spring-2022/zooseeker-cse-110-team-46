@@ -4,7 +4,7 @@ public class ZooExhibits {
     int exhibit_count;
 
     public ZooExhibits(String  ExhibitList){
-
+    this.exhibit_count = 0;
     }
 
 }
