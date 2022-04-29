@@ -1,200 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PlanActivity">
 
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:stretchColumns="0"
-    android:gravity="center">
-
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="124dp"
-        android:layout_margin="1dp"
-        android:layout_weight="1"
-        android:background="#FFFFFF">
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_margin="1dp"
-            android:layout_weight="1"
-            android:background="#000000">
-
-
-        </TableRow>
-    </TableRow>
-    <TableRow
-        android:background="#000000"
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_margin="1dp"
-        android:layout_weight="1"
-        >
-
-        <TextView
-            android:layout_width="match_parent"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text=" Animal 1 "
-            android:layout_margin="1dp"
-            android:layout_column="0"
-            android:background="#FFFFFF"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text=" Checkbox"
-            android:layout_margin="1dp"
-            android:background="#FFFFFF"
-            android:layout_column="2"
-            />
-    </TableRow>
-
-    <TableRow
-        android:background="#000000"
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_margin="1dp"
-        android:layout_weight="1"
-        >
-
-        <TextView
-            android:layout_width="match_parent"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text=" Animal 2"
-            android:layout_margin="1dp"
-            android:layout_column="0"
-            android:background="#FFFFFF"
-            />
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text=" Checkbox"
-            android:layout_margin="1dp"
-            android:background="#FFFFFF"
-            android:layout_column="2" />
-    </TableRow>
-
-
-
-    <TableRow
-        android:background="#000000"
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_margin="1dp"
-        android:layout_weight="1"
-        >
-
-        <TextView
-            android:layout_width="match_parent"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text=" Animal 3"
-            android:layout_margin="1dp"
-            android:layout_column="0"
-            android:background="#FFFFFF"
-            />
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text=" Checkbox"
-            android:layout_margin="1dp"
-            android:background="#FFFFFF"
-            android:layout_column="2" />
-    </TableRow>
-
-    <TableRow
-        android:background="#000000"
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_margin="1dp"
-        android:layout_weight="1"
-        >
-
-        <TextView
-            android:layout_width="match_parent"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text=" Animal 4"
-            android:layout_margin="1dp"
-            android:layout_column="0"
-            android:background="#FFFFFF"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text=" Checkbox"
-            android:layout_margin="1dp"
-            android:background="#FFFFFF"
-            android:layout_column="2" />
-    </TableRow>
-
-    <TableRow
-        android:layout_width="fill_parent"
+    <Button
+        android:id="@+id/directions_btn"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="1dp"
-        android:layout_weight="1"
-        android:background="#000000">
+        android:layout_marginEnd="16dp"
+        android:onClick="onDirectionsButtonClicked"
+        android:layout_marginBottom="4dp"
+        android:text="Directions"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_column="0"
-            android:layout_margin="1dp"
-            android:background="#FFFFFF"
-            android:text=" Animal 5"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_column="2"
-            android:layout_margin="1dp"
-            android:background="#FFFFFF"
-            android:text=" Checkbox"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-    </TableRow>
-
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="1dp"
-        android:layout_weight="1"
-        android:background="#000000">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_column="0"
-            android:layout_margin="1dp"
-            android:background="#FFFFFF"
-            android:text=" Animal 6"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_column="2"
-            android:layout_margin="1dp"
-            android:background="#FFFFFF"
-            android:text=" Checkbox"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-    </TableRow>
-
-    <TableRow
-        android:id="@+id/tableRow1"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginTop="15dp" >
-
-        <Button
-            android:id="@+id/directions_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="0"
-            android:onClick="onDirectionsButtonClicked"
-            android:layout_marginBottom="4dp"
-            android:text="Directions" />
-    </TableRow>
-</TableLayout>
 
