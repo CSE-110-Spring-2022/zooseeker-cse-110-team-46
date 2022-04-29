@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import java.util.List;
+import java.util.Map;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -14,7 +15,5 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        List<ExhibitItem> exhibitItemList = ExhibitItem.loadJSON(this, "example_exhibits.json");
-        Log.d("SearchActivity", exhibitItemList.toString());
     }
 }
