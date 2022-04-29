@@ -5,10 +5,12 @@ public class Exhibit {
     String animal_location;
     boolean selected;
 
-    public Exhibit(String animal_name, String animal_location, boolean selected){
+    public Exhibit(String animal_name, String animal_location
+
+    ){
         this.animal_name = animal_name;
         this.animal_location = animal_location;
-        this.selected = selected;
+        this.selected = false;
     }
 
     public void markSelected(){
