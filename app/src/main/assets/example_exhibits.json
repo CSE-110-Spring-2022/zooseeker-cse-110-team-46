@@ -1,0 +1,57 @@
+[
+  {
+    "id": "entrance-exit-gate-1",
+    "itemType": "gate",
+    "tags": [
+      "enter",
+      "start",
+      "begin"
+    ]
+  },
+  {
+    "id": "gorilla-viewpoint-1",
+    "itemType": "exhibit",
+    "tags": [
+      "gorilla",
+      "monkey",
+      "ape",
+      "mammal"
+    ]
+  },
+  {
+    "id": "gator-viewpoint-1",
+    "itemType": "exhibit",
+    "tags": [
+      "alligator",
+      "reptile",
+      "gator"
+    ]
+  },
+  {
+    "id": "elephant-odyssey",
+    "itemType": "exhibit",
+    "tags": [
+      "elephant",
+      "mammal"
+    ]
+  },
+  {
+    "id": "arctic-fox-viewpoint",
+    "itemType": "exhibit",
+    "tags": [
+      "arctic",
+      "fox",
+      "mammal"
+    ]
+  },
+  {
+    "id": "elephant-fox-intersection",
+    "itemType": "intersection",
+    "tags": [
+      "elephant",
+      "fox",
+      "intersection",
+      "middle"
+    ]
+  }
+]
