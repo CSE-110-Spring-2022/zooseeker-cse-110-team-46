@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import org.jgrapht.Graph;
 
@@ -18,10 +20,18 @@ import java.util.Map;
 
 public class SearchActivity extends AppCompatActivity {
 
+    ListView listView;
+    String[] name = {"Atest1", "Atest2", "Btest1", "Btest2",};
+    ArrayAdapter<String> arrayAdapter;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+        listView = findViewById(R.id.listview);
+        arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, name);
+        listView.setAdapter(arrayAdapter);
 
     }
 
@@ -40,6 +50,7 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {//changes text on every key(e.g. called twice if "ch" is typed. once for 'c' and again for 'h'
+                arrayAdapter.getFilter().filter(newText);
                 return false;
             }
         });
