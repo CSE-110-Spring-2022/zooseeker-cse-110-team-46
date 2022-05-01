@@ -13,12 +13,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /*Intent intent = new Intent(this, SearchActivity.class);
-        startActivity(intent);*/
-    }
-
-    public void onPlanButtonClicked(View view) {
-        Intent intent = new Intent(this, PlanActivity.class);
+        Intent intent = new Intent(this, SearchActivity.class);
         startActivity(intent);
     }
+
 }
