@@ -9,7 +9,16 @@
     <ListView
         android:id="@+id/listvieww"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content" >
+
+
+        <CheckBox
+            android:id="@+id/cb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:text="Checkbox" />
+    </ListView>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -19,11 +28,5 @@
         android:visibility="gone"
         android:layout_centerInParent="true" />
 
-
-    <CheckBox
-        android:id="@+id/cb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Checkbox" />
 
 </RelativeLayout>
