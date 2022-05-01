@@ -3,10 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="app/src/main/res/layout/exhibt_item.xml" value="0.375" />
+        <entry key="..\:/Users/louie/StudioProjects/zooseeker-cse-110-team-46/app/src/main/res/layout/activity_search.xml" value="0.34479166666666666" />
+        <entry key="..\:/Users/louie/StudioProjects/zooseeker-cse-110-team-46/app/src/main/res/menu/search_main.xml" value="0.34479166666666666" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_plan.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_search.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/exhibt_item.xml" value="0.375" />
       </map>
     </option>
   </component>
@@ -15,5 +17,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="SuppressABINotification">
+    <option name="modulesWithSuppressedNotConfigured">
+      <set>
+        <option value="ZooSeeker46.app" />
+      </set>
+    </option>
   </component>
 </project>
