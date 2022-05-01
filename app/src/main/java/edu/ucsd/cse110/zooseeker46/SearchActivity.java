@@ -5,29 +5,19 @@ import static edu.ucsd.cse110.zooseeker46.ZooData.loadVertexInfoJSON;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import android.content.Intent;
-//import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ListView;
-
 
 import org.jgrapht.Graph;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -35,73 +25,29 @@ public class SearchActivity extends AppCompatActivity {
 
     ListView listView;
     TextView emptyView;
-    private  String[] animallist = new String[]{"Lion", "Tiger", "Leopard", "Cat"};
+    String[] name = {"Atest1", "Atest2", "Btest1", "Btest2",};
     ArrayAdapter<String> arrayAdapter;
-
-
-    //private ListView lv;
-    private ArrayList<Exhibit> modelArrayList;
-    private ExhibitSelectAdapter customAdapter;
-    private Button btnnext;
-
 
     //method to call for updating exhibit count
     public void updateCount() {
         //get exhibit count using get method from ZooExhibits.class
-        //int count = ZooExhibits.getCount();
-        int count = name.length;
+        int count = ZooExhibits.getCount();
         //set exhibit count
         TextView countView = findViewById(R.id.exhibit_count);
         countView.setText(String.valueOf(count));
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        /*super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         listView = findViewById(R.id.listvieww);
-
+        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, name);
         listView.setAdapter(arrayAdapter);
         emptyView = findViewById(R.id.emptyTextVieww); // no results text
         listView.setEmptyView(emptyView); // sets no results text to the list
-        //listView.getOnItemClickListener(AdapterView.OnItemClickListener(Toast.makeText(getApplicationContext(),view)) )*/
-
-        //arrayAdapter = customAdapter.returnArrayAdapter(this, animallist);
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        listView = (ListView) findViewById(R.id.lv);
-        btnnext = (Button) findViewById(R.id.plan_btn);
-
-        modelArrayList = getModel(false);
-        customAdapter = new ExhibitSelectAdapter(this,modelArrayList);
-        listView.setAdapter(customAdapter);
-        listView.setTextFilterEnabled(true);
-
-        btnnext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(SearchActivity.this, PlanActivity.class);
-                startActivity(intent);
-            }
-        });
-
-
-
+        //listView.getOnItemClickListener(AdapterView.OnItemClickListener(Toast.makeText(getApplicationContext(),view)) )
     }
-
-    private ArrayList<Exhibit> getModel(boolean isSelect){
-        ArrayList<Exhibit> list = new ArrayList<>();
-        for(int i = 0; i < 4; i++){
-
-            Exhibit model = new Exhibit();
-            model.setSelected(isSelect);
-            model.setName(animallist[i]);
-            list.add(model);
-        }
-        return list;
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -117,17 +63,12 @@ public class SearchActivity extends AppCompatActivity {
             }
 
             @Override
-            public boolean onQueryTextChange(String newText ) {//changes text on every key(e.g. called twice if "ch" is typed. once for 'c' and again for 'h'
-                Log.e("Main"," data search"+newText);
-               customAdapter.getFilter().filter(newText);
-                return true;
+            public boolean onQueryTextChange(String newText) {//changes text on every key(e.g. called twice if "ch" is typed. once for 'c' and again for 'h'
+                arrayAdapter.getFilter().filter(newText);
+                return false;
             }
         });
         return super.onCreateOptionsMenu(menu);
     }
 
-    public void onPlanButtonClicked(View view) {
-        Intent intent = new Intent(this, PlanActivity.class);
-        startActivity(intent);
-    }
 }
