@@ -30,6 +30,14 @@ public class SearchActivity extends AppCompatActivity {
     String[] name = {"Atest1", "Atest2", "Btest1", "Btest2",};
     ArrayAdapter<String> arrayAdapter;
 
+    //method to call for updating exhibit count
+    public void updateCount() {
+        //get exhibit count using get method from ZooExhibits.class
+        int count = ZooExhibits.getCount();
+        //set exhibit count
+        TextView countView = findViewById(R.id.exhibit_count);
+        countView.setText(String.valueOf(count));
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
