@@ -9,8 +9,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+
 
 import org.jgrapht.Graph;
 
@@ -21,18 +24,20 @@ import java.util.Map;
 public class SearchActivity extends AppCompatActivity {
 
     ListView listView;
+    TextView emptyView;
     String[] name = {"Atest1", "Atest2", "Btest1", "Btest2",};
     ArrayAdapter<String> arrayAdapter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-        listView = findViewById(R.id.listview);
-        arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, name);
+        listView = findViewById(R.id.listvieww);
+        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, name);
         listView.setAdapter(arrayAdapter);
-
+        emptyView = findViewById(R.id.emptyTextVieww); // no results text
+        listView.setEmptyView(emptyView); // sets no results text to the list
+        //listView.getOnItemClickListener(AdapterView.OnItemClickListener(Toast.makeText(getApplicationContext(),view)) )
     }
 
     @Override
