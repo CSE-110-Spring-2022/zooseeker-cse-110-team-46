@@ -20,35 +20,32 @@ public class PlanActivity extends AppCompatActivity {
 
     public RecyclerView recyclerView;
     //This exhibit list is temporary
+    //should be replaced by a list given by the previous Activity of what was accepted by user
     private ArrayList<String> testExhibitList;
-    public PlanExhibitsAdapter visA;
-    //public Graph<String, IdentifiedWeightedEdge> g = ZooData.loadZooGraphJSON(this,"sample_zoo_graph.json");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plan);
 
         PlanExhibitsAdapter adapter = new PlanExhibitsAdapter();
-        //temp create setter later
+        //sets the graph, nodes, and edges. May be better as database?
         adapter.exhibitsGraph = ZooData.loadZooGraphJSON(this,"sample_zoo_graph.json");
         adapter.exhibitsEdge = ZooData.loadEdgeInfoJSON(this, "sample_edge_info.json");
         adapter.exhibitsVertex = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
+        //testing
         Log.d("graph", adapter.exhibitsGraph.toString());
 
         recyclerView = findViewById(R.id.planned_exhibits_item);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
-        //temporary till actual implementation of ZooExhibits
+        //temporary till actual implementation of checking exhibit
         testExhibitList = new ArrayList<>();
         testExhibitList.add("elephant_odyssey");
         testExhibitList.add("gators");
         testExhibitList.add("arctic_foxes");
-        testExhibitList.add("lions");
-        testExhibitList.add("gorillas");
 
         adapter.setExhibits(testExhibitList);
-        //visA = adapter;
     }
 
     public void onDirectionsButtonClicked(View view) {

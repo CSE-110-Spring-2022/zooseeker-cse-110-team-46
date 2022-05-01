@@ -27,6 +27,8 @@ import android.content.Context;
     Adapter for recycler view to use an exhibit_item
  */
 public class PlanExhibitsAdapter extends RecyclerView.Adapter<PlanExhibitsAdapter.ViewHolder> {
+    //public now for testing maybe should make it private?
+    //the graph, vertex, and edge may be better as a database?
     public Graph<String, IdentifiedWeightedEdge> exhibitsGraph;
     public Map<String, ZooData.VertexInfo> exhibitsVertex;
     public Map<String, ZooData.EdgeInfo> exhibitsEdge;
@@ -47,20 +49,24 @@ public class PlanExhibitsAdapter extends RecyclerView.Adapter<PlanExhibitsAdapte
                         Map.Entry::getValue,
                         (oldValue,newValue) -> oldValue, LinkedHashMap::new));
         System.out.println(exhibitsGraph);
+        //exhibits array is now ordered shortest distance from entrance to longest
         this.keyExhibits = new ArrayList<String>(exhibitsEntrance.keySet());
         notifyDataSetChanged();
     }
 
     public void findDistanceFromEntrance(String end){
         String start = "entrance_exit_gate";
+        //finds shortest path from entrance to exhibit
         GraphPath<String, IdentifiedWeightedEdge> path = DijkstraShortestPath.findPathBetween
                 (exhibitsGraph, start, end);
         int total = 0;
         IdentifiedWeightedEdge eL = null;
+        //finds total length of path
         for (IdentifiedWeightedEdge e : path.getEdgeList()) {
             total = total + (int)exhibitsGraph.getEdgeWeight(e);
             eL = e;
         }
+        //street of exhibit is the last edge in path
         String street = eL.getId();
         this.exhibitsStreet.put(end, street);
         this.exhibitsEntrance.put(end, total);
@@ -69,6 +75,7 @@ public class PlanExhibitsAdapter extends RecyclerView.Adapter<PlanExhibitsAdapte
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        //default view in a 1d list
         View view = LayoutInflater
                 .from(parent.getContext())
                 .inflate(R.layout.exhibt_item, parent, false);
@@ -77,6 +84,7 @@ public class PlanExhibitsAdapter extends RecyclerView.Adapter<PlanExhibitsAdapte
 
     @Override
     public void onBindViewHolder(@NonNull PlanExhibitsAdapter.ViewHolder holder, int position) {
+        //puts data in the viewHolder
         TextView nameTextView = holder.getNameTextView();
         TextView streetTextView = holder.getStreetTextView();
         nameTextView.setText(exhibitsVertex.get(keyExhibits.get(position)).name);
@@ -94,7 +102,6 @@ public class PlanExhibitsAdapter extends RecyclerView.Adapter<PlanExhibitsAdapte
     public static class ViewHolder extends RecyclerView.ViewHolder{
         private final TextView nameTextView;
         private final TextView streetTextView;
-        private String exhibitID;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -102,21 +109,11 @@ public class PlanExhibitsAdapter extends RecyclerView.Adapter<PlanExhibitsAdapte
             this.streetTextView = itemView.findViewById(R.id.exhibit_location_text);
         }
 
-        public String getExhibitID(){ return exhibitID;}
-
         public TextView getNameTextView() {
             return nameTextView;
         }
         public TextView getStreetTextView() {
             return streetTextView;
         }
-        /*public void setExhibit(String exhibitID){
-            this.exhibitID = exhibitID;
-            this.nameTextView.setText(exhibitsVertex.get(exhibitID).name);
-            //temporary testing distance
-            int distance = findDistanceFromEntrance(exhibitID);
-            this.streetTextView.setText(", " + distance);
-        }
-         */
     }
 }
