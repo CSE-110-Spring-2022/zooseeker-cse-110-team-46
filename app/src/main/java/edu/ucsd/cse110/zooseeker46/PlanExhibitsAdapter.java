@@ -8,20 +8,64 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.jgrapht.Graph;
+import org.jgrapht.GraphPath;
+import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
+
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
+
+import android.content.Context;
 
 /*
     Adapter for recycler view to use an exhibit_item
  */
 public class PlanExhibitsAdapter extends RecyclerView.Adapter<PlanExhibitsAdapter.ViewHolder> {
-    private List<Exhibit> exhibits = Collections.emptyList();
+    public Graph<String, IdentifiedWeightedEdge> exhibitsGraph;
+    public Map<String, ZooData.VertexInfo> exhibitsVertex;
+    public Map<String, ZooData.EdgeInfo> exhibitsEdge;
+    private List<String> keyExhibits = new ArrayList<>();
+    public Map<String, Integer> exhibitsEntrance = new HashMap<>();
+    public Map<String, String> exhibitsStreet = new HashMap<>();
 
-    public void setExhibits(List<Exhibit> newExhibits) {
-        this.exhibits.clear();
-        this.exhibits = newExhibits;
+    public void setExhibits(List<String> newExhibits) {
+        this.keyExhibits.clear();
+        for(String name: newExhibits){
+            findDistanceFromEntrance(name);
+        }
+        //sorting map source: https://www.baeldung.com/java-hashmap-sort
+        exhibitsEntrance = exhibitsEntrance.entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByValue()).collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (oldValue,newValue) -> oldValue, LinkedHashMap::new));
+        System.out.println(exhibitsGraph);
+        this.keyExhibits = new ArrayList<String>(exhibitsEntrance.keySet());
         notifyDataSetChanged();
     }
+
+    public void findDistanceFromEntrance(String end){
+        String start = "entrance_exit_gate";
+        GraphPath<String, IdentifiedWeightedEdge> path = DijkstraShortestPath.findPathBetween
+                (exhibitsGraph, start, end);
+        int total = 0;
+        IdentifiedWeightedEdge eL = null;
+        for (IdentifiedWeightedEdge e : path.getEdgeList()) {
+            total = total + (int)exhibitsGraph.getEdgeWeight(e);
+            eL = e;
+        }
+        String street = eL.getId();
+        this.exhibitsStreet.put(end, street);
+        this.exhibitsEntrance.put(end, total);
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -33,19 +77,24 @@ public class PlanExhibitsAdapter extends RecyclerView.Adapter<PlanExhibitsAdapte
 
     @Override
     public void onBindViewHolder(@NonNull PlanExhibitsAdapter.ViewHolder holder, int position) {
-        holder.setExhibit(exhibits.get(position));
+        TextView nameTextView = holder.getNameTextView();
+        TextView streetTextView = holder.getStreetTextView();
+        nameTextView.setText(exhibitsVertex.get(keyExhibits.get(position)).name);
+        streetTextView.setText
+                (exhibitsEdge.get(exhibitsStreet.get(keyExhibits.get(position))).street + ", " +
+                        exhibitsEntrance.get(keyExhibits.get(position)));
+        //holder.setExhibit(keyExhibits.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return exhibits.size();
+        return keyExhibits.size();
     }
-
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         private final TextView nameTextView;
         private final TextView streetTextView;
-        private Exhibit exhibit;
+        private String exhibitID;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -53,14 +102,21 @@ public class PlanExhibitsAdapter extends RecyclerView.Adapter<PlanExhibitsAdapte
             this.streetTextView = itemView.findViewById(R.id.exhibit_location_text);
         }
 
-        public Exhibit getExhibit(){ return exhibit;}
+        public String getExhibitID(){ return exhibitID;}
 
-        public void setExhibit(Exhibit exhibit){
-            this.exhibit = exhibit;
-            this.nameTextView.setText(exhibit.animal_name);
-            //temporary testing distance
-            int distance = (int) (Math.random()*100);
-            this.streetTextView.setText(exhibit.animal_location + ", " + distance);
+        public TextView getNameTextView() {
+            return nameTextView;
         }
+        public TextView getStreetTextView() {
+            return streetTextView;
+        }
+        /*public void setExhibit(String exhibitID){
+            this.exhibitID = exhibitID;
+            this.nameTextView.setText(exhibitsVertex.get(exhibitID).name);
+            //temporary testing distance
+            int distance = findDistanceFromEntrance(exhibitID);
+            this.streetTextView.setText(", " + distance);
+        }
+         */
     }
 }

@@ -4,24 +4,36 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
+import org.jgrapht.Graph;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public class PlanActivity extends AppCompatActivity {
 
     public RecyclerView recyclerView;
     //This exhibit list is temporary
-    private List<Exhibit> testExhibitList;
-
+    private ArrayList<String> testExhibitList;
+    public PlanExhibitsAdapter visA;
+    //public Graph<String, IdentifiedWeightedEdge> g = ZooData.loadZooGraphJSON(this,"sample_zoo_graph.json");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plan);
 
         PlanExhibitsAdapter adapter = new PlanExhibitsAdapter();
+        //temp create setter later
+        adapter.exhibitsGraph = ZooData.loadZooGraphJSON(this,"sample_zoo_graph.json");
+        adapter.exhibitsEdge = ZooData.loadEdgeInfoJSON(this, "sample_edge_info.json");
+        adapter.exhibitsVertex = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
+        Log.d("graph", adapter.exhibitsGraph.toString());
 
         recyclerView = findViewById(R.id.planned_exhibits_item);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -29,10 +41,14 @@ public class PlanActivity extends AppCompatActivity {
 
         //temporary till actual implementation of ZooExhibits
         testExhibitList = new ArrayList<>();
-        testExhibitList.add(new Exhibit("Bears","Honey Walk", false));
-        testExhibitList.add(new Exhibit("Seals","Sea Street", false));
-        testExhibitList.add(new Exhibit("Lion","Safari Street", false));
+        testExhibitList.add("elephant_odyssey");
+        testExhibitList.add("gators");
+        testExhibitList.add("arctic_foxes");
+        testExhibitList.add("lions");
+        testExhibitList.add("gorillas");
+
         adapter.setExhibits(testExhibitList);
+        //visA = adapter;
     }
 
     public void onDirectionsButtonClicked(View view) {
