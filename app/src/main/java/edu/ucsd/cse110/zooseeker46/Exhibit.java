@@ -1,18 +1,33 @@
 package edu.ucsd.cse110.zooseeker46;
 
-public class Exhibit {
-    String animal_name;
-    String animal_location;
-    boolean selected;
-    public Exhibit(String animal_name, String animal_location){
-        this.animal_name = animal_name;
-        this.animal_location = animal_location;
-        this.selected = false;
-    }
-    public Exhibit(){
+import java.util.List;
 
+public class Exhibit {
+    public String id;
+    public String name;
+    public List<String> tags;
+    public boolean isSelected;
+
+    public Exhibit(String id, String name, List<String> tags) {
+        this.id = id;
+        this.name = name;
+        this.tags = tags;
+        this.isSelected = false;
     }
-    public void markSelected(){
-        this.selected = true;
+
+    public String getName() {
+        return name;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 }
