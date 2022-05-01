@@ -44,10 +44,9 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-
-
     public void onPlanButtonClicked(View view) {
         Intent intent = new Intent(this, PlanActivity.class);
         startActivity(intent);
     }
+
 }

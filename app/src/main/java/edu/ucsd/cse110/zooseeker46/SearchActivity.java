@@ -5,10 +5,12 @@ import static edu.ucsd.cse110.zooseeker46.ZooData.loadVertexInfoJSON;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -69,6 +71,11 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
         return super.onCreateOptionsMenu(menu);
+    }
+
+    public void onPlanButtonClicked(View view) {
+        Intent intent = new Intent(this, PlanActivity.class);
+        startActivity(intent);
     }
 
 }
