@@ -63,11 +63,7 @@ public class ZooData {
                     .collect(Collectors.toMap(v -> v.id, datum -> datum));
 
             return indexedZooData;
-<<<<<<< HEAD
-        } catch (IOException e){
-=======
         } catch (IOException e) {
->>>>>>> HariniBranch
             e.printStackTrace();
             return Collections.emptyMap();
         }
@@ -78,7 +74,6 @@ public class ZooData {
         try {
             InputStream inputStream = context.getAssets().open(path);
             Reader reader = new InputStreamReader(inputStream);
-<<<<<<< HEAD
 
             Gson gson = new Gson();
             Type type = new TypeToken<List<ZooData.EdgeInfo>>(){}.getType();
@@ -87,18 +82,6 @@ public class ZooData {
             Map<String, ZooData.EdgeInfo> indexedZooData = zooData
                     .stream()
                     .collect(Collectors.toMap(v -> v.id, datum -> datum));
-
-=======
-
-            Gson gson = new Gson();
-            Type type = new TypeToken<List<ZooData.EdgeInfo>>(){}.getType();
-            List<ZooData.EdgeInfo> zooData = gson.fromJson(reader, type);
-
-            Map<String, ZooData.EdgeInfo> indexedZooData = zooData
-                    .stream()
-                    .collect(Collectors.toMap(v -> v.id, datum -> datum));
-
->>>>>>> HariniBranch
             return indexedZooData;
         } catch (IOException e) {
             e.printStackTrace();
@@ -111,32 +94,6 @@ public class ZooData {
         try {
             // Create an empty graph to populate.
             Graph<String, IdentifiedWeightedEdge> g = new DefaultUndirectedWeightedGraph<>(IdentifiedWeightedEdge.class);
-<<<<<<< HEAD
-
-            // Create an importer that can be used to populate our empty graph.
-            JSONImporter<String, IdentifiedWeightedEdge> importer = new JSONImporter<>();
-
-            // We don't need to convert the vertices in the graph, so we return them as is.
-            importer.setVertexFactory(v -> v);
-
-            // We need to make sure we set the IDs on our edges from the 'id' attribute.
-            // While this is automatic for vertices, it isn't for edges. We keep the
-            // definition of this in the IdentifiedWeightedEdge class for convenience.
-            importer.addEdgeAttributeConsumer(IdentifiedWeightedEdge::attributeConsumer);
-
-            // On Android, you would use context.getAssets().open(path) here like in Lab 5.
-            InputStream inputStream = context.getAssets().open(path);
-            Reader reader = new InputStreamReader(inputStream);
-
-            // And now we just import it!
-            importer.importGraph(g, reader);
-
-            return g;
-        } catch (IOException e){
-            e.printStackTrace();
-            return new DefaultUndirectedWeightedGraph<>(IdentifiedWeightedEdge.class);
-        }
-=======
 
             // Create an importer that can be used to populate our empty graph.
             JSONImporter<String, IdentifiedWeightedEdge> importer = new JSONImporter<>();
@@ -162,6 +119,5 @@ public class ZooData {
             return new DefaultUndirectedWeightedGraph<>(IdentifiedWeightedEdge.class);
         }
 
->>>>>>> HariniBranch
     }
 }
