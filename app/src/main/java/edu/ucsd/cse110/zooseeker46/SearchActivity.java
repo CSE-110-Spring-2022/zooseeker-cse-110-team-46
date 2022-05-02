@@ -104,9 +104,10 @@ public class SearchActivity extends AppCompatActivity {
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {//changes text on every key(e.g. called twice if "ch" is typed. once for 'c' and again for 'h'
-                customAdapter.getFilter().filter(newText);
-                return false;
+            public boolean onQueryTextChange(String newText ) {//changes text on every key(e.g. called twice if "ch" is typed. once for 'c' and again for 'h'
+                Log.e("Main"," data search"+newText);
+               customAdapter.getFilter().filter(newText);
+                return true;
             }
         });
         return super.onCreateOptionsMenu(menu);

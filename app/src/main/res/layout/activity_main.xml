@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.zerones_hardik.listview_with_checkbox_demonuts.MainActivity">
+    tools:context=".MainActivity">
 
     <ListView
         android:layout_width="match_parent"
