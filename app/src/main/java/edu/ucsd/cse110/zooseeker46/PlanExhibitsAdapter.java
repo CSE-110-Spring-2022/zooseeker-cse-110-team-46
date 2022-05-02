@@ -51,7 +51,10 @@ public class PlanExhibitsAdapter extends RecyclerView.Adapter<PlanExhibitsAdapte
         System.out.println(exhibitsGraph);
         //exhibits array is now ordered shortest distance from entrance to longest
         this.keyExhibits = new ArrayList<String>(exhibitsEntrance.keySet());
-        notifyDataSetChanged();
+    }
+
+    public List<String> getExhibitsPlan(){
+        return keyExhibits;
     }
 
     public void findDistanceFromEntrance(String end){
