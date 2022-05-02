@@ -3,17 +3,25 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.Filterable;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
+import java.util.Locale;
+import java.util.Map;
+import java.util.logging.Filter;
 
-public class ExhibitSelectAdapter  extends BaseAdapter {
+public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
 
     private Context context;
     public static ArrayList<Exhibit> modelArrayList;
+    public Map<String, String> selectedExhibits;
+    public ArrayList<String> animals;
 
 
     public ExhibitSelectAdapter(Context context, ArrayList<Exhibit> modelArrayList) {
@@ -55,7 +63,7 @@ public class ExhibitSelectAdapter  extends BaseAdapter {
         if (convertView == null) {
             holder = new ViewHolder(); LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.lv_item, null, true);
+            convertView = inflater.inflate(R.layout.row_item, null, true);
 
             holder.checkBox = (CheckBox) convertView.findViewById(R.id.cb);
             holder.tvAnimal = (TextView) convertView.findViewById(R.id.animal);
@@ -68,9 +76,9 @@ public class ExhibitSelectAdapter  extends BaseAdapter {
 
 
         holder.checkBox.setText("Checkbox "+position);
-        holder.tvAnimal.setText(modelArrayList.get(position).getAnimal());
+        holder.tvAnimal.setText(modelArrayList.get(position).getName());
 
-        holder.checkBox.setChecked(modelArrayList.get(position).getSelected());
+        holder.checkBox.setChecked(modelArrayList.get(position).getisSelected());
 
         holder.checkBox.setTag(R.integer.btnplusview, convertView);
         holder.checkBox.setTag( position);
@@ -83,10 +91,12 @@ public class ExhibitSelectAdapter  extends BaseAdapter {
                 Integer pos = (Integer)  holder.checkBox.getTag();
                 Toast.makeText(context, "Checkbox "+pos+" clicked!", Toast.LENGTH_SHORT).show();
 
-                if(modelArrayList.get(pos).getSelected()){
+                if(modelArrayList.get(pos).getisSelected()){
                     modelArrayList.get(pos).setSelected(false);
+                    //selectedExhibits.remove(modelArrayList.get(pos).getName());
                 }else {
                     modelArrayList.get(pos).setSelected(true);
+                    //selectedExhibits.put(modelArrayList.get(pos).getName(), "true");
                 }
 
             }
@@ -94,6 +104,51 @@ public class ExhibitSelectAdapter  extends BaseAdapter {
 
         return convertView;
     }
+
+    Filter myFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            FilterResults filterResults = new FilterResults();
+            ArrayList<String> tempList=new ArrayList<String>();
+            //constraint is the result from text you want to filter against.
+            //objects is your data set you will filter from
+            if(constraint != null && animals!=null) {
+                int length=animals.size();
+                int i=0;
+                while(i<length){
+                    String item=animals.get(i);
+                    //do whatever you wanna do here
+                    //adding result set output array
+
+                    tempList.add(item);
+
+                    i++;
+                }
+                //following two lines is very important
+                //as publish result can only take FilterResults objects
+                filterResults.values = tempList;
+                filterResults.count = tempList.size();
+            }
+            return filterResults;
+        }
+
+        @SuppressWarnings("unchecked")
+        @Override
+        protected void publishResults(CharSequence contraint, FilterResults results) {
+            animals = (ArrayList<String>) results.values;
+            if (results.count > 0) {
+                notifyDataSetChanged();
+            } else {
+                notifyDataSetInvalidated();
+            }
+        }
+    };
+
+    @Override
+    public Filter getFilter() {
+        return myFilter;
+    }
+
 
     private class ViewHolder {
 
