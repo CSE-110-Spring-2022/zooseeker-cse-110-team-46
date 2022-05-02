@@ -19,11 +19,21 @@ public class Exhibit {
         return name;
     }
 
+
+    public Exhibit() {
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+
     public String getId() {
         return id;
     }
 
-    public boolean isSelected() {
+
+    public boolean getisSelected() {
         return isSelected;
     }
 
