@@ -3,12 +3,16 @@ import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultUndirectedWeightedGraph;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.internal.bytecode.ClassHandler;
 
 import static org.junit.Assert.*;
 
 import android.content.Context;
 
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 //should update later with a database
+@RunWith(AndroidJUnit4.class)
 public class PlanPageUnitTest {
     List<String> testArray = new ArrayList<>();
     Map<String, ZooData.VertexInfo> VertexT = new HashMap<>();
@@ -24,6 +29,7 @@ public class PlanPageUnitTest {
             new DefaultUndirectedWeightedGraph<>(IdentifiedWeightedEdge.class);
     PlanExhibitsAdapter adapterT = new PlanExhibitsAdapter();
     RecyclerView test;
+    Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
     @Before
     public void createAdapter(){
 
@@ -81,9 +87,17 @@ public class PlanPageUnitTest {
     }
     @Test
     public void orderIsCorrect() {
-        createAdapter();
-        assertEquals("A", adapterT.getExhibitsPlan().get(0));
-        assertEquals("B",adapterT.getExhibitsPlan().get(1));
+        //createAdapter();
+        List<String> testArrayZoo = new ArrayList<>();
+        testArrayZoo.add("lions");
+        testArrayZoo.add("gators");
+        PlanExhibitsAdapter adapter = new PlanExhibitsAdapter();
+        adapter.exhibitsGraph = ZooData.loadZooGraphJSON(context, "sample_zoo_graph.json");
+        adapter.exhibitsEdge = ZooData.loadEdgeInfoJSON(context, "example_edge_info.json");
+        adapter.exhibitsVertex = ZooData.loadVertexInfoJSON(context, "example_node_info.json");
+        adapter.setExhibits(testArrayZoo);
+        assertEquals("gators", adapter.getExhibitsPlan().get(0));
+        assertEquals("lions",adapter.getExhibitsPlan().get(1));
     }
 
     @Test
@@ -93,6 +107,7 @@ public class PlanPageUnitTest {
         assertEquals((Integer) 10, adapterT.exhibitsEntrance.get("A"));
         assertEquals((Integer) 110,adapterT.exhibitsEntrance.get("B"));
     }
+
 
 
 }
