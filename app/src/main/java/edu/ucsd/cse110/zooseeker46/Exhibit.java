@@ -19,6 +19,7 @@ public class Exhibit {
         return name;
     }
 
+
     public Exhibit() {
     }
 
@@ -26,9 +27,11 @@ public class Exhibit {
         this.name = name;
     }
 
+
     public String getId() {
         return id;
     }
+
 
     public boolean getisSelected() {
         return isSelected;

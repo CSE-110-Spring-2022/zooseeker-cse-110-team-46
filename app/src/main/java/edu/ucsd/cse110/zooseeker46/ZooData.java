@@ -82,7 +82,6 @@ public class ZooData {
             Map<String, ZooData.EdgeInfo> indexedZooData = zooData
                     .stream()
                     .collect(Collectors.toMap(v -> v.id, datum -> datum));
-
             return indexedZooData;
         } catch (IOException e) {
             e.printStackTrace();
