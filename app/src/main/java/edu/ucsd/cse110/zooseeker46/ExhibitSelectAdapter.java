@@ -17,12 +17,12 @@ import java.util.Map;
 import java.util.logging.LogRecord;
 
 public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
-    public ArrayList<String> Animals;
+    public ArrayList<String> SelectedAnimals;
     private Context context;
     public static ArrayList<Exhibit> ModelArrayList;
     public static ArrayList<Exhibit> ModelArrayListFiltered;
     public Map<String, String> selectedExhibits;
-    public ArrayList<String> animals;
+
 
 
     public ExhibitSelectAdapter(Context context, ArrayList<Exhibit> modelArrayList) {
@@ -77,7 +77,7 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
         }
 
 
-        holder.checkBox.setText("Checkbox " + position);
+        //holder.checkBox.setText("Checkbox " + position);
         holder.tvAnimal.setText(ModelArrayListFiltered.get(position).getName());
 
         holder.checkBox.setChecked(ModelArrayListFiltered.get(position).getisSelected());
@@ -91,14 +91,14 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
                 View tempview = (View) holder.checkBox.getTag(R.integer.btnplusview);
                 TextView tv = (TextView) tempview.findViewById(R.id.animal);
                 Integer pos = (Integer) holder.checkBox.getTag();
-                Toast.makeText(context, "Checkbox " + pos + " clicked!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "" +"selected" + "", Toast.LENGTH_SHORT).show();
 
-                if (ModelArrayListFiltered.get(pos).getisSelected()) {
-                    ModelArrayListFiltered.get(pos).setSelected(false);
-                    //selectedExhibits.remove(modelArrayList.get(pos).getName());
+                if (ModelArrayList.get(pos).getisSelected()) {
+                    ModelArrayList.get(pos).setSelected(false);
+                    //SelectedAnimals.remove(modelArrayList.get(pos).getName());
                 } else {
-                    ModelArrayListFiltered.get(pos).setSelected(true);
-                    //selectedExhibits.put(modelArrayList.get(pos).getName(), "true");
+                    ModelArrayList.get(pos).setSelected(true);
+                    // SelectedAnimals.add(ModelArrayList.get(pos).getName());
                 }
 
             }
@@ -119,11 +119,12 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
                     filterResults.values = ModelArrayList;
 
                 }else{
-                   ArrayList<Exhibit> resultsModel = new ArrayList<>();
+                    ArrayList<Exhibit> resultsModel = new ArrayList<>();
                     String searchStr = constraint.toString().toLowerCase();
 
                     for(Exhibit itemsModel:ModelArrayList){
-                        if(itemsModel.getName().contains(searchStr)){
+                        String lower = itemsModel.getName().toLowerCase();
+                        if(lower.contains(searchStr)){
                             resultsModel.add(itemsModel);
 
                         }
@@ -140,7 +141,7 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
 
-               ModelArrayListFiltered = (ArrayList<Exhibit>) results.values;
+                ModelArrayListFiltered = (ArrayList<Exhibit>) results.values;
                 notifyDataSetChanged();
 
             }
