@@ -33,7 +33,8 @@ public class SearchActivity extends AppCompatActivity {
     //method to call for updating exhibit count
     public void updateCount() {
         //get exhibit count using get method from ZooExhibits.class
-        int count = ZooExhibits.getCount();
+        //int count = ZooExhibits.getCount();
+        int count = name.length;
         //set exhibit count
         TextView countView = findViewById(R.id.exhibit_count);
         countView.setText(String.valueOf(count));

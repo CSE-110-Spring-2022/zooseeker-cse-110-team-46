@@ -4,7 +4,7 @@ public class ZooExhibits {
     int exhibit_count;
 
     public ZooExhibits(){
-
+        exhibit_count = 0;
     }
 //test
 }

@@ -35,6 +35,7 @@ public class PlanActivity extends AppCompatActivity {
         //testing
         Log.d("graph", adapter.exhibitsGraph.toString());
 
+
         recyclerView = findViewById(R.id.planned_exhibits_item);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
