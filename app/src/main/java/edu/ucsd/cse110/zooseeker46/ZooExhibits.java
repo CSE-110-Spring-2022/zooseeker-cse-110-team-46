@@ -4,34 +4,37 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class ZooExhibits extends AppCompatActivity {
-    Map<String, Exhibit> exhibitMap = Collections.emptyMap();
-    List<String> idList = new ArrayList<>();
-    ArrayList<Exhibit> exhibitArrayList = new ArrayList<>();
-    ArrayList<String> selectedExhibits = new ArrayList<>();
+    Map<String, ZooData.VertexInfo> vertexInfoMap;
 
-    public ZooExhibits(){
-        Map<String, ZooData.VertexInfo> vertexInfoMap = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
-        for(Map.Entry<String, ZooData.VertexInfo> entry : vertexInfoMap.entrySet()){
-            ZooData.VertexInfo item = entry.getValue();
-            String name = entry.getValue().name;
-            Exhibit exhibit = new Exhibit(item.id, item.name, item.tags);
-            exhibitMap.put(name, exhibit);
-            exhibitArrayList.add(exhibit);
-        }
+    public ZooExhibits(Map<String, ZooData.VertexInfo> vertexInfoMap){
+        this.vertexInfoMap = vertexInfoMap;
     }
 
-    public void getID(String name) {
-        for (Map.Entry<String, Exhibit> entry: exhibitMap.entrySet()){
-            Exhibit exhibit = entry.getValue();
-            if ((exhibit.getName().equals(name)) && (exhibit.isSelected)){
-                idList.add(exhibit.getId());
-                selectedExhibits.add(exhibit.getName());
+    public Map<String, Exhibit> nameToVertexMap() {
+        Map<String, Exhibit> map = new HashMap<>();
+        for (Map.Entry<String, ZooData.VertexInfo> entry: vertexInfoMap.entrySet()){
+            ZooData.VertexInfo item = entry.getValue();
+            if (item.kind == ZooData.VertexInfo.Kind.EXHIBIT) {
+                Exhibit e = new Exhibit(item.id, item.name, item.tags);
+                map.put(item.name, e);
             }
         }
+        return map;
+    }
+
+    public ArrayList<String> getIDList(ArrayList<String> selected){
+        Map<String, Exhibit> nameInfoMap = this.nameToVertexMap();
+        ArrayList<String> idList = new ArrayList<>();
+        for (int i = 0; i < selected.size(); i++){
+            Exhibit e = nameInfoMap.get(selected.get(i));
+            idList.add(e.getId());
+        }
+        return idList;
     }
 }
 
