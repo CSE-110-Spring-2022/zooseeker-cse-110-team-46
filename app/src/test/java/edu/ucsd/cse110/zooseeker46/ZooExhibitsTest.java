@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,5 +42,13 @@ public class ZooExhibitsTest {
         ArrayList<String> idList = zoo.getIDList(selected);
 
         assertEquals("lions", idList.get(1));
+    }
+
+    @Test
+    public void ZooExhibitsList(){
+        Map<String, ZooData.VertexInfo> map = ZooData.loadVertexInfoJSON(context, "sample_node_info.json");
+        ZooExhibits zoo = new ZooExhibits(map);
+        ArrayList<String> namesList = zoo.exhibitList();
+        assertEquals(5, namesList.size());
     }
 }

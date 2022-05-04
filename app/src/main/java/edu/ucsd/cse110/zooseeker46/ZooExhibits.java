@@ -15,6 +15,25 @@ public class ZooExhibits extends AppCompatActivity {
         this.vertexInfoMap = vertexInfoMap;
     }
 
+    /*
+    Returns a list of exhibit names to use
+     */
+    public ArrayList<String> exhibitList() {
+        ArrayList<String> exhibits = new ArrayList<>();
+        for (Map.Entry<String, ZooData.VertexInfo> entry: vertexInfoMap.entrySet()){
+            ZooData.VertexInfo item = entry.getValue();
+            if (item.kind == ZooData.VertexInfo.Kind.EXHIBIT) {
+                String name = item.name;
+                exhibits.add(name);
+            }
+        }
+        return exhibits;
+    }
+
+    /*
+    Returns a map where exhibit name is mapped to its information
+    Can use if name is given and need to find id.
+     */
     public Map<String, Exhibit> nameToVertexMap() {
         Map<String, Exhibit> map = new HashMap<>();
         for (Map.Entry<String, ZooData.VertexInfo> entry: vertexInfoMap.entrySet()){
@@ -27,6 +46,9 @@ public class ZooExhibits extends AppCompatActivity {
         return map;
     }
 
+    /*
+    Gives a list of IDs for given exhibit names.
+     */
     public ArrayList<String> getIDList(ArrayList<String> selected){
         Map<String, Exhibit> nameInfoMap = this.nameToVertexMap();
         ArrayList<String> idList = new ArrayList<>();
