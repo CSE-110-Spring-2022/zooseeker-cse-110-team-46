@@ -3,4 +3,7 @@
     <string name="search">Search</string>
     <string name="search_hint" />
     <string name="no_results">No Results</string>
+    <string name="plan">Plan</string>
+    <string name="empty">Empty</string>
+    <string name="no_results_found">No Results Found</string>
 </resources>

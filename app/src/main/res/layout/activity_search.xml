@@ -44,14 +44,7 @@
         android:layout_marginBottom="65dp"
         tools:layout_centerHorizontal="true" />
 
-    <TextView
-        android:id="@+id/emptyTextVieww"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="@string/no_results"
-        android:textSize="20sp"
-        android:visibility="gone" />
+
 
     <Button
         android:id="@+id/plan_btn"
@@ -65,6 +58,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp"
-        android:onClick="onPlanButtonClicked"
         android:text="Plan" />
+
+
 </RelativeLayout>

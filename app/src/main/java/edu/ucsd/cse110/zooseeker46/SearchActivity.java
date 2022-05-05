@@ -32,8 +32,8 @@ import java.util.Map;
 public class SearchActivity extends AppCompatActivity {
 
     ListView listView;
-    TextView emptyView;
-    private  String[] animallist = new String[]{"Alligators", "Arctic Foxes", "Gorillas", "Elephant Odyssey", "Lions"};
+
+    private  String[] animallist = new String[]{"Alligators", "Arctic Foxes", "Gorillas", "Elephant Odyssey", "Lions", "A", "B","q","w","E","R","t", "i","u","h","f","d","z"};
     ArrayAdapter<String> arrayAdapter;
 
     //private ListView lv;
@@ -43,12 +43,13 @@ public class SearchActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        /*super.onCreate(savedInstanceState);
+       /*
         setContentView(R.layout.activity_search);
         listView = findViewById(R.id.listvieww);
-        listView.setAdapter(arrayAdapter);
-        emptyView = findViewById(R.id.emptyTextVieww); // no results text
-        listView.setEmptyView(emptyView); // sets no results text to the list
+        listView.setAdapter(arrayAdapter);*/
+
+
+        /*
         //listView.getOnItemClickListener(AdapterView.OnItemClickListener(Toast.makeText(getApplicationContext(),view)) )*/
 
         //arrayAdapter = customAdapter.returnArrayAdapter(this, animallist);
@@ -63,7 +64,7 @@ public class SearchActivity extends AppCompatActivity {
         customAdapter = new ExhibitSelectAdapter(this,modelArrayList);
         listView.setAdapter(customAdapter);
         listView.setTextFilterEnabled(true);
-
+       listView.setEmptyView( findViewById(R.id.empty)); // no results text); // sets no results text to the list
         btnnext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,7 +79,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private ArrayList<Exhibit> getModel(boolean isSelect){
         ArrayList<Exhibit> list = new ArrayList<>();
-        for(int i = 0; i < 5; i++){
+        for(int i = 0; i < animallist.length; i++){
 
             Exhibit model = new Exhibit();
             model.setSelected(isSelect);
@@ -110,4 +111,6 @@ public class SearchActivity extends AppCompatActivity {
         });
         return super.onCreateOptionsMenu(menu);
     }
+
+
 }
