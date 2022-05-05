@@ -1,5 +1,6 @@
 package edu.ucsd.cse110.zooseeker46;
 import android.content.Context;
+import android.graphics.ColorSpace;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +13,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.LogRecord;
 
 public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
@@ -21,15 +25,33 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
     private Context context;
     public static ArrayList<Exhibit> ModelArrayList;
     public static ArrayList<Exhibit> ModelArrayListFiltered;
-    public Map<String, String> selectedExhibits;
+    public Set<String> selectedExhibits;
 
+    public ArrayList<Exhibit> updateML(Set<String> selectedList){
+        ArrayList<Exhibit> unchecked = new ArrayList<>();
+        ArrayList<Exhibit> checked = new ArrayList<>();
+        for (Exhibit currEx: ModelArrayList){
+            String currName = currEx.getName();
+            if(selectedList.contains(currName) == false){
+                unchecked.add(currEx);
+            }
+            else{ checked.add(currEx); }
+        }
+
+        checked.addAll(unchecked);
+        return checked;
+    }
 
 
     public ExhibitSelectAdapter(Context context, ArrayList<Exhibit> modelArrayList) {
         this.context = context;
+        Collections.sort(modelArrayList,Exhibit.ExhibitNameComparator);
         this.ModelArrayList = modelArrayList;
         this.ModelArrayListFiltered = modelArrayList;
+        this.selectedExhibits = new HashSet<>();
     }
+
+
 
     @Override
     public int getViewTypeCount() {
@@ -92,15 +114,18 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
                 TextView tv = (TextView) tempview.findViewById(R.id.animal);
                 Integer pos = (Integer) holder.checkBox.getTag();
                 Toast.makeText(context, "" +"selected" + "", Toast.LENGTH_SHORT).show();
+                String curr = ModelArrayListFiltered.get(pos).getName();
+                if (ModelArrayListFiltered.get(pos).getisSelected()) {
+                    ModelArrayListFiltered.get(pos).setSelected(false);
+                    selectedExhibits.remove(curr);
 
-                if (ModelArrayList.get(pos).getisSelected()) {
-                    ModelArrayList.get(pos).setSelected(false);
                     //SelectedAnimals.remove(modelArrayList.get(pos).getName());
                 } else {
-                    ModelArrayList.get(pos).setSelected(true);
+                    ModelArrayListFiltered.get(pos).setSelected(true);
+                    selectedExhibits.add(curr);
                     // SelectedAnimals.add(ModelArrayList.get(pos).getName());
                 }
-
+                ModelArrayList = updateML(selectedExhibits);
             }
         });
 
@@ -126,7 +151,6 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
                         String lower = itemsModel.getName().toLowerCase();
                         if(lower.contains(searchStr)){
                             resultsModel.add(itemsModel);
-
                         }
                         filterResults.count = resultsModel.size();
                         filterResults.values = resultsModel;
@@ -140,8 +164,19 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-
-                ModelArrayListFiltered = (ArrayList<Exhibit>) results.values;
+               /*ArrayList<Exhibit> unchecked = new ArrayList<>();
+                ArrayList<Exhibit> checked = new ArrayList<>();
+                for (Exhibit curr: ModelArrayList){
+                    if(curr.getisSelected()){
+                        checked.add(curr);
+                    }
+                    else{unchecked.add(curr);}
+                }
+                checked.addAll(unchecked);
+                ModelArrayList = checked;
+                //results.values = checked;
+               //results.count = checked.size();*/
+               ModelArrayListFiltered = (ArrayList<Exhibit>) results.values;
                 notifyDataSetChanged();
 
             }

@@ -33,7 +33,7 @@ public class SearchActivity extends AppCompatActivity {
 
     ListView listView;
 
-    private  String[] animallist = new String[]{"Alligators", "Arctic Foxes", "Gorillas", "Elephant Odyssey", "Lions"};
+    private  String[] animallist = new String[]{"Alligators", "Arctic Foxes", "Gorillas", "Elephant Odyssey", "Lions", "A", "B","q","w","E","R","t", "i","u","h","f","d","z"};
     ArrayAdapter<String> arrayAdapter;
 
     //private ListView lv;
@@ -79,7 +79,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private ArrayList<Exhibit> getModel(boolean isSelect){
         ArrayList<Exhibit> list = new ArrayList<>();
-        for(int i = 0; i < 5; i++){
+        for(int i = 0; i < animallist.length; i++){
 
             Exhibit model = new Exhibit();
             model.setSelected(isSelect);

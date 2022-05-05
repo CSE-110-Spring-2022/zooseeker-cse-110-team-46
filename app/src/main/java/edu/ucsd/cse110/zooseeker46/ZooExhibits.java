@@ -27,7 +27,7 @@ public class ZooExhibits extends AppCompatActivity {
     public void getID(String name) {
         for (Map.Entry<String, Exhibit> entry: exhibitMap.entrySet()){
             Exhibit exhibit = entry.getValue();
-            if ((exhibit.getName().equals(name)) && (exhibit.isSelected)){
+            if ((exhibit.getName().equals(name)) && (exhibit.getisSelected())){
                 idList.add(exhibit.getId());
                 selectedExhibits.add(exhibit.getName());
             }

@@ -1,12 +1,14 @@
 package edu.ucsd.cse110.zooseeker46;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 public class Exhibit {
-    public String id;
-    public String name;
+    private String id;
+    private String name;
     public List<String> tags;
-    public boolean isSelected;
+    private boolean isSelected;
 
     public Exhibit(String id, String name, List<String> tags) {
         this.id = id;
@@ -40,4 +42,18 @@ public class Exhibit {
     public void setSelected(boolean selected) {
         isSelected = selected;
     }
+
+    /*Comparator for sorting the list by Student Name*/
+    public static Comparator<Exhibit> ExhibitNameComparator = new Comparator<Exhibit>() {
+
+        public int compare(Exhibit s1, Exhibit s2) {
+            String ExhibitName1 = s1.getName().toLowerCase();
+            String ExhibitName2 = s2.getName().toLowerCase();
+
+            //ascending order
+            return ExhibitName1.compareTo(ExhibitName2);
+
+            //descending order
+            //return StudentName2.compareTo(StudentName1);
+        }};
 }
