@@ -8,12 +8,17 @@
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_weight="1"
         android:id="@+id/lv"
         android:textFilterEnabled="true">
 
     </ListView>
+    <TextView
+        android:id="@+id/empty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/no_results_found" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,8 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/plan_btn"
-            android:text="Plan"/>
-
+            android:text="@string/plan"/>
 
     </LinearLayout>
 
