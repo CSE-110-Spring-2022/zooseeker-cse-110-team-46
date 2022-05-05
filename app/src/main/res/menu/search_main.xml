@@ -9,4 +9,5 @@
        android:title="@string/search"
         app:showAsAction="ifRoom|withText"
         app:actionViewClass="androidx.appcompat.widget.SearchView" />
+
 </menu>

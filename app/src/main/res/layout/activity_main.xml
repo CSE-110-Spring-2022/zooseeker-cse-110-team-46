@@ -21,15 +21,16 @@
         android:text="@string/no_results_found" />
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
+        android:layout_height="45dp"
+        android:gravity="center|bottom"
         android:orientation="horizontal">
         <Button
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:id="@+id/plan_btn"
-            android:text="@string/plan"/>
-
+            android:text="@string/plan"
+            android:layout_gravity="center_horizontal|center"
+            />
     </LinearLayout>
 
 </LinearLayout>
