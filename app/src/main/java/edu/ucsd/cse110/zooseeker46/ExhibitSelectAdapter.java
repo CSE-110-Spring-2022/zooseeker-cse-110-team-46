@@ -94,7 +94,7 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
 
             convertView.setTag(holder);
         } else {
-            // the getTag returns the viewHolder object set as a tag to the view
+            // the getTag returns the vHolder object set as a tag to the view
             holder = (ViewHolder) convertView.getTag();
         }
 
