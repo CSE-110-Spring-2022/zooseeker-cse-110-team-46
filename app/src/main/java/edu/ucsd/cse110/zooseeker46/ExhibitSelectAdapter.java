@@ -72,12 +72,12 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
     @Override
     public int getCount() {
 
-        return ModelArrayListFiltered.size();
+        return ModelArrayList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return ModelArrayListFiltered.get(position);
+        return ModelArrayList.get(position);
     }
 
     @Override
@@ -107,9 +107,9 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
 
         //holder.checkBox.setText("Checkbox " + position);
 
-        holder.tvAnimal.setText(ModelArrayListFiltered.get(position).getName());
+        holder.tvAnimal.setText(ModelArrayList.get(position).getName());
 
-        holder.checkBox.setChecked(ModelArrayListFiltered.get(position).getisSelected());
+        holder.checkBox.setChecked(ModelArrayList.get(position).getisSelected());
         //ModelArrayList.get(position).getisSelected();
         holder.checkBox.setTag(R.integer.btnplusview, convertView);
         holder.checkBox.setTag(position);
@@ -121,32 +121,32 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
                 TextView tv = (TextView) tempview.findViewById(R.id.animal);
                 Integer pos = (Integer) holder.checkBox.getTag();
                 Toast.makeText(context, "" +"selected" + "", Toast.LENGTH_SHORT).show();
-                String curr = ModelArrayListFiltered.get(pos).getName();
+                String curr = ModelArrayList.get(pos).getName();
                 System.out.println("-------------------------");
-                if (ModelArrayListFiltered.get(pos).getisSelected()) {
-                    ModelArrayListFiltered.get(pos).setSelected(false);
+                if (ModelArrayList.get(pos).getisSelected()) {
+                    ModelArrayList.get(pos).setSelected(false);
                     System.out.println("curr unchecked: " + curr);
                     selectedExhibits.remove(curr);
-                    Exhibit currExhibit = totalExhibits.get(curr);
-                    currExhibit.setSelected(false);
-                    totalExhibits.put(curr, currExhibit);
+                    //Exhibit currExhibit = totalExhibits.get(curr);
+                   // currExhibit.setSelected(false);
+                   // totalExhibits.put(curr, currExhibit);
 
                     //SelectedAnimals.remove(modelArrayList.get(pos).getName());
                 } else {
-                    ModelArrayListFiltered.get(pos).setSelected(true);
+                    ModelArrayList.get(pos).setSelected(true);
                     //ModelArrayList.get(pos).setSelected(true);
                     System.out.println("curr checked: " + curr);
                     selectedExhibits.add(curr);
-                    Exhibit currExhibit = totalExhibits.get(curr);
-                    currExhibit.setSelected(true);
-                    totalExhibits.put(curr, currExhibit);
+                    //Exhibit currExhibit = totalExhibits.get(curr);
+                    //currExhibit.setSelected(true);
+                    //totalExhibits.put(curr, currExhibit);
                     // SelectedAnimals.add(ModelArrayList.get(pos).getName());
                 }
 
-                ModelArrayList = new ArrayList<Exhibit>(totalExhibits.values());
+                //ModelArrayList = new ArrayList<Exhibit>(totalExhibits.values());
                 //ModelArrayList = updateML(selectedExhibits);
-                Collections.sort(ModelArrayList,Exhibit.ExhibitNameComparator);
-                Collections.sort(ModelArrayListFiltered,Exhibit.ExhibitNameComparator);
+                //Collections.sort(ModelArrayList,Exhibit.ExhibitNameComparator);
+               // Collections.sort(ModelArrayListFiltered,Exhibit.ExhibitNameComparator);
                 //ModelArrayListFiltered = updateML(selectedExhibits);
                 System.out.println("curr count: " + selectedExhibits.size());
                 selectedExhibits.forEach(System.out::println);
@@ -167,8 +167,8 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
 
                 FilterResults filterResults = new FilterResults();
                 if(constraint == null || constraint.length() == 0){
-                    filterResults.count = ModelArrayList.size();
-                    filterResults.values = ModelArrayList;
+                    filterResults.count = ModelArrayListFiltered.size();
+                    filterResults.values = ModelArrayListFiltered;
 
                 }else{
                     ArrayList<Exhibit> resultsModel = new ArrayList<>();
@@ -204,8 +204,8 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
                 //results.values = checked;
                //results.count = checked.size();*/
 
-               ModelArrayListFiltered = (ArrayList<Exhibit>) results.values;
-                Collections.sort(ModelArrayListFiltered,Exhibit.ExhibitNameComparator);
+               ModelArrayList = (ArrayList<Exhibit>) results.values;
+                //Collections.sort(ModelArrayList,Exhibit.ExhibitNameComparator);
                 notifyDataSetChanged();
 
             }
