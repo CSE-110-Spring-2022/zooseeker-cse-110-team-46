@@ -119,7 +119,7 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
             // the getTag returns the viewHolder object set as a tag to the view
             holder = (ViewHolder) convertView.getTag();
         }
-
+//hh
 
         //holder.checkBox.setText("Checkbox " + position);
 
