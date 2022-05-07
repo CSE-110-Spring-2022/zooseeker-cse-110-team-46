@@ -35,7 +35,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private  String[] animallist = new String[]{"Alligators", "Arctic Foxes", "Gorillas", "Elephant Odyssey", "Lions", "A", "B","q","w","E","R","t", "i","u","h","f","d","z"};
     ArrayAdapter<String> arrayAdapter;
-
+    //private TextView selectedCountView;
     //private ListView lv;
     private ArrayList<Exhibit> modelArrayList;
     private ExhibitSelectAdapter customAdapter;
@@ -62,11 +62,7 @@ public class SearchActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    }
 
-    public void updateCount(int i) {
-        TextView selectedCountView = findViewById(R.id.exhibit_count);
-        selectedCountView.setText(String.valueOf(i));
     }
 
     //arraylist of all exhibits by name
