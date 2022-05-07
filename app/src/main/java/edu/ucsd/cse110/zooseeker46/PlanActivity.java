@@ -25,6 +25,8 @@ public class PlanActivity extends AppCompatActivity {
     private ArrayList<String> testExhibitList;
     private ArrayList<Exhibit> exhibitArrayList;
     private ArrayList<String> idList;
+    private ArrayList<String> selectedList;
+    private Set<String> selected;
     ZooExhibits zoo;
     ExhibitSelectAdapter exhibitSelectAdapter;
     @Override
@@ -48,8 +50,8 @@ public class PlanActivity extends AppCompatActivity {
         zoo = new ZooExhibits(adapter.exhibitsVertex);
         exhibitArrayList = zoo.getExhibits();
         exhibitSelectAdapter = new ExhibitSelectAdapter(this, exhibitArrayList);
-        Set<String> selected = exhibitSelectAdapter.selectedExhibits;
-        ArrayList<String> selectedList = new ArrayList<>(selected);
+        selected = exhibitSelectAdapter.selectedExhibits;
+        selectedList = new ArrayList<>(selected);
         idList = zoo.getIDList(selectedList);
         //temporary till actual implementation of checking exhibit
         testExhibitList = new ArrayList<>();
@@ -57,7 +59,7 @@ public class PlanActivity extends AppCompatActivity {
         testExhibitList.add("gators");
         testExhibitList.add("arctic_foxes");
 
-        adapter.setExhibits(idList);
+        adapter.setExhibits(testExhibitList);
     }
 
     public void onDirectionsButtonClicked(View view) {
