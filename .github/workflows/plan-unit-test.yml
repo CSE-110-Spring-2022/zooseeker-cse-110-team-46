@@ -15,7 +15,7 @@ jobs:
 
       # Execute unit tests
       - name: Unit Test
-        run: ./gradlew testDebugUnitTest
+        run: ./gradlew SearchTest
 
       # Report the results
       - name: Android Test Report
