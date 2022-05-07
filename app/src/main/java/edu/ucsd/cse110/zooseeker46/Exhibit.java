@@ -50,10 +50,27 @@ public class Exhibit {
             String ExhibitName1 = s1.getName().toLowerCase();
             String ExhibitName2 = s2.getName().toLowerCase();
 
-            //ascending order
-            return ExhibitName1.compareTo(ExhibitName2);
+            if(s1.getisSelected()){
+                if(s2.getisSelected()){
+                    // Just keep it in alphabetical order
+                    return ExhibitName1.compareTo(ExhibitName2);
+                }
+                // s1 checked, s2 unchecked
+                else{
+                    // Prioritize s1 as selected
+                    return -1;
+                }
+            }
+            else{
+                if(s2.getisSelected()){
+                    // Prioritize s2 as selected
+                    return 1;
+                }
+                else{
+                    // Just keep it in alphabetical order
+                    return ExhibitName1.compareTo(ExhibitName2);
+                }
+            }
 
-            //descending order
-            //return StudentName2.compareTo(StudentName1);
         }};
 }
