@@ -33,34 +33,24 @@ public class SearchActivity extends AppCompatActivity {
 
     ListView listView;
 
-    private  String[] animallist = new String[]{"Alligators", "Arctic Foxes", "Gorillas", "Elephant Odyssey", "Lions", "A", "B","q","w","E","R","t", "i","u","h","f","d","z"};
-    ArrayAdapter<String> arrayAdapter;
+    Map<String, ZooData.VertexInfo> vertexInfoMap;
+    ZooExhibits zoo;
 
-    //private ListView lv;
     private ArrayList<Exhibit> modelArrayList;
     private ExhibitSelectAdapter customAdapter;
     private Button btnnext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-       /*
-        setContentView(R.layout.activity_search);
-        listView = findViewById(R.id.listvieww);
-        listView.setAdapter(arrayAdapter);*/
-
-
-        /*
-        //listView.getOnItemClickListener(AdapterView.OnItemClickListener(Toast.makeText(getApplicationContext(),view)) )*/
-
-        //arrayAdapter = customAdapter.returnArrayAdapter(this, animallist);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         listView = (ListView) findViewById(R.id.lv);
         btnnext = (Button) findViewById(R.id.plan_btn);
-
-        modelArrayList = getModel(false);
+        vertexInfoMap = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
+        zoo = new ZooExhibits(vertexInfoMap);
+        modelArrayList = zoo.getExhibits();
         customAdapter = new ExhibitSelectAdapter(this,modelArrayList);
         listView.setAdapter(customAdapter);
         listView.setTextFilterEnabled(true);
@@ -72,23 +62,7 @@ public class SearchActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
-
     }
-
-    private ArrayList<Exhibit> getModel(boolean isSelect){
-        ArrayList<Exhibit> list = new ArrayList<>();
-        for(int i = 0; i < animallist.length; i++){
-
-            Exhibit model = new Exhibit();
-            model.setSelected(isSelect);
-            model.setName(animallist[i]);
-            list.add(model);
-        }
-        return list;
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

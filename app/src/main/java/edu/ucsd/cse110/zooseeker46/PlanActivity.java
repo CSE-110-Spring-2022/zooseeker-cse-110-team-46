@@ -22,6 +22,9 @@ public class PlanActivity extends AppCompatActivity {
     //This exhibit list is temporary
     //should be replaced by a list given by the previous Activity of what was accepted by user
     private ArrayList<String> testExhibitList;
+    /*private ArrayList<Exhibit> exhibitArrayList;
+    ZooExhibits zoo;
+    ExhibitSelectAdapter exhibitSelectAdapter;*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +43,9 @@ public class PlanActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
+        /*zoo = new ZooExhibits(adapter.exhibitsVertex);
+        zoo.getExhibits();
+        exhibitSelectAdapter = new ExhibitSelectAdapter(this, testExhibitList);*/
         //temporary till actual implementation of checking exhibit
         testExhibitList = new ArrayList<>();
         testExhibitList.add("elephant_odyssey");
