@@ -8,9 +8,12 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,12 +23,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.LogRecord;
 
-public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
+public class ExhibitSelectAdapter extends BaseAdapter implements Filterable {
     public ArrayList<String> SelectedAnimals;
     private Context context;
     public static ArrayList<Exhibit> ModelArrayList;
     public static ArrayList<Exhibit> ModelArrayListFiltered;
     public Set<String> selectedExhibits;
+    private int SelectedCount  =  0;
 
     public ArrayList<Exhibit> updateML(Set<String> selectedList){
         ArrayList<Exhibit> unchecked = new ArrayList<>();
@@ -51,7 +55,16 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
         this.selectedExhibits = new HashSet<>();
     }
 
+    //kevins buggy code start
+    public int getSelectedCount() {
+        return this.SelectedCount;
+    }
 
+    public void setSelectedCount(int i) {
+        this.SelectedCount =  i;
+    }
+
+//    //kevin end code
 
     @Override
     public int getViewTypeCount() {
@@ -126,7 +139,13 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
                     // SelectedAnimals.add(ModelArrayList.get(pos).getName());
                 }
                 ModelArrayList = updateML(selectedExhibits);
+
+                //kevins buggy code at 1;26am
+//                setSelectedCount(selectedExhibits.size());
+                SearchActivity tempObj = new SearchActivity();
+                tempObj.updateCount(1);
             }
+
         });
 
         return convertView;
