@@ -43,7 +43,9 @@ public class Exhibit {
         isSelected = selected;
     }
 
-    /*Comparator for sorting the list by Student Name*/
+    // Custom Comparator for Exhibit
+    // Prioritizes those that are selected and than by the names
+    // Used in SearchPageUnitTest and plan to be used in ExhibitSelectedAdapter
     public static Comparator<Exhibit> ExhibitNameComparator = new Comparator<Exhibit>() {
 
         public int compare(Exhibit s1, Exhibit s2) {

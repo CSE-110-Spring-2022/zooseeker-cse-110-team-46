@@ -23,13 +23,19 @@ import java.util.Set;
 import java.util.logging.LogRecord;
 
 public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
-    public ArrayList<String> SelectedAnimals;
     private Context context;
+
+    // Model Array Lists are what we pass the original animal list. You can initialize this in SearchActivity.java
     public static ArrayList<Exhibit> ModelArrayList;
     public static ArrayList<Exhibit> ModelArrayListFiltered;
+
+    // As checkboxes are selected/deselected, this keeps all the exhibit names stored
     public Set<String> selectedExhibits;
+
+    // As the name implies.. (string = exhibit name)
     public Map<String, Exhibit> totalExhibits;
 
+    // You can ignore this function. We are still figuring out a way to update listview so checked boxes are filtered to top of listview
     public ArrayList<Exhibit> updateML(Set<String> selectedList){
         ArrayList<Exhibit> unchecked = new ArrayList<>();
         ArrayList<Exhibit> checked = new ArrayList<>();
@@ -44,7 +50,7 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
         return checked;
     }
 
-
+    // Constructor
     public ExhibitSelectAdapter(Context context, ArrayList<Exhibit> modelArrayList) {
         this.context = context;
         Collections.sort(modelArrayList, Exhibit.ExhibitNameComparator);
@@ -57,6 +63,8 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
         }
     }
 
+    // All these override functions are required for adapter, please DO NOT MODIFY
+    // If you need a helper function, make a new one
 
     @Override
     public int getViewTypeCount() {
@@ -71,7 +79,6 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
 
     @Override
     public int getCount() {
-
         return ModelArrayList.size();
     }
 
@@ -80,11 +87,20 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
         return ModelArrayList.get(position);
     }
 
+    // Helper function to run UI test on the listview display
+    public Exhibit getExhibit(int position){
+        return ModelArrayList.get(position);
+    }
+
     @Override
     public long getItemId(int position) {
         return 0;
     }
 
+    // Helper function to get the selected exhibit count -> Kevin use this!
+    public int getSelectedExhibitsCount(){
+        return selectedExhibits.size();
+    }
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final ViewHolder holder;
@@ -110,7 +126,6 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
         holder.tvAnimal.setText(ModelArrayList.get(position).getName());
 
         holder.checkBox.setChecked(ModelArrayList.get(position).getisSelected());
-        //ModelArrayList.get(position).getisSelected();
         holder.checkBox.setTag(R.integer.btnplusview, convertView);
         holder.checkBox.setTag(position);
         holder.checkBox.setOnClickListener(new View.OnClickListener() {
@@ -120,12 +135,12 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
                 View tempview = (View) holder.checkBox.getTag(R.integer.btnplusview);
                 TextView tv = (TextView) tempview.findViewById(R.id.animal);
                 Integer pos = (Integer) holder.checkBox.getTag();
-                Toast.makeText(context, "" +"selected" + "", Toast.LENGTH_SHORT).show();
                 String curr = ModelArrayList.get(pos).getName();
-                System.out.println("-------------------------");
+                Toast.makeText(context, "Selected " + curr, Toast.LENGTH_SHORT).show();
+                //System.out.println("-------------------------");
                 if (ModelArrayList.get(pos).getisSelected()) {
                     ModelArrayList.get(pos).setSelected(false);
-                    System.out.println("curr unchecked: " + curr);
+                    //System.out.println("curr unchecked: " + curr);
                     selectedExhibits.remove(curr);
                     //Exhibit currExhibit = totalExhibits.get(curr);
                    // currExhibit.setSelected(false);
@@ -135,7 +150,7 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
                 } else {
                     ModelArrayList.get(pos).setSelected(true);
                     //ModelArrayList.get(pos).setSelected(true);
-                    System.out.println("curr checked: " + curr);
+                   // System.out.println("curr checked: " + curr);
                     selectedExhibits.add(curr);
                     //Exhibit currExhibit = totalExhibits.get(curr);
                     //currExhibit.setSelected(true);
@@ -148,9 +163,9 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
                 //Collections.sort(ModelArrayList,Exhibit.ExhibitNameComparator);
                // Collections.sort(ModelArrayListFiltered,Exhibit.ExhibitNameComparator);
                 //ModelArrayListFiltered = updateML(selectedExhibits);
-                System.out.println("curr count: " + selectedExhibits.size());
+                //System.out.println("curr count: " + selectedExhibits.size());
                 selectedExhibits.forEach(System.out::println);
-                System.out.println("-------------------------");
+                //System.out.println("-------------------------");
                 //System.out.println("count = " + getCount());
 
             }
@@ -159,6 +174,7 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
         return convertView;
     }
 
+    // DO NOT TOUCH
     @Override
     public Filter getFilter() {
         Filter filter = new Filter() {
