@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class PlanActivity extends AppCompatActivity {
 
@@ -22,9 +23,10 @@ public class PlanActivity extends AppCompatActivity {
     //This exhibit list is temporary
     //should be replaced by a list given by the previous Activity of what was accepted by user
     private ArrayList<String> testExhibitList;
-    /*private ArrayList<Exhibit> exhibitArrayList;
+    private ArrayList<Exhibit> exhibitArrayList;
+    private ArrayList<String> idList;
     ZooExhibits zoo;
-    ExhibitSelectAdapter exhibitSelectAdapter;*/
+    ExhibitSelectAdapter exhibitSelectAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,16 +45,19 @@ public class PlanActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
-        /*zoo = new ZooExhibits(adapter.exhibitsVertex);
-        zoo.getExhibits();
-        exhibitSelectAdapter = new ExhibitSelectAdapter(this, testExhibitList);*/
+        zoo = new ZooExhibits(adapter.exhibitsVertex);
+        exhibitArrayList = zoo.getExhibits();
+        exhibitSelectAdapter = new ExhibitSelectAdapter(this, exhibitArrayList);
+        Set<String> selected = exhibitSelectAdapter.selectedExhibits;
+        ArrayList<String> selectedList = new ArrayList<>(selected);
+        idList = zoo.getIDList(selectedList);
         //temporary till actual implementation of checking exhibit
         testExhibitList = new ArrayList<>();
         testExhibitList.add("elephant_odyssey");
         testExhibitList.add("gators");
         testExhibitList.add("arctic_foxes");
 
-        adapter.setExhibits(testExhibitList);
+        adapter.setExhibits(idList);
     }
 
     public void onDirectionsButtonClicked(View view) {
