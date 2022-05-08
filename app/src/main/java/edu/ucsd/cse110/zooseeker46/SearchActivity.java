@@ -33,8 +33,10 @@ public class SearchActivity extends AppCompatActivity {
 
     ListView listView;
 
+
     Map<String, ZooData.VertexInfo> vertexInfoMap;
     ZooExhibits zoo;
+
     private ArrayList<Exhibit> modelArrayList;
     public static ExhibitSelectAdapter customAdapter;
     private Button btnnext;
@@ -62,6 +64,8 @@ public class SearchActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
     }
 
     @Override
