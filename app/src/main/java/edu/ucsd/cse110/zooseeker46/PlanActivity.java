@@ -49,7 +49,7 @@ public class PlanActivity extends AppCompatActivity {
 
         zoo = new ZooExhibits(adapter.exhibitsVertex);
         exhibitArrayList = zoo.getExhibits();
-        exhibitSelectAdapter = new ExhibitSelectAdapter(this, exhibitArrayList);
+        exhibitSelectAdapter = SearchActivity.getCustomAdapter();
         selected = exhibitSelectAdapter.selectedExhibits;
         selectedList = new ArrayList<>(selected);
         idList = zoo.getIDList(selectedList);
@@ -59,7 +59,7 @@ public class PlanActivity extends AppCompatActivity {
         testExhibitList.add("gators");
         testExhibitList.add("arctic_foxes");
 
-        adapter.setExhibits(testExhibitList);
+        adapter.setExhibits(idList);
     }
 
     public void onDirectionsButtonClicked(View view) {

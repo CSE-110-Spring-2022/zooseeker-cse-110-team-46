@@ -30,7 +30,7 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
     public static ArrayList<Exhibit> ModelArrayListFiltered;
 
     // As checkboxes are selected/deselected, this keeps all the exhibit names stored
-    public Set<String> selectedExhibits;
+    public static Set<String> selectedExhibits;
 
     // As the name implies.. (string = exhibit name)
     public Map<String, Exhibit> totalExhibits;

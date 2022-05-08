@@ -37,7 +37,7 @@ public class SearchActivity extends AppCompatActivity {
     ZooExhibits zoo;
 
     private ArrayList<Exhibit> modelArrayList;
-    private ExhibitSelectAdapter customAdapter;
+    public static ExhibitSelectAdapter customAdapter;
     private Button btnnext;
 
     @Override
@@ -58,6 +58,7 @@ public class SearchActivity extends AppCompatActivity {
         btnnext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(SearchActivity.this, PlanActivity.class);
                 startActivity(intent);
             }
@@ -85,6 +86,9 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
         return super.onCreateOptionsMenu(menu);
+    }
+    public static ExhibitSelectAdapter getCustomAdapter(){
+        return customAdapter;
     }
 
 
