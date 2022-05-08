@@ -8,6 +8,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import org.jgrapht.Graph;
 
@@ -58,7 +59,6 @@ public class PlanActivity extends AppCompatActivity {
         testExhibitList.add("elephant_odyssey");
         testExhibitList.add("gators");
         testExhibitList.add("arctic_foxes");
-
         adapter.setExhibits(idList);
     }
 

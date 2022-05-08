@@ -35,7 +35,6 @@ public class SearchActivity extends AppCompatActivity {
 
     Map<String, ZooData.VertexInfo> vertexInfoMap;
     ZooExhibits zoo;
-
     private ArrayList<Exhibit> modelArrayList;
     public static ExhibitSelectAdapter customAdapter;
     private Button btnnext;
@@ -51,10 +50,10 @@ public class SearchActivity extends AppCompatActivity {
         vertexInfoMap = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
         zoo = new ZooExhibits(vertexInfoMap);
         modelArrayList = zoo.getExhibits();
-        customAdapter = new ExhibitSelectAdapter(this,modelArrayList);
+        customAdapter = new ExhibitSelectAdapter(this, modelArrayList);
         listView.setAdapter(customAdapter);
         listView.setTextFilterEnabled(true);
-       listView.setEmptyView( findViewById(R.id.empty)); // no results text); // sets no results text to the list
+        listView.setEmptyView(findViewById(R.id.empty)); // no results text); // sets no results text to the list
         btnnext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,6 +89,5 @@ public class SearchActivity extends AppCompatActivity {
     public static ExhibitSelectAdapter getCustomAdapter(){
         return customAdapter;
     }
-
 
 }
