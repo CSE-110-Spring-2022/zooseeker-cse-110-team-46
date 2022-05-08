@@ -1,36 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <ListView
+    <TextView
+        android:id="@+id/title"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="Exhitbits"
+        android:textSize="45dp" />
+
+    <TextView
+        android:id="@+id/selected_exhibit_count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|center_horizontal"
+        android:gravity="center"
+        android:tag="count_tag"
+        android:text="(0)"
+        android:textSize="34sp" />
+
+    <ListView
         android:id="@+id/lv"
+        android:layout_width="304dp"
+        android:layout_height="283dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="45dp"
+        android:layout_weight="1"
         android:textFilterEnabled="true">
 
+
     </ListView>
+
     <TextView
         android:id="@+id/empty"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
         android:text="@string/no_results_found" />
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:gravity="right|bottom"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:gravity="bottom|center_horizontal"
         android:orientation="horizontal">
+
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
             android:id="@+id/plan_btn"
-            android:text="@string/plan"
-            android:layout_gravity="right"
-            />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/plan" />
     </LinearLayout>
 
 </LinearLayout>
