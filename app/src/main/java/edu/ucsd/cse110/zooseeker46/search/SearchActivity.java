@@ -25,10 +25,10 @@ import edu.ucsd.cse110.zooseeker46.locations.Exhibit;
 public class SearchActivity extends AppCompatActivity {
 
     ListView listView;
-    TextView emptyView;
-    private  String[] animallist = new String[]{"Alligators", "Arctic Foxes", "Gorillas", "Elephant Odyssey", "Lions"};
-    ArrayAdapter<String> arrayAdapter;
 
+    private  String[] animallist = new String[]{"Alligators", "Arctic Foxes", "Gorillas", "Elephant Odyssey", "Lions", "A", "B","q","w","E","R","t", "i","u","h","f","d","z"};
+    ArrayAdapter<String> arrayAdapter;
+    //private TextView selectedCountView;
     //private ListView lv;
     private ArrayList<Exhibit> modelArrayList;
     private ExhibitSelectAdapter customAdapter;
@@ -36,15 +36,6 @@ public class SearchActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        /*super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
-        listView = findViewById(R.id.listvieww);
-        listView.setAdapter(arrayAdapter);
-        emptyView = findViewById(R.id.emptyTextVieww); // no results text
-        listView.setEmptyView(emptyView); // sets no results text to the list
-        //listView.getOnItemClickListener(AdapterView.OnItemClickListener(Toast.makeText(getApplicationContext(),view)) )*/
-
-        //arrayAdapter = customAdapter.returnArrayAdapter(this, animallist);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -56,7 +47,7 @@ public class SearchActivity extends AppCompatActivity {
         customAdapter = new ExhibitSelectAdapter(this,modelArrayList);
         listView.setAdapter(customAdapter);
         listView.setTextFilterEnabled(true);
-
+        listView.setEmptyView( findViewById(R.id.empty)); // no results text); // sets no results text to the list
         btnnext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,14 +56,12 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
-
-
     }
 
+    //arraylist of all exhibits by name
     private ArrayList<Exhibit> getModel(boolean isSelect){
         ArrayList<Exhibit> list = new ArrayList<>();
-        for(int i = 0; i < 5; i++){
-
+        for(int i = 0; i < animallist.length; i++){
             Exhibit model = new Exhibit();
             model.setSelected(isSelect);
             model.setName(animallist[i]);
@@ -81,12 +70,12 @@ public class SearchActivity extends AppCompatActivity {
         return list;
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.search_main, menu);
         MenuItem menuItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) menuItem.getActionView();
+       // searchView.setOnSearchClickListener();
         searchView.setQueryHint("Type here to search");
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -103,4 +92,5 @@ public class SearchActivity extends AppCompatActivity {
         });
         return super.onCreateOptionsMenu(menu);
     }
+
 }

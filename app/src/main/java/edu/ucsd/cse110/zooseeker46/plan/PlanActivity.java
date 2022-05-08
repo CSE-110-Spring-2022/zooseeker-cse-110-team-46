@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -45,6 +46,11 @@ public class PlanActivity extends AppCompatActivity {
         testExhibitList.add("arctic_foxes");
 
         adapter.setExhibits(testExhibitList);
+        /*
+        int count = testExhibitList.size();
+        TextView countView = findViewById(R.id.exhibit_count);
+        countView.setText(String.valueOf(count));
+        */
     }
 
     public void onDirectionsButtonClicked(View view) {
