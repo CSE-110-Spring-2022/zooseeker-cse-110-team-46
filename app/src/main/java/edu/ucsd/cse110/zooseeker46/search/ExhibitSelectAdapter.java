@@ -1,4 +1,4 @@
-package edu.ucsd.cse110.zooseeker46;
+package edu.ucsd.cse110.zooseeker46.search;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,14 +7,14 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Map;
-import java.util.logging.LogRecord;
+
+import edu.ucsd.cse110.zooseeker46.R;
+import edu.ucsd.cse110.zooseeker46.locations.Exhibit;
 
 public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
     public ArrayList<String> SelectedAnimals;
@@ -80,7 +80,7 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
         //holder.checkBox.setText("Checkbox " + position);
         holder.tvAnimal.setText(ModelArrayListFiltered.get(position).getName());
 
-        holder.checkBox.setChecked(ModelArrayListFiltered.get(position).getisSelected());
+        holder.checkBox.setChecked(ModelArrayListFiltered.get(position).getIsSelected());
 
         holder.checkBox.setTag(R.integer.btnplusview, convertView);
         holder.checkBox.setTag(position);
@@ -93,7 +93,7 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
                 Integer pos = (Integer) holder.checkBox.getTag();
                 Toast.makeText(context, "" +"selected" + "", Toast.LENGTH_SHORT).show();
 
-                if (ModelArrayList.get(pos).getisSelected()) {
+                if (ModelArrayList.get(pos).getIsSelected()) {
                     ModelArrayList.get(pos).setSelected(false);
                     //SelectedAnimals.remove(modelArrayList.get(pos).getName());
                 } else {
