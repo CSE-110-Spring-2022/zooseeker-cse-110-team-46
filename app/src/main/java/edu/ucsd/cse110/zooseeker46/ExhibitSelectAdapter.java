@@ -216,7 +216,7 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
                     ArrayList<Exhibit> resultsModel = new ArrayList<>();
                     String searchStr = constraint.toString().toLowerCase();
 
-                    for(Exhibit itemsModel:ModelArrayList){
+                    for(Exhibit itemsModel:ModelArrayListFiltered){
                         String lower = itemsModel.getName().toLowerCase();
                         if(lower.contains(searchStr)){
                             resultsModel.add(itemsModel);
