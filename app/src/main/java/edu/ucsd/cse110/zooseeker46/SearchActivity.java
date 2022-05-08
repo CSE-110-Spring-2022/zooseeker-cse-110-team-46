@@ -33,8 +33,10 @@ public class SearchActivity extends AppCompatActivity {
 
     ListView listView;
 
+
     Map<String, ZooData.VertexInfo> vertexInfoMap;
     ZooExhibits zoo;
+
 
     private ArrayList<Exhibit> modelArrayList;
     private ExhibitSelectAdapter customAdapter;
@@ -54,7 +56,7 @@ public class SearchActivity extends AppCompatActivity {
         customAdapter = new ExhibitSelectAdapter(this,modelArrayList);
         listView.setAdapter(customAdapter);
         listView.setTextFilterEnabled(true);
-       listView.setEmptyView( findViewById(R.id.empty)); // no results text); // sets no results text to the list
+        listView.setEmptyView( findViewById(R.id.empty)); // no results text); // sets no results text to the list
         btnnext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,6 +64,7 @@ public class SearchActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
     }
 
     @Override
@@ -86,6 +89,5 @@ public class SearchActivity extends AppCompatActivity {
         });
         return super.onCreateOptionsMenu(menu);
     }
-
 
 }

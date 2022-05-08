@@ -9,9 +9,12 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,7 +25,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.LogRecord;
 
+
 public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
+
     private Context context;
 
     // Model Array Lists are what we pass the original animal list. You can initialize this in SearchActivity.java
@@ -31,6 +36,7 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
 
     // As checkboxes are selected/deselected, this keeps all the exhibit names stored
     public Set<String> selectedExhibits;
+    private int SelectedCount  =  0;
 
     // As the name implies.. (string = exhibit name)
     public Map<String, Exhibit> totalExhibits;
@@ -50,7 +56,9 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
         return checked;
     }
 
+
     // Constructor
+
     public ExhibitSelectAdapter(Context context, ArrayList<Exhibit> modelArrayList) {
         this.context = context;
         Collections.sort(modelArrayList, Exhibit.ExhibitNameComparator);
@@ -63,8 +71,18 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
         }
     }
 
+
+    public int getSelectedCount() {
+        return this.SelectedCount;
+    }
+
+    public void setSelectedCount(int i) {
+        this.SelectedCount =  i;
+    }
+
     // All these override functions are required for adapter, please DO NOT MODIFY
     // If you need a helper function, make a new one
+
 
     @Override
     public int getViewTypeCount() {
@@ -120,18 +138,18 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
             holder = (ViewHolder) convertView.getTag();
         }
 
-
         //holder.checkBox.setText("Checkbox " + position);
+
 
         holder.tvAnimal.setText(ModelArrayList.get(position).getName());
 
         holder.checkBox.setChecked(ModelArrayList.get(position).getisSelected());
+
         holder.checkBox.setTag(R.integer.btnplusview, convertView);
         holder.checkBox.setTag(position);
         holder.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 View tempview = (View) holder.checkBox.getTag(R.integer.btnplusview);
                 TextView tv = (TextView) tempview.findViewById(R.id.animal);
                 Integer pos = (Integer) holder.checkBox.getTag();
@@ -142,9 +160,15 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
                     ModelArrayList.get(pos).setSelected(false);
                     //System.out.println("curr unchecked: " + curr);
                     selectedExhibits.remove(curr);
+
+                    setSelectedCount(selectedExhibits.size());
+                    TextView foo = (TextView) ((SearchActivity)context).findViewById(R.id.selected_exhibit_count);
+                    foo.setText(String.valueOf(getSelectedCount()));
+
                     //Exhibit currExhibit = totalExhibits.get(curr);
                    // currExhibit.setSelected(false);
                    // totalExhibits.put(curr, currExhibit);
+
 
                     //SelectedAnimals.remove(modelArrayList.get(pos).getName());
                 } else {
@@ -156,6 +180,9 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
                     //currExhibit.setSelected(true);
                     //totalExhibits.put(curr, currExhibit);
                     // SelectedAnimals.add(ModelArrayList.get(pos).getName());
+                    setSelectedCount(selectedExhibits.size());
+                    TextView foo = (TextView) ((SearchActivity)context).findViewById(R.id.selected_exhibit_count);
+                    foo.setText(String.valueOf(getSelectedCount()));
                 }
 
                 //ModelArrayList = new ArrayList<Exhibit>(totalExhibits.values());
@@ -170,7 +197,6 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
 
             }
         });
-
         return convertView;
     }
 
@@ -198,10 +224,10 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
                         filterResults.count = resultsModel.size();
                         filterResults.values = resultsModel;
                     }
-
-
                 }
+
                 //Collections.sort((ArrayList<Exhibit>)filterResults.values ,Exhibit.ExhibitNameComparator);
+
                 return filterResults;
             }
 
@@ -223,20 +249,13 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
                ModelArrayList = (ArrayList<Exhibit>) results.values;
                 //Collections.sort(ModelArrayList,Exhibit.ExhibitNameComparator);
                 notifyDataSetChanged();
-
             }
         };
         return filter;
     }
 //this is a simple class that filtering the ArrayList of strings used in adapter
-
-
-
     private class ViewHolder {
-
         protected CheckBox checkBox;
         private TextView tvAnimal;
-
     }
-
 }

@@ -23,7 +23,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/exhibit_count"
+        android:id="@+id/selected_exhibit_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="184dp"
@@ -43,7 +43,6 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="65dp"
         tools:layout_centerHorizontal="true" />
-
 
 
     <Button

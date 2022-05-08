@@ -8,6 +8,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import org.jgrapht.Graph;
 
@@ -60,6 +61,11 @@ public class PlanActivity extends AppCompatActivity {
         testExhibitList.add("arctic_foxes");
 
         adapter.setExhibits(testExhibitList);
+        /*
+        int count = testExhibitList.size();
+        TextView countView = findViewById(R.id.exhibit_count);
+        countView.setText(String.valueOf(count));
+        */
     }
 
     public void onDirectionsButtonClicked(View view) {
