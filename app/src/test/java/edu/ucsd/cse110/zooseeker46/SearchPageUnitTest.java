@@ -1,6 +1,7 @@
 package edu.ucsd.cse110.zooseeker46;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import android.content.Context;
 
@@ -54,6 +55,22 @@ public class SearchPageUnitTest {
         assertEquals(0, customAdapter.getSelectedExhibitsCount());
     }
 
+    @Test
+    public void selectWorks() {
+        createAdapter();
+        totalExhibits.get(1).setSelected(true);
+        boolean test = totalExhibits.get(1).getisSelected();
+        assertEquals(true, test);
+    }
+
+    @Test
+    public void selectWorks1() {
+        createAdapter();
+        totalExhibits.get(1).setSelected(true);
+        totalExhibits.get(1).setSelected(false);
+        boolean test = totalExhibits.get(1).getisSelected();
+        assertEquals(false, test);
+    }
 }
 
 
