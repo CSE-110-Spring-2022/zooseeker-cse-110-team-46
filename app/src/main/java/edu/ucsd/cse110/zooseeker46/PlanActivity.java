@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class PlanActivity extends AppCompatActivity {
     private String count;
@@ -24,6 +25,12 @@ public class PlanActivity extends AppCompatActivity {
     //This exhibit list is temporary
     //should be replaced by a list given by the previous Activity of what was accepted by user
     private ArrayList<String> testExhibitList;
+    private ArrayList<Exhibit> exhibitArrayList;
+    private ArrayList<String> idList;
+    private ArrayList<String> selectedList;
+    private Set<String> selected;
+    ZooExhibits zoo;
+    ExhibitSelectAdapter exhibitSelectAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,18 +55,18 @@ public class PlanActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
+        zoo = new ZooExhibits(adapter.exhibitsVertex);
+        exhibitArrayList = zoo.getExhibits();
+        exhibitSelectAdapter = SearchActivity.getCustomAdapter();
+        selected = exhibitSelectAdapter.selectedExhibits;
+        selectedList = new ArrayList<>(selected);
+        idList = zoo.getIDList(selectedList);
         //temporary till actual implementation of checking exhibit
         testExhibitList = new ArrayList<>();
         testExhibitList.add("elephant_odyssey");
         testExhibitList.add("gators");
         testExhibitList.add("arctic_foxes");
-
-        adapter.setExhibits(testExhibitList);
-        /*
-        int count = testExhibitList.size();
-        TextView countView = findViewById(R.id.exhibit_count);
-        countView.setText(String.valueOf(count));
-        */
+        adapter.setExhibits(idList);
     }
 
     public void onDirectionsButtonClicked(View view) {
