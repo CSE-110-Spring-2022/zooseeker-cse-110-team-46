@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -70,6 +71,7 @@ public class PlanActivity extends AppCompatActivity {
     }
 
     public void onDirectionsButtonClicked(View view) {
-        Utilities.showAlert(this, "This button doesn't do anything yet!");
+        Intent intent = new Intent(PlanActivity.this, DirectionsV2Activity.class);
+        startActivity(intent);
     }
 }

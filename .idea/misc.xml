@@ -5,13 +5,13 @@
       <map>
         <entry key="..\:/Users/Ckckc/AndroidStudioProjects/zooseeker-cse-110-team-46/app/src/main/res/layout/activity_search.xml" value="0.5541666666666667" />
         <entry key="app/src/main/res/layout/activity_directions.xml" value="0.18043212890625002" />
+        <entry key="app/src/main/res/layout/activity_directions_v2.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.165" />
-        <entry key="app/src/main/res/layout/activity_plan.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_search.xml" value="0.19375" />
-        <entry key="app/src/main/res/layout/directions_item.xml" value="0.21" />
+        <entry key="app/src/main/res/layout/activity_plan.xml" value="0.16566162109375002" />
+        <entry key="app/src/main/res/layout/activity_search.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/directions_item.xml" value="0.23093719482421876" />
         <entry key="app/src/main/res/layout/exhibt_item.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/row_item.xml" value="0.10729166666666666" />
-        <entry key="app/src/main/res/menu/search_main.xml" value="0.19375" />
+        <entry key="app/src/main/res/layout/row_item.xml" value="0.1" />
       </map>
     </option>
   </component>

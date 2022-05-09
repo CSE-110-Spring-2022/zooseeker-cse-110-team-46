@@ -1,5 +1,6 @@
 package edu.ucsd.cse110.zooseeker46;
 
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -7,22 +8,36 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.jgrapht.GraphPath;
+
+import java.util.List;
+
 public class DirectionsAdapter extends RecyclerView.Adapter<DirectionsAdapter.ViewHolder>{
+    GraphPath<String, IdentifiedWeightedEdge> path = null;
+
+    public void setDirections(GraphPath<String, IdentifiedWeightedEdge> path){
+        this.path = path;
+    }
 
     @NonNull
     @Override
     public DirectionsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+        View view = LayoutInflater
+                .from(parent.getContext())
+                .inflate(R.layout.directions_item, parent, false);
+        return new DirectionsAdapter.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull DirectionsAdapter.ViewHolder holder, int position) {
-
+        TextView DirectionsTextView = holder.getDirectionTextView();
+        List<IdentifiedWeightedEdge> edges = path.getEdgeList();
+        DirectionsTextView.setText(edges.get(position).toString());
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return path.getLength();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
@@ -33,11 +48,8 @@ public class DirectionsAdapter extends RecyclerView.Adapter<DirectionsAdapter.Vi
             this.directionTextView = itemView.findViewById(R.id.dirText);
         }
 
-        public TextView getNameTextView() {
-            return nameTextView;
-        }
-        public TextView getStreetTextView() {
-            return streetTextView;
+        public TextView getDirectionTextView() {
+            return directionTextView;
         }
     }
 }
