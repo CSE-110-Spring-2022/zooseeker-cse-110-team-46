@@ -72,7 +72,7 @@ public class DirectionsActivity extends AppCompatActivity {
             //finalAnimalNames.add(finalPath.get(i).getStartVertex());
         }
 
-*/WA
+*/
     }
 
     public void onNextButtonClicked(View view) {
