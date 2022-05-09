@@ -23,7 +23,7 @@
         android:layout_gravity="center|center_horizontal"
         android:gravity="center"
         android:tag="count_tag"
-        android:text="(0)"
+        android:text="0"
         android:textSize="34sp" />
 
     <ListView

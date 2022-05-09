@@ -19,7 +19,8 @@ import java.util.Map;
 import java.util.Set;
 
 public class PlanActivity extends AppCompatActivity {
-
+    private String count;
+    private Context context;
     public RecyclerView recyclerView;
     //This exhibit list is temporary
     //should be replaced by a list given by the previous Activity of what was accepted by user
@@ -34,6 +35,12 @@ public class PlanActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plan);
+
+        Bundle extras = getIntent().getExtras();
+        this.count = extras.getString("exhibit_count");
+        TextView countView = findViewById(R.id.selected_exhibit_count);
+        countView.setText(String.valueOf(count));
+
 
         PlanExhibitsAdapter adapter = new PlanExhibitsAdapter();
         //sets the graph, nodes, and edges. May be better as database?
