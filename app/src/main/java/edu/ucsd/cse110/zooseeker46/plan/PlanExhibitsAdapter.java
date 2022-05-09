@@ -17,6 +17,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import edu.ucsd.cse110.zooseeker46.IdentifiedWeightedEdge;
@@ -93,7 +95,7 @@ public class PlanExhibitsAdapter extends RecyclerView.Adapter<PlanExhibitsAdapte
         nameTextView.setText(exhibitsVertex.get(keyExhibits.get(position)).name);
         streetTextView.setText
                 (exhibitsEdge.get(exhibitsStreet.get(keyExhibits.get(position))).street + ", " +
-                        exhibitsEntrance.get(keyExhibits.get(position)));
+                        exhibitsEntrance.get(keyExhibits.get(position))+ "m");
         //holder.setExhibit(keyExhibits.get(position));
     }
 

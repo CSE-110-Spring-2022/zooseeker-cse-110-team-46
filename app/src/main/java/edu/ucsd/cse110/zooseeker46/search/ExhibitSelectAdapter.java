@@ -38,7 +38,8 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
     public static ArrayList<Exhibit> ModelArrayListFiltered;
 
     // As checkboxes are selected/deselected, this keeps all the exhibit names stored
-    public Set<String> selectedExhibits;
+    public static Set<String> selectedExhibits;
+
     private int SelectedCount  =  0;
 
     // As the name implies.. (string = exhibit name)
@@ -219,7 +220,7 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
                     ArrayList<Exhibit> resultsModel = new ArrayList<>();
                     String searchStr = constraint.toString().toLowerCase();
 
-                    for(Exhibit itemsModel:ModelArrayList){
+                    for(Exhibit itemsModel:ModelArrayListFiltered){
                         String lower = itemsModel.getName().toLowerCase();
                         if(lower.contains(searchStr)){
                             resultsModel.add(itemsModel);

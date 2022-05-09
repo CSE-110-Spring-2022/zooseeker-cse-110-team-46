@@ -17,7 +17,10 @@ import android.widget.Button;
 
 
 import java.util.ArrayList;
+import java.util.Map;
 
+import edu.ucsd.cse110.zooseeker46.ZooData;
+import edu.ucsd.cse110.zooseeker46.ZooExhibits;
 import edu.ucsd.cse110.zooseeker46.plan.PlanActivity;
 import edu.ucsd.cse110.zooseeker46.R;
 import edu.ucsd.cse110.zooseeker46.locations.Exhibit;
@@ -26,12 +29,12 @@ public class SearchActivity extends AppCompatActivity {
 
     ListView listView;
 
-    private  String[] animallist = new String[]{"Alligators", "Arctic Foxes", "Gorillas", "Elephant Odyssey", "Lions", "A", "B","q","w","E","R","t", "i","u","h","f","d","z"};
-    ArrayAdapter<String> arrayAdapter;
-    //private TextView selectedCountView;
-    //private ListView lv;
+
+    Map<String, ZooData.VertexInfo> vertexInfoMap;
+    ZooExhibits zoo;
+
     private ArrayList<Exhibit> modelArrayList;
-    private ExhibitSelectAdapter customAdapter;
+    public static ExhibitSelectAdapter customAdapter;
     private Button btnnext;
 
     @Override
@@ -42,32 +45,26 @@ public class SearchActivity extends AppCompatActivity {
 
         listView = (ListView) findViewById(R.id.lv);
         btnnext = (Button) findViewById(R.id.plan_btn);
+        TextView count = findViewById(R.id.selected_exhibit_count);
+        vertexInfoMap = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
+        zoo = new ZooExhibits(vertexInfoMap);
+        modelArrayList = zoo.getExhibits();
+        customAdapter = new ExhibitSelectAdapter(this, modelArrayList);
 
-        modelArrayList = getModel(false);
-        customAdapter = new ExhibitSelectAdapter(this,modelArrayList);
         listView.setAdapter(customAdapter);
         listView.setTextFilterEnabled(true);
-        listView.setEmptyView( findViewById(R.id.empty)); // no results text); // sets no results text to the list
+        listView.setEmptyView(findViewById(R.id.empty)); // no results text); // sets no results text to the list
         btnnext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(SearchActivity.this, PlanActivity.class);
+                intent.putExtra("exhibit_count", count.getText());
                 startActivity(intent);
             }
         });
 
-    }
 
-    //arraylist of all exhibits by name
-    private ArrayList<Exhibit> getModel(boolean isSelect){
-        ArrayList<Exhibit> list = new ArrayList<>();
-        for(int i = 0; i < animallist.length; i++){
-            Exhibit model = new Exhibit();
-            model.setSelected(isSelect);
-            model.setName(animallist[i]);
-            list.add(model);
-        }
-        return list;
     }
 
     @Override
@@ -91,6 +88,9 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
         return super.onCreateOptionsMenu(menu);
+    }
+    public static ExhibitSelectAdapter getCustomAdapter(){
+        return customAdapter;
     }
 
 }
