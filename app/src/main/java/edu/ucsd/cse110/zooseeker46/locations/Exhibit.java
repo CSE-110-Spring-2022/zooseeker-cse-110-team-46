@@ -7,19 +7,14 @@ import androidx.room.PrimaryKey;
 import java.util.Comparator;
 import java.util.List;
 
-@Entity(tableName = "Exhibit_items")
 public class Exhibit implements Location {
-    
-    @PrimaryKey(autoGenerate = true)
-    public long long_id;
 
-    @NonNull
     public String id;
     public String name;
     public tags tags;
     private boolean isSelected;
 
-    public Exhibit(@NonNull String id, String name, List<String> tags) {
+    public Exhibit(String id, String name, List<String> tags) {
         this.id = id;
         this.name = name;
         this.tags = new tags(tags);

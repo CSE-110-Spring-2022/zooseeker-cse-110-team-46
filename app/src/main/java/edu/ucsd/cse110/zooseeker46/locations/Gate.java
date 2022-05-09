@@ -6,17 +6,13 @@ import androidx.room.PrimaryKey;
 
 import java.util.List;
 
-@Entity(tableName = "Gate_items")
 public class Gate implements Location {
-    @NonNull
+
     public String id;
     public String name;
     public List<String> tags;
 
-    @PrimaryKey(autoGenerate = true)
-    public long long_id;
-
-    public Gate(@NonNull String id, String name, List<String> tags){
+    public Gate(String id, String name, List<String> tags){
         this.name = name;
         this.id = id;
         this.tags = tags;

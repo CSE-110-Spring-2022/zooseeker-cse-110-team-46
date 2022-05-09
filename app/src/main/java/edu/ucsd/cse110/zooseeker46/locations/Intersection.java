@@ -6,17 +6,14 @@ import androidx.room.PrimaryKey;
 
 import java.util.List;
 
-@Entity(tableName = "Intersection_items")
+
 public class Intersection implements Location{
-    @NonNull
+
     private String name;
     private String id;
     private List<String> tags;
 
-    @PrimaryKey(autoGenerate = true)
-    public long long_id;
-
-    public Intersection(@NonNull String id, String name, List<String> tags){
+    public Intersection(String id, String name, List<String> tags){
         this.name = name;
         this.id = id;
         this.tags = tags;
