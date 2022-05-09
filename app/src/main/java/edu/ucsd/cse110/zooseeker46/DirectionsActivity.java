@@ -23,6 +23,12 @@ public class DirectionsActivity extends AppCompatActivity {
     ExhibitSelectAdapter exhibitSelectAdapter;
     private ArrayList<String> selectedList;
     private Set<String> selected;
+    private ArrayList<String> idList;
+    ZooExhibits zooExhibits;
+    Graph<String, IdentifiedWeightedEdge> zoo;
+    Map<String,ZooData.VertexInfo> places;
+    Map<String,ZooData.VertexInfo> placesToVisit;
+    Directions d;
 
     //private ArrayList<String> finalAnimalNames;
 
@@ -33,24 +39,26 @@ public class DirectionsActivity extends AppCompatActivity {
 
 
         //load zoo graph and places
-        Graph<String, IdentifiedWeightedEdge> zoo = ZooData.loadZooGraphJSON(this, "sample_zoo_graph.json");
-        Map<String,ZooData.VertexInfo> places = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
+        zoo = ZooData.loadZooGraphJSON(this, "sample_zoo_graph.json");
+        places = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
 
         //Create an ArrayList with the selected animals' names
         exhibitSelectAdapter = SearchActivity.getCustomAdapter();
         selected = exhibitSelectAdapter.selectedExhibits;
         selectedList = new ArrayList<>(selected);
+        zooExhibits = new ZooExhibits(places);
+        idList = zooExhibits.getIDList(selectedList);
 
-        Map<String,ZooData.VertexInfo> placesToVisit = new HashMap<>();
+        placesToVisit = new HashMap<>();
 
         //get the hashmap of animals/location
-        for(int i = 0; i < selectedList.size(); i++) {
-            placesToVisit.put(selectedList.get(i), places.get(selectedList.get(i)));
+        for(int i = 0; i < idList.size(); i++) {
+            placesToVisit.put(idList.get(i), places.get(idList.get(i)));
         }
 
 
         //Find shortest path with Directions object
-        Directions d = new Directions(placesToVisit, zoo);
+        d = new Directions(placesToVisit, zoo);
         d.finalListOfPaths();
         List<GraphPath<String,IdentifiedWeightedEdge>> finalPath = d.getFinalPath();
 
