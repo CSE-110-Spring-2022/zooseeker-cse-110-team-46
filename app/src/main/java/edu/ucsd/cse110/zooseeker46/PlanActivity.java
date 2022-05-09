@@ -1,21 +1,17 @@
 package edu.ucsd.cse110.zooseeker46;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import org.jgrapht.Graph;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 public class PlanActivity extends AppCompatActivity {
@@ -61,6 +57,9 @@ public class PlanActivity extends AppCompatActivity {
         selected = exhibitSelectAdapter.selectedExhibits;
         selectedList = new ArrayList<>(selected);
         idList = zoo.getIDList(selectedList);
+
+
+
         //temporary till actual implementation of checking exhibit
         testExhibitList = new ArrayList<>();
         testExhibitList.add("elephant_odyssey");
@@ -70,6 +69,7 @@ public class PlanActivity extends AppCompatActivity {
     }
 
     public void onDirectionsButtonClicked(View view) {
-        Utilities.showAlert(this, "This button doesn't do anything yet!");
+        Intent intent = new Intent(PlanActivity.this, DirectionsActivity.class);
+        startActivity(intent);
     }
 }

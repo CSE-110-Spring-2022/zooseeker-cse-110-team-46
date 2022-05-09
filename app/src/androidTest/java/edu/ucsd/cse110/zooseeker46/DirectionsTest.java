@@ -1,11 +1,11 @@
 package edu.ucsd.cse110.zooseeker46;
 
+import static org.junit.Assert.assertEquals;
+
 import android.content.Context;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
-
-import static org.junit.Assert.*;
 
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
@@ -13,7 +13,6 @@ import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 
 import java.util.ArrayList;
 import java.util.HashMap;
