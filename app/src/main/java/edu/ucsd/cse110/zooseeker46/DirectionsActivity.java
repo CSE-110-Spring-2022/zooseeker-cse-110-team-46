@@ -35,6 +35,7 @@ public class DirectionsActivity extends AppCompatActivity {
     ZooExhibits zooExhibit;
 
     List<GraphPath<String,IdentifiedWeightedEdge>> finalPath;
+    List<IdentifiedWeightedEdge> edgeList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +78,10 @@ public class DirectionsActivity extends AppCompatActivity {
 
         testDirection.setText("Directions");
         testText.setText(finalPath.get(counter).getStartVertex());
+
+        edgeList = finalPath.get(0).getEdgeList();
+        testDirection.setText(edgeList.get(counter).toString());
+
     }
 
     public void onNextButtonClicked(View view) {
