@@ -8,10 +8,12 @@
         <entry key="..\:/Users/Ckckc/AndroidStudioProjects/zooseeker-cse-110-team-46/app/src/main/res/layout/activity_search.xml" value="0.5541666666666667" />
         <entry key="..\:/Users/Ckckc/AndroidStudioProjects/zooseeker-cse-110-team-46/app/src/main/res/layout/exhibt_item.xml" value="0.31354166666666666" />
         <entry key="..\:/Users/Ckckc/AndroidStudioProjects/zooseeker-cse-110-team-46/app/src/main/res/layout/row_item.xml" value="0.31354166666666666" />
+        <entry key="app/src/main/res/layout/activity_directions.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_plan.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_search.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_search.xml" value="0.19375" />
         <entry key="app/src/main/res/layout/exhibt_item.xml" value="0.25" />
+        <entry key="app/src/main/res/menu/search_main.xml" value="0.19375" />
       </map>
     </option>
   </component>
