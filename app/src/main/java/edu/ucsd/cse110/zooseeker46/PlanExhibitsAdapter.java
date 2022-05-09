@@ -93,7 +93,7 @@ public class PlanExhibitsAdapter extends RecyclerView.Adapter<PlanExhibitsAdapte
         nameTextView.setText(exhibitsVertex.get(keyExhibits.get(position)).name);
         streetTextView.setText
                 (exhibitsEdge.get(exhibitsStreet.get(keyExhibits.get(position))).street + ", " +
-                        exhibitsEntrance.get(keyExhibits.get(position)));
+                        exhibitsEntrance.get(keyExhibits.get(position))+ "m");
         //holder.setExhibit(keyExhibits.get(position));
     }
 
