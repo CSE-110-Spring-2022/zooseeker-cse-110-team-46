@@ -20,6 +20,7 @@
         tools:ignore="MissingConstraints" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/directions_recycler"
         android:layout_width="322dp"
         android:layout_height="464dp"
         android:layout_marginStart="35dp"
