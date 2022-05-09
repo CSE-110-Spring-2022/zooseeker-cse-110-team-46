@@ -6,17 +6,17 @@ import androidx.room.PrimaryKey;
 
 import java.util.List;
 
-@Entity(tableName = "Gate_items")
-public class Gate implements Location {
+@Entity(tableName = "Intersection_items")
+public class Intersection implements Location{
     @NonNull
-    public String id;
-    public String name;
-    public List<String> tags;
+    private String name;
+    private String id;
+    private List<String> tags;
 
     @PrimaryKey(autoGenerate = true)
     public long long_id;
 
-    public Gate(@NonNull String id, String name, List<String> tags){
+    public Intersection(@NonNull String id, String name, List<String> tags){
         this.name = name;
         this.id = id;
         this.tags = tags;
@@ -34,7 +34,7 @@ public class Gate implements Location {
 
     @Override
     public String getId() {
-        return id;
+        return this.id;
     }
 
     @Override
@@ -44,7 +44,7 @@ public class Gate implements Location {
 
     @Override
     public List<String> getTags() {
-        return tags;
+        return this.tags;
     }
 
     @Override

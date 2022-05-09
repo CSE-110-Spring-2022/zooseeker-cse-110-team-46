@@ -1,27 +1,28 @@
 package edu.ucsd.cse110.zooseeker46.locations;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.util.Comparator;
 import java.util.List;
-import java.util.Locale;
 
-<<<<<<< HEAD:app/src/main/java/edu/ucsd/cse110/zooseeker46/locations/Exhibit.java
-import edu.ucsd.cse110.zooseeker46.locations.Location;
-
+@Entity(tableName = "Exhibit_items")
 public class Exhibit implements Location {
+    
+    @PrimaryKey(autoGenerate = true)
+    public long long_id;
+
+    @NonNull
     public String id;
     public String name;
-=======
-public class Exhibit {
-    private String id;
-    private String name;
->>>>>>> 271f5f7013e4789843b009fa84ac940fe387c72d:app/src/main/java/edu/ucsd/cse110/zooseeker46/Exhibit.java
-    public List<String> tags;
+    public tags tags;
     private boolean isSelected;
 
-    public Exhibit(String id, String name, List<String> tags) {
+    public Exhibit(@NonNull String id, String name, List<String> tags) {
         this.id = id;
         this.name = name;
-        this.tags = tags;
+        this.tags = new tags(tags);
         this.isSelected = false;
     }
 
@@ -47,12 +48,12 @@ public class Exhibit {
 
     @Override
     public List<String> getTags() {
-        return tags;
+        return tags.getTags();
     }
 
     @Override
     public void setTags(List<String> tags) {
-        this.tags = tags;
+        this.tags = new tags(tags);
     }
 
     public Exhibit() {
@@ -75,8 +76,8 @@ public class Exhibit {
             String ExhibitName1 = s1.getName().toLowerCase();
             String ExhibitName2 = s2.getName().toLowerCase();
 
-            if(s1.getisSelected()){
-                if(s2.getisSelected()){
+            if(s1.getIsSelected()){
+                if(s2.getIsSelected()){
                     // Just keep it in alphabetical order
                     return ExhibitName1.compareTo(ExhibitName2);
                 }
@@ -87,7 +88,7 @@ public class Exhibit {
                 }
             }
             else{
-                if(s2.getisSelected()){
+                if(s2.getIsSelected()){
                     // Prioritize s2 as selected
                     return 1;
                 }

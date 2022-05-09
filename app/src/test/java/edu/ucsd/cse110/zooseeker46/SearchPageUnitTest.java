@@ -16,6 +16,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import edu.ucsd.cse110.zooseeker46.locations.Exhibit;
+import edu.ucsd.cse110.zooseeker46.plan.PlanExhibitsAdapter;
+import edu.ucsd.cse110.zooseeker46.search.ExhibitSelectAdapter;
+
 @RunWith(AndroidJUnit4.class)
 public class SearchPageUnitTest {
 //should update later with a database

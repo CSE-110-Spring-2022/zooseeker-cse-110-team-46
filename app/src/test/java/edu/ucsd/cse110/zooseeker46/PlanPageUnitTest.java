@@ -8,6 +8,8 @@ import org.robolectric.internal.bytecode.ClassHandler;
 
 import static org.junit.Assert.*;
 
+import android.content.Context;
+
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
