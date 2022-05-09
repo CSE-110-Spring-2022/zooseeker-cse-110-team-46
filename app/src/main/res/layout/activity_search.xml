@@ -29,7 +29,7 @@
         android:layout_marginStart="184dp"
         android:layout_marginTop="64dp"
         android:layout_marginEnd="184dp"
-        android:hint="(0)"
+        android:hint="0"
         android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -49,7 +49,7 @@ public class SearchActivity extends AppCompatActivity {
 
         listView = (ListView) findViewById(R.id.lv);
         btnnext = (Button) findViewById(R.id.plan_btn);
-
+        TextView count = findViewById(R.id.selected_exhibit_count);
         modelArrayList = getModel(false);
         customAdapter = new ExhibitSelectAdapter(this,modelArrayList);
         listView.setAdapter(customAdapter);
@@ -59,6 +59,7 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SearchActivity.this, PlanActivity.class);
+                intent.putExtra("exhibit_count", count.getText());
                 startActivity(intent);
             }
         });
