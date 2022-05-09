@@ -1,34 +1,40 @@
 package edu.ucsd.cse110.zooseeker46;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.jgrapht.Graph;
+import org.jgrapht.GraphPath;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 public class DirectionsActivity extends AppCompatActivity {
 
     //Array for testing -- not actual animal values
+    private String[] testList = new String[]{"Alligators", "Arctic Foxes", "Gorillas", "Ur mom", "You have completed your path!"};
+    private String[] testDirections = new String[]{"To your left", "to your right", "above you", "lmao", "Congratulations"};
     private int counter = 1; //current position in array
+
+    Graph<String, IdentifiedWeightedEdge> zoo;
+    Map<String,ZooData.VertexInfo> places;
+    Map<String,ZooData.VertexInfo> placesToVisit = new HashMap<>();
 
     ExhibitSelectAdapter exhibitSelectAdapter;
     private ArrayList<String> selectedList;
     private Set<String> selected;
 
-    Graph<String, IdentifiedWeightedEdge> zoo;
-    Map<String,ZooData.VertexInfo> places;
-
     private ArrayList<String> idList;
-    ZooExhibits zoo2;
+    ZooExhibits zooExhibit;
 
-    //private ArrayList<String> finalAnimalNames;
+    List<GraphPath<String,IdentifiedWeightedEdge>> finalPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +42,8 @@ public class DirectionsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_directions);
 
 
-        //load zoo graph and places
-        zoo = ZooData.loadZooGraphJSON(this, "sample_zoo_graph.json");
+
+        zoo = ZooData.loadZooGraphJSON(this,"sample_zoo_graph.json");
         places = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
 
         //Create an ArrayList with the selected animals' names
@@ -45,34 +51,32 @@ public class DirectionsActivity extends AppCompatActivity {
         selected = exhibitSelectAdapter.selectedExhibits;
         selectedList = new ArrayList<>(selected);
 
-        Map<String,ZooData.VertexInfo> placesToVisit = new HashMap<>();
-
-        idList = zoo2.getIDList(selectedList);
+        zooExhibit = new ZooExhibits(places);
+        idList = zooExhibit.getIDList(selectedList);
 
         //get the hashmap of animals/location
-        for(int i = 0; i < selectedList.size(); i++) {
-            placesToVisit.put(idList.get(i), places.get(selectedList.get(i)));
+        for(int i = 0; i < idList.size(); i++) {
+            placesToVisit.put(idList.get(i), places.get(idList.get(i)));
         }
-/*
+
+
+        for(String i : placesToVisit.keySet()) {
+            Log.d("bruh", i);
+            Log.d("bruh2", placesToVisit.get(i).toString());
+        }
+
+
         //Find shortest path with Directions object
         Directions d = new Directions(placesToVisit, zoo);
         d.finalListOfPaths();
-        List<GraphPath<String,IdentifiedWeightedEdge>> finalPath = d.getFinalPath();
-
+        finalPath = d.getFinalPath();
 
         //Set text to first array value
         TextView testText = findViewById(R.id.testText);
         TextView testDirection = findViewById(R.id.testDirection);
+
+        testDirection.setText("Directions");
         testText.setText(finalPath.get(counter).getStartVertex());
-        testDirection.setText("test");
-
-
-
-        for(int i = 0; i < finalPath.size(); i++) {
-            //finalAnimalNames.add(finalPath.get(i).getStartVertex());
-        }
-
-*/
     }
 
     public void onNextButtonClicked(View view) {
@@ -83,7 +87,8 @@ public class DirectionsActivity extends AppCompatActivity {
         //update the textViews if we're still in the array
         if(counter < selectedList.size()){
             counter++;
-            testText.setText(selectedList.get(counter));
+            //testText.setText(testList[counter]);
+            testText.setText(finalPath.get(counter).getStartVertex());
         }
 
     }
@@ -96,10 +101,9 @@ public class DirectionsActivity extends AppCompatActivity {
         //update the textViews if we're still in the array
         if(counter > 1){
             counter--;
-            testText.setText(selectedList.get(counter));
+            //testText.setText(testList[counter]);
+            testText.setText(finalPath.get(counter).getStartVertex());
         }
 
     }
-
-
 }
