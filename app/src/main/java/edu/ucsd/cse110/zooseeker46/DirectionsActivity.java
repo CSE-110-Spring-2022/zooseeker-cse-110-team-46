@@ -7,11 +7,9 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.jgrapht.Graph;
-import org.jgrapht.GraphPath;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -24,6 +22,12 @@ public class DirectionsActivity extends AppCompatActivity {
     private ArrayList<String> selectedList;
     private Set<String> selected;
 
+    Graph<String, IdentifiedWeightedEdge> zoo;
+    Map<String,ZooData.VertexInfo> places;
+
+    private ArrayList<String> idList;
+    ZooExhibits zoo2;
+
     //private ArrayList<String> finalAnimalNames;
 
     @Override
@@ -33,8 +37,8 @@ public class DirectionsActivity extends AppCompatActivity {
 
 
         //load zoo graph and places
-        Graph<String, IdentifiedWeightedEdge> zoo = ZooData.loadZooGraphJSON(this, "sample_zoo_graph.json");
-        Map<String,ZooData.VertexInfo> places = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
+        zoo = ZooData.loadZooGraphJSON(this, "sample_zoo_graph.json");
+        places = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
 
         //Create an ArrayList with the selected animals' names
         exhibitSelectAdapter = SearchActivity.getCustomAdapter();
@@ -43,16 +47,18 @@ public class DirectionsActivity extends AppCompatActivity {
 
         Map<String,ZooData.VertexInfo> placesToVisit = new HashMap<>();
 
+        idList = zoo2.getIDList(selectedList);
+
         //get the hashmap of animals/location
         for(int i = 0; i < selectedList.size(); i++) {
-            placesToVisit.put(selectedList.get(i), places.get(selectedList.get(i)));
+            placesToVisit.put(idList.get(i), places.get(selectedList.get(i)));
         }
-
-
+/*
         //Find shortest path with Directions object
         Directions d = new Directions(placesToVisit, zoo);
         d.finalListOfPaths();
         List<GraphPath<String,IdentifiedWeightedEdge>> finalPath = d.getFinalPath();
+
 
         //Set text to first array value
         TextView testText = findViewById(R.id.testText);
@@ -60,9 +66,13 @@ public class DirectionsActivity extends AppCompatActivity {
         testText.setText(finalPath.get(counter).getStartVertex());
         testDirection.setText("test");
 
+
+
         for(int i = 0; i < finalPath.size(); i++) {
             //finalAnimalNames.add(finalPath.get(i).getStartVertex());
         }
+
+*/WA
     }
 
     public void onNextButtonClicked(View view) {
