@@ -19,6 +19,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.ucsd.cse110.zooseeker46.locations.Exhibit;
+import edu.ucsd.cse110.zooseeker46.locations.Gate;
+import edu.ucsd.cse110.zooseeker46.locations.Intersection;
 import edu.ucsd.cse110.zooseeker46.plan.PlanExhibitsAdapter;
 
 //should update later with a database
@@ -33,12 +36,24 @@ public class PlanPageUnitTest {
         testArrayZoo.add("gators");
         adapter.exhibitsGraph = ZooData.loadZooGraphJSON(context, "sample_zoo_graph.json");
         adapter.exhibitsEdge = ZooData.loadEdgeInfoJSON(context, "sample_edge_info.json");
-        adapter.exhibitsVertex = ZooData.loadVertexInfoJSON(context, "sample_node_info.json");
+        Map<String,ZooData.VertexInfo> vertexMap = ZooData.loadVertexInfoJSON(context, "sample_node_info.json");
+        for(String location: vertexMap.keySet()){
+            ZooData.VertexInfo item = vertexMap.get(location);
+            if(item.kind == ZooData.VertexInfo.Kind.EXHIBIT){
+                adapter.exhibitsVertex.put(item.id, new Exhibit(item.id, item.name, item.tags));
+            }
+            if(item.kind == ZooData.VertexInfo.Kind.INTERSECTION){
+                adapter.exhibitsVertex.put(item.id, new Intersection(item.id, item.name, item.tags));
+            }
+            if(item.kind == ZooData.VertexInfo.Kind.GATE){
+                adapter.exhibitsVertex.put(item.id, new Gate(item.id, item.name, item.tags));
+            }
+        }
         adapter.setExhibits(testArrayZoo);
     }
     @Test
     public void orderIsCorrect() {
-        createAdapter();
+        //createAdapter();
         assertEquals("gators", adapter.getExhibitsPlan().get(0));
         assertEquals("lions",adapter.getExhibitsPlan().get(1));
     }

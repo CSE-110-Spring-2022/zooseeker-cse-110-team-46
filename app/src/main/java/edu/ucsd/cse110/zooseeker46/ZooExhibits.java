@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.Map;
 
 import edu.ucsd.cse110.zooseeker46.locations.Exhibit;
+import edu.ucsd.cse110.zooseeker46.locations.Gate;
+import edu.ucsd.cse110.zooseeker46.locations.Intersection;
+import edu.ucsd.cse110.zooseeker46.locations.Location;
 
 public class ZooExhibits extends AppCompatActivity {
     Map<String, ZooData.VertexInfo> vertexInfoMap;
@@ -75,6 +78,25 @@ public class ZooExhibits extends AppCompatActivity {
             idList.add(e.getId());
         }
         return idList;
+    }
+    /*
+    Returns a Map of Locations
+     */
+    public Map<String, Location> getLocationMap(){
+        Map<String, Location> locations = new HashMap<>();
+        for(String location: vertexInfoMap.keySet()){
+            ZooData.VertexInfo item = vertexInfoMap.get(location);
+            if(item.kind == ZooData.VertexInfo.Kind.EXHIBIT){
+                locations.put(item.id, new Exhibit(item.id, item.name, item.tags));
+            }
+            if(item.kind == ZooData.VertexInfo.Kind.GATE){
+                locations.put(item.id, new Gate(item.id, item.name, item.tags));
+            }
+            if(item.kind == ZooData.VertexInfo.Kind.INTERSECTION){
+                locations.put(item.id, new Intersection(item.id, item.name, item.tags));
+            }
+        }
+        return locations;
     }
 }
 

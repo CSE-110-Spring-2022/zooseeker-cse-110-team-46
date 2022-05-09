@@ -13,6 +13,7 @@ import org.jgrapht.GraphPath;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -24,6 +25,8 @@ import java.util.stream.Collectors;
 import edu.ucsd.cse110.zooseeker46.IdentifiedWeightedEdge;
 import edu.ucsd.cse110.zooseeker46.R;
 import edu.ucsd.cse110.zooseeker46.ZooData;
+import edu.ucsd.cse110.zooseeker46.locations.Exhibit;
+import edu.ucsd.cse110.zooseeker46.locations.Location;
 
 /*
     Adapter for recycler view to use an exhibit_item
@@ -32,14 +35,16 @@ public class PlanExhibitsAdapter extends RecyclerView.Adapter<PlanExhibitsAdapte
     //public now for testing maybe should make it private?
     //the graph, vertex, and edge may be better as a database?
     public Graph<String, IdentifiedWeightedEdge> exhibitsGraph;
-    public Map<String, ZooData.VertexInfo> exhibitsVertex;
+    public Map<String, Location> exhibitsVertex = new HashMap<>();
     public Map<String, ZooData.EdgeInfo> exhibitsEdge;
-    private List<String> keyExhibits = new ArrayList<>();
+    private List<Location> Exhibits = new ArrayList<>();
+    private List<String> exhibitsKey = new ArrayList<>();
     public Map<String, Integer> exhibitsEntrance = new HashMap<>();
     public Map<String, String> exhibitsStreet = new HashMap<>();
 
     public void setExhibits(List<String> newExhibits) {
-        this.keyExhibits.clear();
+        this.Exhibits.clear();
+        this.exhibitsKey.clear();
         for(String name: newExhibits){
             findDistanceFromEntrance(name);
         }
@@ -50,13 +55,15 @@ public class PlanExhibitsAdapter extends RecyclerView.Adapter<PlanExhibitsAdapte
                         Map.Entry::getKey,
                         Map.Entry::getValue,
                         (oldValue,newValue) -> oldValue, LinkedHashMap::new));
-        System.out.println(exhibitsGraph);
         //exhibits array is now ordered shortest distance from entrance to longest
-        this.keyExhibits = new ArrayList<String>(exhibitsEntrance.keySet());
+        for(String key : exhibitsEntrance.keySet()){
+            this.Exhibits.add(exhibitsVertex.get(key));
+        }
+        exhibitsKey = new ArrayList<>(exhibitsEntrance.keySet());
     }
 
     public List<String> getExhibitsPlan(){
-        return keyExhibits;
+        return exhibitsKey;
     }
 
     public void findDistanceFromEntrance(String end){
@@ -92,16 +99,15 @@ public class PlanExhibitsAdapter extends RecyclerView.Adapter<PlanExhibitsAdapte
         //puts data in the viewHolder
         TextView nameTextView = holder.getNameTextView();
         TextView streetTextView = holder.getStreetTextView();
-        nameTextView.setText(exhibitsVertex.get(keyExhibits.get(position)).name);
-        streetTextView.setText
-                (exhibitsEdge.get(exhibitsStreet.get(keyExhibits.get(position))).street + ", " +
-                        exhibitsEntrance.get(keyExhibits.get(position))+ "m");
+        nameTextView.setText(exhibitsVertex.get(exhibitsKey.get(position)).getName());
+        streetTextView.setText(exhibitsEdge.get(exhibitsStreet.get(exhibitsKey.get(position)))
+                .street + ", " + exhibitsEntrance.get(exhibitsKey.get(position))+ "m");
         //holder.setExhibit(keyExhibits.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return keyExhibits.size();
+        return Exhibits.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{

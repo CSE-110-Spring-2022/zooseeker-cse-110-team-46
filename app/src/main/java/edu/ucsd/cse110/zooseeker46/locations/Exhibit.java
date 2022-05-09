@@ -11,13 +11,13 @@ public class Exhibit implements Location {
 
     public String id;
     public String name;
-    public tags tags;
+    public List<String> tags;
     private boolean isSelected;
 
     public Exhibit(String id, String name, List<String> tags) {
         this.id = id;
         this.name = name;
-        this.tags = new tags(tags);
+        this.tags = tags;
         this.isSelected = false;
     }
 
@@ -43,12 +43,12 @@ public class Exhibit implements Location {
 
     @Override
     public List<String> getTags() {
-        return tags.getTags();
+        return tags;
     }
 
     @Override
     public void setTags(List<String> tags) {
-        this.tags = new tags(tags);
+        this.tags = tags;
     }
 
     public Exhibit() {

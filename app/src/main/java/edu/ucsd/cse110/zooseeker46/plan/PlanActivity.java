@@ -16,11 +16,11 @@ import edu.ucsd.cse110.zooseeker46.Utilities;
 import edu.ucsd.cse110.zooseeker46.ZooData;
 import edu.ucsd.cse110.zooseeker46.ZooExhibits;
 import edu.ucsd.cse110.zooseeker46.locations.Exhibit;
+import edu.ucsd.cse110.zooseeker46.locations.Gate;
+import edu.ucsd.cse110.zooseeker46.locations.Intersection;
 import edu.ucsd.cse110.zooseeker46.search.ExhibitSelectAdapter;
 import edu.ucsd.cse110.zooseeker46.search.SearchActivity;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -52,7 +52,10 @@ public class PlanActivity extends AppCompatActivity {
         //sets the graph, nodes, and edges. May be better as database?
         adapter.exhibitsGraph = ZooData.loadZooGraphJSON(this,"sample_zoo_graph.json");
         adapter.exhibitsEdge = ZooData.loadEdgeInfoJSON(this, "sample_edge_info.json");
-        adapter.exhibitsVertex = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
+        Map<String,ZooData.VertexInfo> vertexMap = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
+        zoo = new ZooExhibits(vertexMap);
+        adapter.exhibitsVertex = zoo.getLocationMap();
+
         //testing
         Log.d("graph", adapter.exhibitsGraph.toString());
 
@@ -61,7 +64,7 @@ public class PlanActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
-        zoo = new ZooExhibits(adapter.exhibitsVertex);
+
         exhibitArrayList = zoo.getExhibits();
         exhibitSelectAdapter = SearchActivity.getCustomAdapter();
         selected = exhibitSelectAdapter.selectedExhibits;
