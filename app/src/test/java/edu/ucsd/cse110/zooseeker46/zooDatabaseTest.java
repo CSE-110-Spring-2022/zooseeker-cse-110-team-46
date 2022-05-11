@@ -1,6 +1,8 @@
 package edu.ucsd.cse110.zooseeker46;
 
 import android.content.Context;
+import android.nfc.Tag;
+import android.util.Log;
 
 import androidx.room.Room;
 import androidx.test.core.app.ApplicationProvider;
@@ -56,10 +58,16 @@ public class zooDatabaseTest {
         long id1 = exhibitDao.insert(new Exhibit("lions","Lions", ex1TagsList));
         long id2 = exhibitDao.insert(ex2);
 
+        Exhibit item1 = exhibitDao.get(id1);
+        Exhibit item2 = exhibitDao.get(id2);
+
         assertNotEquals(id1,id2);
         Exhibit item = exhibitDao.get(id1);
         System.out.println(item);
 
+        // Nitya added these two tests to ensure long_id generated properly:
+        assertEquals(id1, item1.long_id);
+        assertEquals(id2, item2.long_id);
     }
 
     @Test
@@ -69,13 +77,13 @@ public class zooDatabaseTest {
         Collections.addAll(ex1TagsList,ex1Tags);
         Exhibit ex1 = new Exhibit("lions","Lions", ex1TagsList);
 
-        long id = exhibitDao.insert(ex1);
+        long gen_id = exhibitDao.insert(ex1);
 
-        Exhibit item = exhibitDao.get(id);
+        Exhibit item = exhibitDao.get(gen_id);
 
-        assertNotNull(id);
+        assertNotNull(gen_id);
         assertNotNull(item);
-        assertEquals(id, item.long_id);
+        assertEquals(gen_id, item.long_id);
         assertEquals(ex1.name, item.name);
         assertEquals(ex1.id, item.id);
         assertEquals(ex1.tags, item.tags);
