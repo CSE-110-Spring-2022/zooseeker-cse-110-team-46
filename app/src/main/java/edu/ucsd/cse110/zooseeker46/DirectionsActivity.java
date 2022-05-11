@@ -21,7 +21,7 @@ public class DirectionsActivity extends AppCompatActivity {
     //Array for testing -- not actual animal values
     private String[] testList = new String[]{"Alligators", "Arctic Foxes", "Gorillas", "Ur mom", "You have completed your path!"};
     private String[] testDirections = new String[]{"To your left", "to your right", "above you", "lmao", "Congratulations"};
-    private int counter = 1; //current position in array
+    private int counter = 0; //current position in array
 
     Graph<String, IdentifiedWeightedEdge> zoo;
     Map<String,ZooData.VertexInfo> places;
@@ -77,7 +77,7 @@ public class DirectionsActivity extends AppCompatActivity {
         TextView testDirection = findViewById(R.id.testDirection);
 
         testDirection.setText("Directions");
-        testText.setText(finalPath.get(counter).getStartVertex());
+        testText.setText(finalPath.get(counter).getEndVertex());
 
         edgeList = finalPath.get(0).getEdgeList();
         testDirection.setText(edgeList.get(counter).toString());
@@ -93,7 +93,7 @@ public class DirectionsActivity extends AppCompatActivity {
         if(counter < selectedList.size()){
             counter++;
             //testText.setText(testList[counter]);
-            testText.setText(finalPath.get(counter).getStartVertex());
+            testText.setText(finalPath.get(counter).getEndVertex());
         }
 
     }
@@ -104,10 +104,10 @@ public class DirectionsActivity extends AppCompatActivity {
         TextView testText = findViewById(R.id.testText);
 
         //update the textViews if we're still in the array
-        if(counter > 1){
+        if(counter > 0){
             counter--;
             //testText.setText(testList[counter]);
-            testText.setText(finalPath.get(counter).getStartVertex());
+            testText.setText(finalPath.get(counter).getEndVertex());
         }
 
     }
