@@ -17,6 +17,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import edu.ucsd.cse110.zooseeker46.locations.Exhibit;
+import edu.ucsd.cse110.zooseeker46.plan.PlanExhibitsAdapter;
+import edu.ucsd.cse110.zooseeker46.search.ExhibitSelectAdapter;
+
 @RunWith(AndroidJUnit4.class)
 public class SearchPageUnitTest {
 //should update later with a database
@@ -59,7 +63,7 @@ public class SearchPageUnitTest {
     public void selectWorks() {
         createAdapter();
         totalExhibits.get(1).setSelected(true);
-        boolean test = totalExhibits.get(1).getisSelected();
+        boolean test = totalExhibits.get(1).getIsSelected();
         assertEquals(true, test);
     }
 
@@ -68,7 +72,7 @@ public class SearchPageUnitTest {
         createAdapter();
         totalExhibits.get(1).setSelected(true);
         totalExhibits.get(1).setSelected(false);
-        boolean test = totalExhibits.get(1).getisSelected();
+        boolean test = totalExhibits.get(1).getIsSelected();
         assertEquals(false, test);
     }
 }
