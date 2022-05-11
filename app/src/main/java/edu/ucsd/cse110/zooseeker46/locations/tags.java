@@ -13,7 +13,7 @@ public class tags {
         return this.tags;
     }
 
-    public void tags (List<String> tags) {
+    public void tags(List<String> tags) {
         this.tags = tags;
     }
 }

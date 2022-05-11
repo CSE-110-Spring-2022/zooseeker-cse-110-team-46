@@ -86,7 +86,13 @@ public class zooDatabaseTest {
         assertEquals(gen_id, item.long_id);
         assertEquals(ex1.name, item.name);
         assertEquals(ex1.id, item.id);
-        assertEquals(ex1.tags, item.tags);
+        /*System.out.println("--------------------");
+        System.out.println(ex1.tags.getTags());
+        System.out.println("--------------------");
+        System.out.println("--------------------");
+        System.out.println(item.tags.getTags());
+        System.out.println("--------------------");*/
+        assertEquals(ex1.tags.getTags(), item.tags.getTags());
     }
 
     @Test
