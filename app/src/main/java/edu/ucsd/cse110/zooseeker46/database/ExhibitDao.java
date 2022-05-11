@@ -13,12 +13,12 @@ public interface ExhibitDao {
     @Insert
     long insert(Exhibit exhibitItem);
 
-    @Query("SELECT * FROM 'Exhibit_items' WHERE 'long_id' = :id")
+    @Query("SELECT * FROM `Exhibit_items` WHERE `long_id`=:num_id")
     Exhibit get(long num_id);
 
-    /*@Query("Select * from  'Exhibit_items' order by 'order'")
+    @Query("SELECT * FROM `Exhibit_items`")
     Exhibit getAll();
-     */
+
 
     @Update
     int update(Exhibit exhibitItem);
