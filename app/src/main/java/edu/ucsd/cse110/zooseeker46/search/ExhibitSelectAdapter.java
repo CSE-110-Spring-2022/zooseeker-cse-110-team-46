@@ -1,4 +1,4 @@
-package edu.ucsd.cse110.zooseeker46;
+package edu.ucsd.cse110.zooseeker46.search;
 import android.content.Context;
 import android.graphics.ColorSpace;
 import android.util.Log;
@@ -24,6 +24,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.LogRecord;
+
+import edu.ucsd.cse110.zooseeker46.R;
+import edu.ucsd.cse110.zooseeker46.locations.Exhibit;
 
 
 public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
@@ -144,7 +147,7 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
 
         holder.tvAnimal.setText(ModelArrayList.get(position).getName());
 
-        holder.checkBox.setChecked(ModelArrayList.get(position).getisSelected());
+        holder.checkBox.setChecked(ModelArrayList.get(position).getIsSelected());
 
         holder.checkBox.setTag(R.integer.btnplusview, convertView);
         holder.checkBox.setTag(position);
@@ -157,7 +160,7 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
                 String curr = ModelArrayList.get(pos).getName();
                 Toast.makeText(context, "Selected " + curr, Toast.LENGTH_SHORT).show();
                 //System.out.println("-------------------------");
-                if (ModelArrayList.get(pos).getisSelected()) {
+                if (ModelArrayList.get(pos).getIsSelected()) {
                     ModelArrayList.get(pos).setSelected(false);
                     //System.out.println("curr unchecked: " + curr);
                     selectedExhibits.remove(curr);
@@ -167,15 +170,15 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
                     foo.setText(String.valueOf(getSelectedCount()));
 
                     //Exhibit currExhibit = totalExhibits.get(curr);
-                   // currExhibit.setSelected(false);
-                   // totalExhibits.put(curr, currExhibit);
+                    // currExhibit.setSelected(false);
+                    // totalExhibits.put(curr, currExhibit);
 
 
                     //SelectedAnimals.remove(modelArrayList.get(pos).getName());
                 } else {
                     ModelArrayList.get(pos).setSelected(true);
                     //ModelArrayList.get(pos).setSelected(true);
-                   // System.out.println("curr checked: " + curr);
+                    // System.out.println("curr checked: " + curr);
                     selectedExhibits.add(curr);
                     //Exhibit currExhibit = totalExhibits.get(curr);
                     //currExhibit.setSelected(true);
@@ -189,7 +192,7 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
                 //ModelArrayList = new ArrayList<Exhibit>(totalExhibits.values());
                 //ModelArrayList = updateML(selectedExhibits);
                 //Collections.sort(ModelArrayList,Exhibit.ExhibitNameComparator);
-               // Collections.sort(ModelArrayListFiltered,Exhibit.ExhibitNameComparator);
+                // Collections.sort(ModelArrayListFiltered,Exhibit.ExhibitNameComparator);
                 //ModelArrayListFiltered = updateML(selectedExhibits);
                 //System.out.println("curr count: " + selectedExhibits.size());
                 selectedExhibits.forEach(System.out::println);
@@ -247,14 +250,14 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
                 //results.values = checked;
                //results.count = checked.size();*/
 
-               ModelArrayList = (ArrayList<Exhibit>) results.values;
+                ModelArrayList = (ArrayList<Exhibit>) results.values;
                 //Collections.sort(ModelArrayList,Exhibit.ExhibitNameComparator);
                 notifyDataSetChanged();
             }
         };
         return filter;
     }
-//this is a simple class that filtering the ArrayList of strings used in adapter
+    //this is a simple class that filtering the ArrayList of strings used in adapter
     private class ViewHolder {
         protected CheckBox checkBox;
         private TextView tvAnimal;

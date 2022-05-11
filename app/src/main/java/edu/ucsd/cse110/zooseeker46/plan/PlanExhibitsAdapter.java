@@ -1,4 +1,4 @@
-package edu.ucsd.cse110.zooseeker46;
+package edu.ucsd.cse110.zooseeker46.plan;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +13,6 @@ import org.jgrapht.GraphPath;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -22,7 +21,9 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
-import android.content.Context;
+import edu.ucsd.cse110.zooseeker46.IdentifiedWeightedEdge;
+import edu.ucsd.cse110.zooseeker46.R;
+import edu.ucsd.cse110.zooseeker46.ZooData;
 
 /*
     Adapter for recycler view to use an exhibit_item
