@@ -8,12 +8,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
 
 import java.util.List;
+import java.util.Map;
 
 public class DirectionsAdapter extends RecyclerView.Adapter<DirectionsAdapter.ViewHolder>{
     GraphPath<String, IdentifiedWeightedEdge> path = null;
+    public Graph<String, IdentifiedWeightedEdge> exhibitsGraph;
+    public Map<String, ZooData.VertexInfo> exhibitsVertex;
+    public Map<String, ZooData.EdgeInfo> exhibitsEdge;
 
     public void setDirections(GraphPath<String, IdentifiedWeightedEdge> path){
         this.path = path;
@@ -30,9 +35,16 @@ public class DirectionsAdapter extends RecyclerView.Adapter<DirectionsAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull DirectionsAdapter.ViewHolder holder, int position) {
+        IdentifiedWeightedEdge pathLayout;
         TextView DirectionsTextView = holder.getDirectionTextView();
         List<IdentifiedWeightedEdge> edges = path.getEdgeList();
-        DirectionsTextView.setText(edges.get(position).toString());
+        pathLayout = edges.get(position);
+        String startName = exhibitsVertex.get(pathLayout.getSourceName()).name;
+        String endName = exhibitsVertex.get(pathLayout.getTargetName()).name;
+        String streetName = exhibitsEdge.get(pathLayout.getId()).street;
+        int length = (int)exhibitsGraph.getEdgeWeight(pathLayout);
+        DirectionsTextView.setText("Go from " + startName + " down " +  streetName
+                + " " + length + "m towards  " + endName);
     }
 
     @Override

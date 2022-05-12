@@ -20,12 +20,16 @@ import java.util.Set;
 public class DirectionsV2Activity extends AppCompatActivity {
 
     public RecyclerView recyclerView;
-    public DirectionsAdapter adapter = new DirectionsAdapter();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_directions_v2);
+        DirectionsAdapter adapter = new DirectionsAdapter();
+
+        adapter.exhibitsGraph = ZooData.loadZooGraphJSON(this,"sample_zoo_graph.json");
+        adapter.exhibitsEdge = ZooData.loadEdgeInfoJSON(this, "sample_edge_info.json");
+        adapter.exhibitsVertex = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
 
         //load zoo graph and places
         Graph<String, IdentifiedWeightedEdge> zoo = ZooData.loadZooGraphJSON(this, "sample_zoo_graph.json");
