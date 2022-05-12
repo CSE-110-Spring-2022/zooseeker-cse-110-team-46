@@ -19,6 +19,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.ucsd.cse110.zooseeker46.plan.PlanExhibitsAdapter;
+
 //should update later with a database
 @RunWith(AndroidJUnit4.class)
 public class PlanPageUnitTest {

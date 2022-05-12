@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import edu.ucsd.cse110.zooseeker46.locations.Exhibit;
+
 @RunWith(AndroidJUnit4.class)
 public class ZooExhibitsTest {
     Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();

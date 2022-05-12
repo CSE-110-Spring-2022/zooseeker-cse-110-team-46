@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.ucsd.cse110.zooseeker46.locations.Exhibit;
+
 public class ZooExhibits extends AppCompatActivity {
     Map<String, ZooData.VertexInfo> vertexInfoMap;
     //private Context context;

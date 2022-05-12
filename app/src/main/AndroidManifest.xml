@@ -13,10 +13,11 @@
             android:name=".DirectionsV2Activity"
             android:exported="false" />
         <activity
-            android:name=".SearchActivity"
+
+            android:name=".search.SearchActivity"
             android:exported="false" />
         <activity
-            android:name=".PlanActivity"
+            android:name=".plan.PlanActivity"
             android:exported="false" />
         <activity
             android:name=".DirectionsActivity"
