@@ -80,5 +80,9 @@ public class Directions {
     public Map<String, ZooData.VertexInfo> getExhibitsToVisit(){
         return exhibitsToVisit;
     }
+<<<<<<< HEAD
 }
 
+=======
+}
+>>>>>>> directionsRecyclerView
