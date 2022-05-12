@@ -19,6 +19,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import edu.ucsd.cse110.zooseeker46.search.ExhibitSelectAdapter;
+import edu.ucsd.cse110.zooseeker46.search.SearchActivity;
+
 public class DirectionsV2Activity extends AppCompatActivity {
 
     public RecyclerView recyclerView;

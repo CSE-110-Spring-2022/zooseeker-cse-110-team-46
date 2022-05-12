@@ -20,6 +20,7 @@ import java.util.Set;
 import java.util.ArrayList;
 
 import edu.ucsd.cse110.zooseeker46.DirectionsActivity;
+import edu.ucsd.cse110.zooseeker46.DirectionsV2Activity;
 import edu.ucsd.cse110.zooseeker46.R;
 import edu.ucsd.cse110.zooseeker46.Utilities;
 import edu.ucsd.cse110.zooseeker46.ZooData;
