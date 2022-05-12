@@ -5,6 +5,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
@@ -20,6 +22,9 @@ import java.util.Set;
 public class DirectionsV2Activity extends AppCompatActivity {
 
     public RecyclerView recyclerView;
+
+    private int counter = 0;
+    List<GraphPath<String,IdentifiedWeightedEdge>> finalPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,12 +58,52 @@ public class DirectionsV2Activity extends AppCompatActivity {
         //Find shortest path with Directions object
         Directions d = new Directions(placesToVisit, zoo);
         d.finalListOfPaths();
-        List<GraphPath<String,IdentifiedWeightedEdge>> finalPath = d.getFinalPath();
+        finalPath = d.getFinalPath();
 
         recyclerView = findViewById(R.id.directions_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         System.out.println(finalPath);
-        adapter.setDirections(finalPath.get(0));
+        adapter.setDirections(finalPath.get(counter));
         recyclerView.setAdapter(adapter);
+
+        //Current animal text
+        TextView animalText = findViewById(R.id.animalView);
+        animalText.setText(finalPath.get(counter).getEndVertex());
+    }
+
+    public void onNextButtonClicked(View view) {
+
+        //update the textViews if we're still in the array
+        if(counter < finalPath.size() - 1){
+
+            //load animal text
+            TextView animalText = findViewById(R.id.animalView);
+
+            //update counter and the text on screen
+            counter++;
+            animalText.setText(finalPath.get(counter).getEndVertex());
+
+            adapter.setDirections(finalPath.get(counter));
+            recyclerView.setAdapter(adapter);
+        }
+
+    }
+
+    public void onPrevButtonClicked(View view) {
+
+        //update the textViews if we're still in the array
+        if(counter > 0){
+
+            //load textViews
+            TextView animalText = findViewById(R.id.animalView);
+
+            //update counter and the text on screen
+            counter--;
+            animalText.setText(finalPath.get(counter).getEndVertex());
+
+            adapter.setDirections(finalPath.get(counter));
+            recyclerView.setAdapter(adapter);
+        }
+
     }
 }
