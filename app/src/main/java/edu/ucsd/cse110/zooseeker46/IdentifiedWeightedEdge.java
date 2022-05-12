@@ -28,4 +28,12 @@ public class IdentifiedWeightedEdge extends DefaultWeightedEdge {
             edge.setId(attrValue);
         }
     }
+
+    public Object getSourceName(){
+        return getSource();
+    }
+
+    public Object getTargetName(){
+        return getTarget();
+    }
 }
