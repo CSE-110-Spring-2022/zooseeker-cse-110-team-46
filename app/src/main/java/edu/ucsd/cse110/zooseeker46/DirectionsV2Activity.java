@@ -55,7 +55,6 @@ public class DirectionsV2Activity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         System.out.println(finalPath);
         adapter.setDirections(finalPath.get(0));
-
         recyclerView.setAdapter(adapter);
     }
 }

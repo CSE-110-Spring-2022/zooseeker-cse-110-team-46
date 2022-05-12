@@ -69,11 +69,8 @@ public class PlanActivity extends AppCompatActivity {
     }
 
     public void onDirectionsButtonClicked(View view) {
-<<<<<<< HEAD
-        Intent intent = new Intent(PlanActivity.this, DirectionsActivity.class);
-=======
+        //Intent intent = new Intent(PlanActivity.this, DirectionsActivity.class);
         Intent intent = new Intent(PlanActivity.this, DirectionsV2Activity.class);
->>>>>>> directionsRecyclerView
         startActivity(intent);
     }
 }
