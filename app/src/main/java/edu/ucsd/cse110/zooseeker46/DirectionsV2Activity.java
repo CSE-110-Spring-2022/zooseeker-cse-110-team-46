@@ -22,16 +22,16 @@ import java.util.Set;
 public class DirectionsV2Activity extends AppCompatActivity {
 
     public RecyclerView recyclerView;
-
+    DirectionsAdapter adapter = new DirectionsAdapter();
     private int counter = 0;
     List<GraphPath<String,IdentifiedWeightedEdge>> finalPath;
+    Map<String, ZooData.VertexInfo> vertexForNames;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_directions_v2);
-        DirectionsAdapter adapter = new DirectionsAdapter();
-
+        vertexForNames = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
         adapter.exhibitsGraph = ZooData.loadZooGraphJSON(this,"sample_zoo_graph.json");
         adapter.exhibitsEdge = ZooData.loadEdgeInfoJSON(this, "sample_edge_info.json");
         adapter.exhibitsVertex = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
@@ -68,7 +68,7 @@ public class DirectionsV2Activity extends AppCompatActivity {
 
         //Current animal text
         TextView animalText = findViewById(R.id.animalView);
-        animalText.setText(finalPath.get(counter).getEndVertex());
+        animalText.setText(vertexForNames.get(finalPath.get(counter).getEndVertex()).name);
     }
 
     public void onNextButtonClicked(View view) {
@@ -81,7 +81,7 @@ public class DirectionsV2Activity extends AppCompatActivity {
 
             //update counter and the text on screen
             counter++;
-            animalText.setText(finalPath.get(counter).getEndVertex());
+            animalText.setText(vertexForNames.get(finalPath.get(counter).getEndVertex()).name);
 
             adapter.setDirections(finalPath.get(counter));
             recyclerView.setAdapter(adapter);
@@ -99,7 +99,7 @@ public class DirectionsV2Activity extends AppCompatActivity {
 
             //update counter and the text on screen
             counter--;
-            animalText.setText(finalPath.get(counter).getEndVertex());
+            animalText.setText(vertexForNames.get(finalPath.get(counter).getEndVertex()).name);
 
             adapter.setDirections(finalPath.get(counter));
             recyclerView.setAdapter(adapter);
