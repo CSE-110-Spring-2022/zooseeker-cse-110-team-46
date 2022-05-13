@@ -20,8 +20,11 @@ import org.junit.runner.manipulation.Ordering;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import edu.ucsd.cse110.zooseeker46.database.ExhibitDao;
 import edu.ucsd.cse110.zooseeker46.database.GateDao;
@@ -257,5 +260,89 @@ public class zooDatabaseTest {
         item1 = intersectionDao.get(id1);
         assertNotNull(item1);
         assertEquals("Enter here!", item1.name);
+    }
+
+    @Test
+    public void testExhibitSelectOne() {
+        String[] ex1Tags = {"lions", "cats", "mammal", "africa"};
+        List<String> ex1TagsList = new ArrayList<>();
+        Collections.addAll(ex1TagsList,ex1Tags);
+        Exhibit ex1 = new Exhibit("lions","Lions", ex1TagsList);
+        long id = exhibitDao.insert(ex1);
+        ex1 = exhibitDao.get(id);
+
+        assertEquals(0, exhibitDao.getSelectedExhibits().size());
+
+        ex1.setSelected(true);
+        int itemsUpdate = exhibitDao.update(ex1);
+        assertEquals(1, itemsUpdate);
+        assertTrue(exhibitDao.get(id).getIsSelected());
+        assertEquals(1, exhibitDao.getSelectedExhibits().size());
+        assertEquals(ex1.getName(), exhibitDao.getSelectedExhibits().get(0).getName());
+    }
+
+    @Test
+    public void testExhibitSelectMany() {
+        Map<String, ZooData.VertexInfo> map = ZooData.loadVertexInfoJSON(context, "sample_node_info.json");
+        ZooExhibits zoo = new ZooExhibits(map);
+        List<Exhibit> actList = zoo.getExhibits();
+        List<Long> ids = new ArrayList<>();
+        for (Exhibit ex : actList){
+            ids.add(exhibitDao.insert(ex));
+        }
+
+        // Check if all exhibits inserted correctly:
+        for(int i = 0; i < actList.size(); i++){
+            assertEquals(actList.get(i).getName(),exhibitDao.get(ids.get(i)).getName());
+        }
+
+        // Select every few exhibits
+        List<Exhibit> ExpectedSelectedExhibit = new ArrayList<>();
+        for(int i = 0; i < actList.size(); i += 2){
+            Exhibit curr = exhibitDao.get(ids.get(i));
+            curr.setSelected(true);
+            ExpectedSelectedExhibit.add(curr);
+            int itemsUpdate = exhibitDao.update(curr);
+
+            assertEquals(1, itemsUpdate);
+        }
+
+        List<Exhibit> daoSelectedExhibit = exhibitDao.getSelectedExhibits();
+        assertEquals(ExpectedSelectedExhibit.size(), daoSelectedExhibit.size());
+
+        for(int i = 0; i < ExpectedSelectedExhibit.size(); i++){
+            assertEquals(ExpectedSelectedExhibit.get(i).getName(), daoSelectedExhibit.get(i).getName());
+            assertEquals(ExpectedSelectedExhibit.get(i).getTags(), daoSelectedExhibit.get(i).getTags());
+        }
+
+        // Deselect a few of the selected exhibits
+        Map<String, Long> m = new HashMap<String, Long>();
+        for(int i = 0; i < actList.size(); i++){
+            m.put(actList.get(i).getName(), ids.get(i));
+        }
+        List<Long> selectedIDS = new ArrayList<>();
+        for(Exhibit curr: ExpectedSelectedExhibit){
+            selectedIDS.add(m.get(curr.getName()));
+            System.out.println("before: " + curr.getName());
+        }
+
+        Map<String, Exhibit> previouslySelectedm = new HashMap<>();
+        for(Exhibit curr: ExpectedSelectedExhibit){
+            previouslySelectedm.put(curr.getName(), curr);
+        }
+
+        // Deselect a few of the selected items
+        for(int i = 1; i < selectedIDS.size(); i++){
+            Exhibit curr = exhibitDao.get(selectedIDS.get(i));
+            curr.setSelected(false);
+            previouslySelectedm.remove(curr.getName());
+            int itemsUpdate = exhibitDao.update(curr);
+
+            assertEquals(1, itemsUpdate);
+        }
+
+        List<Exhibit> NewExpectedSelected = new ArrayList<>(previouslySelectedm.values());
+        List<Exhibit> daoNewSelectedExhibit = exhibitDao.getSelectedExhibits();
+        assertEquals(NewExpectedSelected.size(), daoNewSelectedExhibit.size());
     }
 }

@@ -64,6 +64,7 @@ public class Exhibit implements Location {
     }
 
     public void setSelected(boolean selected) {
+        // We should update Dao here! exhibitDao.update(this);
         isSelected = selected;
     }
 

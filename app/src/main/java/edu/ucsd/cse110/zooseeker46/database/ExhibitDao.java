@@ -18,14 +18,16 @@ public interface ExhibitDao {
     @Query("SELECT * FROM `Exhibit_items` WHERE `long_id`=:num_id")
     Exhibit get(long num_id);
 
-    @Query("SELECT * FROM `Exhibit_items` WHERE `isSelected`= 'true'")
+    @Query("SELECT * FROM `Exhibit_items`")
     List<Exhibit> getAll();
-
 
     @Update
     int update(Exhibit exhibitItem);
 
     @Delete
     int delete(Exhibit exhibitItem);
+
+    @Query("SELECT * FROM 'Exhibit_items' WHERE isSelected")
+    List<Exhibit> getSelectedExhibits();
 
 }
