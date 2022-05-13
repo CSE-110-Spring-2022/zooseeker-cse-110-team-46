@@ -18,7 +18,7 @@ public interface ExhibitDao {
     @Query("SELECT * FROM `Exhibit_items` WHERE `long_id`=:num_id")
     Exhibit get(long num_id);
 
-    @Query("SELECT * FROM `Exhibit_items`")
+    @Query("SELECT * FROM `Exhibit_items` WHERE `isSelected`= 'true'")
     List<Exhibit> getAll();
 
 
