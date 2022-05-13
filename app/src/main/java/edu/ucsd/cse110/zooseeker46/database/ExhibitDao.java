@@ -19,7 +19,6 @@ public interface ExhibitDao {
     @Query("SELECT * FROM `Exhibit_items`")
     Exhibit getAll();
 
-
     @Update
     int update(Exhibit exhibitItem);
 
