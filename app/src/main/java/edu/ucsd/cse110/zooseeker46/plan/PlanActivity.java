@@ -14,7 +14,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Set;
 
-import edu.ucsd.cse110.zooseeker46.directions.DirectionsV2Activity;
+import edu.ucsd.cse110.zooseeker46.directions.DirectionsActivity;
 import edu.ucsd.cse110.zooseeker46.R;
 import edu.ucsd.cse110.zooseeker46.ZooData;
 import edu.ucsd.cse110.zooseeker46.ZooExhibits;
@@ -77,8 +77,7 @@ public class PlanActivity extends AppCompatActivity {
     }
 
     public void onDirectionsButtonClicked(View view) {
-        //Intent intent = new Intent(PlanActivity.this, DirectionsActivity.class);
-        Intent intent = new Intent(PlanActivity.this, DirectionsV2Activity.class);
+        Intent intent = new Intent(PlanActivity.this, DirectionsActivity.class);
         startActivity(intent);
     }
 }
