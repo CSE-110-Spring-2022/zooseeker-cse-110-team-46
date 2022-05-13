@@ -17,7 +17,7 @@ public class Exhibit implements Location {
     public String id;
     public String name;
     public tags tags;
-    private boolean isSelected;
+    public boolean isSelected;
 
     public Exhibit(@NonNull String id, String name, List<String> tags) {
         this.id = id;
@@ -65,6 +65,7 @@ public class Exhibit implements Location {
     }
 
     public void setSelected(boolean selected) {
+        // We should update Dao here! exhibitDao.update(this);
         isSelected = selected;
     }
 
