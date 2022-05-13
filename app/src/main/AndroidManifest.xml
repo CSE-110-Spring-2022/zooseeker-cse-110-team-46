@@ -20,9 +20,6 @@
             android:name=".plan.PlanActivity"
             android:exported="false" />
         <activity
-            android:name=".DirectionsActivity"
-            android:exported="false" />
-        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
