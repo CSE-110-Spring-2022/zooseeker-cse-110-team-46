@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import org.jgrapht.Graph;
@@ -21,12 +22,10 @@ import edu.ucsd.cse110.zooseeker46.IdentifiedWeightedEdge;
 import edu.ucsd.cse110.zooseeker46.R;
 import edu.ucsd.cse110.zooseeker46.ZooData;
 import edu.ucsd.cse110.zooseeker46.ZooExhibits;
-import edu.ucsd.cse110.zooseeker46.directions.Directions;
-import edu.ucsd.cse110.zooseeker46.directions.DirectionsAdapter;
 import edu.ucsd.cse110.zooseeker46.search.ExhibitSelectAdapter;
 import edu.ucsd.cse110.zooseeker46.search.SearchActivity;
 
-public class DirectionsV2Activity extends AppCompatActivity {
+public class DirectionsActivity extends AppCompatActivity {
 
     public RecyclerView recyclerView;
     DirectionsAdapter adapter = new DirectionsAdapter();
@@ -37,7 +36,7 @@ public class DirectionsV2Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_directions_v2);
+        setContentView(R.layout.activity_directions);
         vertexForNames = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
         adapter.exhibitsGraph = ZooData.loadZooGraphJSON(this,"sample_zoo_graph.json");
         adapter.exhibitsEdge = ZooData.loadEdgeInfoJSON(this, "sample_edge_info.json");
@@ -95,12 +94,48 @@ public class DirectionsV2Activity extends AppCompatActivity {
             recyclerView.setAdapter(adapter);
         }
 
+        //show end text if we've reached the end
+        else if(counter == finalPath.size() - 1) {
+
+            TextView endText = findViewById(R.id.endText);
+            Button nextButton = findViewById((R.id.next_btn));
+            TextView animalText = findViewById(R.id.animalView);
+            recyclerView = findViewById(R.id.directions_recycler);
+
+            //update counter
+            counter++;
+
+            //Update visibilities
+            endText.setVisibility(View.VISIBLE);
+            nextButton.setVisibility(View.INVISIBLE);
+            animalText.setVisibility(View.INVISIBLE);
+            recyclerView.setVisibility(View.INVISIBLE);
+        }
+
     }
 
     public void onPrevButtonClicked(View view) {
 
+        //show end text if we've reached the end
+        if(counter == finalPath.size()) {
+
+            TextView endText = findViewById(R.id.endText);
+            Button nextButton = findViewById((R.id.next_btn));
+            TextView animalText = findViewById(R.id.animalView);
+            recyclerView = findViewById(R.id.directions_recycler);
+
+            //update counter
+            counter--;
+
+            //Update visibilities
+            endText.setVisibility(View.INVISIBLE);
+            nextButton.setVisibility(View.VISIBLE);
+            animalText.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
+
         //update the textViews if we're still in the array
-        if(counter > 0){
+        else if(counter > 0){
 
             //load textViews
             TextView animalText = findViewById(R.id.animalView);
