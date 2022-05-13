@@ -2,7 +2,7 @@
   {
     "id": "entrance_exit_gate",
     "kind": "gate",
-    "name": "Entrance and Exit Gate",
+    "name": "",
     "tags": [
       "enter",
       "leave",

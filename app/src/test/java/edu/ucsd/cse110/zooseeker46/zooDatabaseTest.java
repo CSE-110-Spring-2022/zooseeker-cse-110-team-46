@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import edu.ucsd.cse110.zooseeker46.database.ExhibitDao;
 import edu.ucsd.cse110.zooseeker46.database.ZooDataDatabase;
@@ -30,6 +31,7 @@ import edu.ucsd.cse110.zooseeker46.locations.Exhibit;
 public class zooDatabaseTest {
     private ExhibitDao exhibitDao;
     private ZooDataDatabase db;
+    Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
     @Before
     public void CreateDb(){
         Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
@@ -76,7 +78,6 @@ public class zooDatabaseTest {
         List<String> ex1TagsList = new ArrayList<>();
         Collections.addAll(ex1TagsList,ex1Tags);
         Exhibit ex1 = new Exhibit("lions","Lions", ex1TagsList);
-
         long gen_id = exhibitDao.insert(ex1);
 
         Exhibit item = exhibitDao.get(gen_id);
@@ -86,12 +87,6 @@ public class zooDatabaseTest {
         assertEquals(gen_id, item.long_id);
         assertEquals(ex1.name, item.name);
         assertEquals(ex1.id, item.id);
-        /*System.out.println("--------------------");
-        System.out.println(ex1.tags.getTags());
-        System.out.println("--------------------");
-        System.out.println("--------------------");
-        System.out.println(item.tags.getTags());
-        System.out.println("--------------------");*/
         assertEquals(ex1.tags.getTags(), item.tags.getTags());
     }
 
@@ -116,5 +111,17 @@ public class zooDatabaseTest {
         ex1 = exhibitDao.get(id);
         assertNotNull(ex1);
         assertEquals("Super Lions", ex1.name);
+    }
+
+    @Test
+    public void testGetAll(){
+        Map<String, ZooData.VertexInfo> map = ZooData.loadVertexInfoJSON(context, "sample_node_info.json");
+        ZooExhibits zoo = new ZooExhibits(map);
+        List<Exhibit> actList = zoo.getExhibits();
+        for (Exhibit ex : actList){
+            exhibitDao.insert(ex);
+        }
+        List<Exhibit> exhibitList = exhibitDao.getAll();
+        assertEquals(actList.size(),exhibitList.size());
     }
 }
