@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -222,9 +223,20 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
 
                     for(Exhibit itemsModel:ModelArrayListFiltered){
                         String lower = itemsModel.getName().toLowerCase();
+
                         if(lower.contains(searchStr)){
                             resultsModel.add(itemsModel);
                         }
+                        else{
+                            for(String tag:itemsModel.tags.getTags()){
+                                tag.toLowerCase();
+                                if(tag.contains(searchStr)){
+                                    resultsModel.add(itemsModel);
+                                    break;
+                                }
+                            }
+                        }
+
                         filterResults.count = resultsModel.size();
                         filterResults.values = resultsModel;
                     }
