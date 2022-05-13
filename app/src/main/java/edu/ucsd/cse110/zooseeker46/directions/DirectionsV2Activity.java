@@ -1,4 +1,4 @@
-package edu.ucsd.cse110.zooseeker46;
+package edu.ucsd.cse110.zooseeker46.directions;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,15 +10,19 @@ import android.widget.TextView;
 
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
-import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import edu.ucsd.cse110.zooseeker46.IdentifiedWeightedEdge;
+import edu.ucsd.cse110.zooseeker46.R;
+import edu.ucsd.cse110.zooseeker46.ZooData;
+import edu.ucsd.cse110.zooseeker46.ZooExhibits;
+import edu.ucsd.cse110.zooseeker46.directions.Directions;
+import edu.ucsd.cse110.zooseeker46.directions.DirectionsAdapter;
 import edu.ucsd.cse110.zooseeker46.search.ExhibitSelectAdapter;
 import edu.ucsd.cse110.zooseeker46.search.SearchActivity;
 
@@ -27,7 +31,7 @@ public class DirectionsV2Activity extends AppCompatActivity {
     public RecyclerView recyclerView;
     DirectionsAdapter adapter = new DirectionsAdapter();
     private int counter = 0;
-    List<GraphPath<String,IdentifiedWeightedEdge>> finalPath;
+    List<GraphPath<String, IdentifiedWeightedEdge>> finalPath;
     Map<String, ZooData.VertexInfo> vertexForNames;
 
     @Override
@@ -57,6 +61,7 @@ public class DirectionsV2Activity extends AppCompatActivity {
         for(int i = 0; i < selectedList.size(); i++) {
             placesToVisit.put(idList.get(i), places.get(selectedList.get(i)));
         }
+        placesToVisit.put("entrance_exit_gate", places.get("entrance_exit_gate"));
 
         //Find shortest path with Directions object
         Directions d = new Directions(placesToVisit, zoo);

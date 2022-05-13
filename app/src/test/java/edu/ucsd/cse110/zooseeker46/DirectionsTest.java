@@ -19,6 +19,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.ucsd.cse110.zooseeker46.directions.Directions;
+
 @RunWith(AndroidJUnit4.class)
 public class DirectionsTest {
     Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();

@@ -11,18 +11,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.ArrayList;
 import java.util.Set;
-import java.util.ArrayList;
 
-import edu.ucsd.cse110.zooseeker46.DirectionsActivity;
-import edu.ucsd.cse110.zooseeker46.DirectionsV2Activity;
+import edu.ucsd.cse110.zooseeker46.directions.DirectionsV2Activity;
 import edu.ucsd.cse110.zooseeker46.R;
-import edu.ucsd.cse110.zooseeker46.Utilities;
 import edu.ucsd.cse110.zooseeker46.ZooData;
 import edu.ucsd.cse110.zooseeker46.ZooExhibits;
 import edu.ucsd.cse110.zooseeker46.locations.Exhibit;

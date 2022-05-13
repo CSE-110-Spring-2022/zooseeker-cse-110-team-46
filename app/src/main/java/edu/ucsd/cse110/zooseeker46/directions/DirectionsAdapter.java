@@ -1,4 +1,4 @@
-package edu.ucsd.cse110.zooseeker46;
+package edu.ucsd.cse110.zooseeker46.directions;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +13,10 @@ import org.jgrapht.GraphPath;
 
 import java.util.List;
 import java.util.Map;
+
+import edu.ucsd.cse110.zooseeker46.IdentifiedWeightedEdge;
+import edu.ucsd.cse110.zooseeker46.R;
+import edu.ucsd.cse110.zooseeker46.ZooData;
 
 public class DirectionsAdapter extends RecyclerView.Adapter<DirectionsAdapter.ViewHolder>{
     GraphPath<String, IdentifiedWeightedEdge> path = null;

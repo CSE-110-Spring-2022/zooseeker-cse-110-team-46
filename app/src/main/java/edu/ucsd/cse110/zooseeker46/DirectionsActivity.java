@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import edu.ucsd.cse110.zooseeker46.directions.Directions;
 import edu.ucsd.cse110.zooseeker46.search.ExhibitSelectAdapter;
 import edu.ucsd.cse110.zooseeker46.search.SearchActivity;
 
