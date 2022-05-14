@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ZooSeeker46">
         <activity
-            android:name=".DirectionsV2Activity"
+            android:name=".directions.DirectionsActivity"
             android:exported="false" />
         <activity
 
@@ -18,9 +18,6 @@
             android:exported="false" />
         <activity
             android:name=".plan.PlanActivity"
-            android:exported="false" />
-        <activity
-            android:name=".DirectionsActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

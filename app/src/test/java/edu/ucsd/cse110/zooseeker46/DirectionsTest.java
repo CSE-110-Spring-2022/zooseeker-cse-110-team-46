@@ -19,6 +19,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.ucsd.cse110.zooseeker46.directions.Directions;
+
 @RunWith(AndroidJUnit4.class)
 public class DirectionsTest {
     Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
@@ -52,11 +54,11 @@ public class DirectionsTest {
         placestoVist.put("gators",places.get("gators"));
         placestoVist.put("arctic_foxes",places.get("arctic_foxes"));
         Directions d = new Directions(placestoVist,zoo);
-        GraphPath f = d.findNearestNeighbor("entrance_exit_gate", placestoVist);
+        GraphPath f = d.findNearestNeighbor("entrance_exit_gate");
         assertEquals(3, d.getExhibitsToVisit().size());
         assertEquals("gators", f.getEndVertex());
         assertEquals(110, f.getWeight(), 0.01);
-        f = d.findNearestNeighbor((String)f.getEndVertex(), placestoVist);
+        f = d.findNearestNeighbor((String)f.getEndVertex());
         assertEquals(2, d.getExhibitsToVisit().size());
         assertEquals("lions", f.getEndVertex());
         assertEquals(200, f.getWeight(), 0.01);
