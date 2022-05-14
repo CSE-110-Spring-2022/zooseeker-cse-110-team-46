@@ -1,4 +1,4 @@
-package edu.ucsd.cse110.zooseeker46.directions;
+package edu.ucsd.cse110.zooseeker46;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,12 +14,8 @@ import org.jgrapht.GraphPath;
 import java.util.List;
 import java.util.Map;
 
-import edu.ucsd.cse110.zooseeker46.IdentifiedWeightedEdge;
-import edu.ucsd.cse110.zooseeker46.R;
-import edu.ucsd.cse110.zooseeker46.ZooData;
-
 public class DirectionsAdapter extends RecyclerView.Adapter<DirectionsAdapter.ViewHolder>{
-    public GraphPath<String, IdentifiedWeightedEdge> path = null;
+    GraphPath<String, IdentifiedWeightedEdge> path = null;
     public Graph<String, IdentifiedWeightedEdge> exhibitsGraph;
     public Map<String, ZooData.VertexInfo> exhibitsVertex;
     public Map<String, ZooData.EdgeInfo> exhibitsEdge;
@@ -46,27 +42,9 @@ public class DirectionsAdapter extends RecyclerView.Adapter<DirectionsAdapter.Vi
         String startName = exhibitsVertex.get(pathLayout.getSourceName()).name;
         String endName = exhibitsVertex.get(pathLayout.getTargetName()).name;
         String streetName = exhibitsEdge.get(pathLayout.getId()).street;
-        //check if in correct order
-        //if not switch
-        if (position < this.getItemCount()-1) {
-            if (startName == exhibitsVertex.get(edges.get(position + 1).getSourceName()).name ||
-                    startName == exhibitsVertex.get(edges.get(position + 1).getTargetName()).name) {
-                String tempName = startName;
-                startName = endName;
-                endName = tempName;
-            }
-        }
-        if(position == this.getItemCount()-1){
-            if (endName == exhibitsVertex.get(edges.get(position - 1).getSourceName()).name ||
-                    endName == exhibitsVertex.get(edges.get(position - 1).getTargetName()).name) {
-                String tempName = startName;
-                startName = endName;
-                endName = tempName;
-            }
-        }
-        int length = (int) exhibitsGraph.getEdgeWeight(pathLayout);
-        DirectionsTextView.setText("Go from " + startName + " down " + streetName
-                    + " " + length + "m towards  " + endName);
+        int length = (int)exhibitsGraph.getEdgeWeight(pathLayout);
+        DirectionsTextView.setText("Go from " + startName + " down " +  streetName
+                + " " + length + "m towards  " + endName);
     }
 
     @Override
