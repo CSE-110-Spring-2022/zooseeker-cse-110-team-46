@@ -11,4 +11,5 @@ import edu.ucsd.cse110.zooseeker46.locations.ZooNode;
 @Database(entities = {ZooNode.class}, version = 1, exportSchema = false)
 public abstract class ZooGraphDatabase extends RoomDatabase {
     public abstract ZooGraphNodeDao zooNodeDao();
+    public abstract ZooGraphEdgeDao zooEdgeDao();
 }
