@@ -41,7 +41,7 @@ public class searchFilter implements Filterable{
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
                 ExhibitSelectAdapter.ModelArrayList = (ArrayList<Exhibit>) results.values;
-                activity.notifyDataSetChanged();
+                //activity.notifyDataSetChanged();
             }
         };
         return filter;

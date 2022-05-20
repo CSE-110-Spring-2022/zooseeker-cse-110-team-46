@@ -79,6 +79,7 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {//changes text on every key(e.g. called twice if "ch" is typed. once for 'c' and again for 'h'
                 customAdapter.getFilter().filter(newText);
+                customAdapter.notifyDataSetChanged();
                 return false;
             }
         });
