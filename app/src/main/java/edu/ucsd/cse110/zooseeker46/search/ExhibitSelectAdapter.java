@@ -1,7 +1,5 @@
 package edu.ucsd.cse110.zooseeker46.search;
 import android.content.Context;
-import android.graphics.ColorSpace;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,21 +7,15 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.LogRecord;
 
 import edu.ucsd.cse110.zooseeker46.R;
 import edu.ucsd.cse110.zooseeker46.locations.Exhibit;
@@ -31,6 +23,7 @@ import edu.ucsd.cse110.zooseeker46.locations.Exhibit;
 
 public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
 
+    private final edu.ucsd.cse110.zooseeker46.search.searchFilter searchFilter = new searchFilter();
     private Context context;
 
     // Model Array Lists are what we pass the original animal list. You can initialize this in SearchActivity.java
@@ -171,38 +164,7 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
     // DO NOT TOUCH
     @Override
     public Filter getFilter() {
-        Filter filter = new Filter() {
-            @Override
-            protected FilterResults performFiltering(CharSequence constraint) {
-
-                FilterResults filterResults = new FilterResults();
-                if(constraint == null || constraint.length() == 0){
-                    filterResults.count = ModelArrayListFiltered.size();
-                    filterResults.values = ModelArrayListFiltered;
-
-                }else{
-                    ArrayList<Exhibit> resultsModel = new ArrayList<>();
-                    String searchStr = constraint.toString().toLowerCase();
-
-                    for(Exhibit itemsModel:ModelArrayListFiltered){
-                        String lower = itemsModel.getName().toLowerCase();
-                        if(lower.contains(searchStr)){
-                            resultsModel.add(itemsModel);
-                        }
-                        filterResults.count = resultsModel.size();
-                        filterResults.values = resultsModel;
-                    }
-                }
-                return filterResults;
-            }
-
-            @Override
-            protected void publishResults(CharSequence constraint, FilterResults results) {
-                ModelArrayList = (ArrayList<Exhibit>) results.values;
-                notifyDataSetChanged();
-            }
-        };
-        return filter;
+        return searchFilter.getFilter();
     }
     //this is a simple class that filtering the ArrayList of strings used in adapter
     private class ViewHolder {
