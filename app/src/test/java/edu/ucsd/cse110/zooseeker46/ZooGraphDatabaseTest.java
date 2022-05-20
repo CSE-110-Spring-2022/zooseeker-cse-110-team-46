@@ -18,6 +18,7 @@ import java.util.List;
 
 import edu.ucsd.cse110.zooseeker46.database.IntersectionDao;
 import edu.ucsd.cse110.zooseeker46.database.ZooDataDatabase;
+import edu.ucsd.cse110.zooseeker46.locations.ZooEdge;
 import edu.ucsd.cse110.zooseeker46.locations.ZooNode;
 import edu.ucsd.cse110.zooseeker46.zoographdatabase.ZooGraphDatabase;
 import edu.ucsd.cse110.zooseeker46.zoographdatabase.ZooGraphEdgeDao;
@@ -74,4 +75,36 @@ public class ZooGraphDatabaseTest {
         List<ZooNode> list = zooGraphNodeDao.getAll();
         assertEquals(3,list.size());
     }
+
+    @Test
+    public void testGraphEdgeGet(){
+        ZooEdge z = new ZooEdge("edge-0", "entrance_exit_gate", "entrance_plaza", 10.0);
+        ZooEdge z2 = new ZooEdge("edge-1", "entrance_plaza", "gorillas", 20.0);
+        long id1 = zooGraphEdgeDao.insert(z);
+        long id2 = zooGraphEdgeDao.insert(z2);
+        ZooEdge z1 = zooGraphEdgeDao.get(id1);
+        assertEquals("edge-0", z1.id);
+
+    }
+
+    @Test
+    public void testGraphEdgeInsert(){
+        ZooEdge z = new ZooEdge("edge-0", "entrance_exit_gate", "entrance_plaza", 10.0);
+        long id1 = zooGraphEdgeDao.insert(z);
+        ZooEdge z1 = zooGraphEdgeDao.get(id1);
+        assertEquals("edge-0", z1.id);
+
+    }
+
+    @Test
+    public void testGraphEdgeGetAll(){
+        ZooEdge z = new ZooEdge("edge-0", "entrance_exit_gate", "entrance_plaza", 10.0);
+        ZooEdge z2 = new ZooEdge("edge-1", "entrance_plaza", "gorillas", 20.0);
+        long id1 = zooGraphEdgeDao.insert(z);
+        long id2 = zooGraphEdgeDao.insert(z2);
+        List<ZooEdge> list = zooGraphEdgeDao.getAll();
+        assertEquals(2, list.size());
+
+    }
+
 }

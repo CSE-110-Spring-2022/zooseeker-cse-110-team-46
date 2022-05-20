@@ -18,7 +18,7 @@ public interface ZooGraphEdgeDao {
     @Query("SELECT * FROM `graph_edges` WHERE `long_id`=:num_id")
     ZooEdge get(long num_id);
 
-    @Query("SELECT * FROM `graph_nodes`")
+    @Query("SELECT * FROM `graph_edges`")
     List<ZooEdge> getAll();
 
     @Update
