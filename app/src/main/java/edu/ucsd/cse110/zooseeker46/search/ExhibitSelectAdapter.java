@@ -23,7 +23,7 @@ import edu.ucsd.cse110.zooseeker46.locations.Exhibit;
 
 public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
 
-    private final edu.ucsd.cse110.zooseeker46.search.searchFilter searchFilter = new searchFilter();
+    private final edu.ucsd.cse110.zooseeker46.search.searchFilter searchFilter = new searchFilter(this);
     private Context context;
 
     // Model Array Lists are what we pass the original animal list. You can initialize this in SearchActivity.java
