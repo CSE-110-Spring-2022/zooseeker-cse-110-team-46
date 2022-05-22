@@ -48,7 +48,7 @@ public class DirectionsAdapter extends RecyclerView.Adapter<DirectionsAdapter.Vi
         String streetName = exhibitsEdge.get(pathLayout.getId()).street;
         //check if in correct order
         //if not switch
-        if (position < this.getItemCount()-1) {
+        if (position < this.getItemCount()-1 && position+1 < this.getItemCount()) {
             if (startName == exhibitsVertex.get(edges.get(position + 1).getSourceName()).name ||
                     startName == exhibitsVertex.get(edges.get(position + 1).getTargetName()).name) {
                 String tempName = startName;
@@ -56,7 +56,7 @@ public class DirectionsAdapter extends RecyclerView.Adapter<DirectionsAdapter.Vi
                 endName = tempName;
             }
         }
-        if(position == this.getItemCount()-1){
+        if(position == this.getItemCount()-1 && position-1 > -1){
             if (endName == exhibitsVertex.get(edges.get(position - 1).getSourceName()).name ||
                     endName == exhibitsVertex.get(edges.get(position - 1).getTargetName()).name) {
                 String tempName = startName;
