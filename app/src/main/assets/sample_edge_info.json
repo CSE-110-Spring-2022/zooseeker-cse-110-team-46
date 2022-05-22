@@ -76,32 +76,12 @@
     "street": "Aviary Trail"
   },
   {
-    "id": "parker_toucan",
-    "street": "Parker Aviary Walkway"
-  },
-  {
-    "id": "parker_motmot",
-    "street": "Parker Aviary Walkway"
-  },
-  {
     "id": "parker_to_benchley",
     "street": "Treetops Way"
   },
   {
     "id": "owens_to_fern",
     "street": "Aviary Trail"
-  },
-  {
-    "id": "owens_to_mynah",
-    "street": "Owens Aviary Walkway"
-  },
-  {
-    "id": "owens_to_dove",
-    "street": "Owens Aviary Walkway"
-  },
-  {
-    "id": "scripps_to_spoonbill",
-    "street": "Scripps Aviary Walkway"
   },
   {
     "id": "fern_to_fern",

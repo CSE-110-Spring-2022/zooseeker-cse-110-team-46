@@ -54,31 +54,16 @@
       "id": "parker_aviary"
     },
     {
-      "id": "toucan"
-    },
-    {
-      "id": "motmot"
-    },
-    {
       "id": "owens_aviary"
     },
     {
       "id": "scripps_aviary"
     },
     {
-      "id": "spoonbill"
-    },
-    {
       "id": "hippo"
     },
     {
       "id": "crocodile"
-    },
-    {
-      "id": "mynah"
-    },
-    {
-      "id": "dove"
     },
     {
       "id": "benchley_plaza"
@@ -200,18 +185,6 @@
       "weight": 50.0
     },
     {
-      "id": "parker_toucan",
-      "source": "parker_aviary",
-      "target": "toucan",
-      "weight": 5.0
-    },
-    {
-      "id": "parker_motmot",
-      "source": "parker_aviary",
-      "target": "motmot",
-      "weight": 5.0
-    },
-    {
       "id": "parker_to_benchley",
       "source": "parker_aviary",
       "target": "benchley_plaza",
@@ -222,24 +195,6 @@
       "source": "owens_aviary",
       "target": "fern_canyon",
       "weight": 30.0
-    },
-    {
-      "id": "owens_to_mynah",
-      "source": "owens_aviary",
-      "target": "mynah",
-      "weight": 5.0
-    },
-    {
-      "id": "owens_to_dove",
-      "source": "owens_aviary",
-      "target": "dove",
-      "weight": 5.0
-    },
-    {
-      "id": "scripps_to_spoonbill",
-      "source": "scripps_aviary",
-      "target": "spoonbill",
-      "weight": 5.0
     },
     {
       "id": "fern_to_fern",
