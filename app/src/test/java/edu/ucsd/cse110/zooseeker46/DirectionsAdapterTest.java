@@ -27,18 +27,18 @@ public class DirectionsAdapterTest {
     public void createAdapter(){
         adapter.setDirections(DijkstraShortestPath.findPathBetween
                 (ZooData.loadZooGraphJSON(context, "sample_zoo_graph.json"),
-                        "entrance_exit_gate", "gorillas"));
+                        "entrance_exit_gate", "gorilla"));
     }
 
     @Test
     public void isSize(){
-        assertEquals(2,adapter.getItemCount());
+        assertEquals(7,adapter.getItemCount());
     }
 
     @Test
     public void String(){
         List<IdentifiedWeightedEdge> edges = adapter.path.getEdgeList();
         String paths =edges.get(0).toString();
-        assertEquals("(entrance_exit_gate :edge-0: entrance_plaza)",paths);
+        assertEquals("(entrance_exit_gate :gate_to_front: intxn_front_treetops)",paths);
     }
 }

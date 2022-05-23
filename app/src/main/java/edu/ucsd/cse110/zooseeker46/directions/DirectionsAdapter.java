@@ -11,8 +11,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
 
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import edu.ucsd.cse110.zooseeker46.IdentifiedWeightedEdge;
 import edu.ucsd.cse110.zooseeker46.R;
@@ -23,6 +26,7 @@ public class DirectionsAdapter extends RecyclerView.Adapter<DirectionsAdapter.Vi
     public Graph<String, IdentifiedWeightedEdge> exhibitsGraph;
     public Map<String, ZooData.VertexInfo> exhibitsVertex;
     public Map<String, ZooData.EdgeInfo> exhibitsEdge;
+    public DirectionTypeInterface directions;
 
     public void setDirections(GraphPath<String, IdentifiedWeightedEdge> path){
         this.path = path;
@@ -43,12 +47,12 @@ public class DirectionsAdapter extends RecyclerView.Adapter<DirectionsAdapter.Vi
         TextView DirectionsTextView = holder.getDirectionTextView();
         List<IdentifiedWeightedEdge> edges = path.getEdgeList();
         pathLayout = edges.get(position);
-        String startName = exhibitsVertex.get(pathLayout.getSourceName()).name;
-        String endName = exhibitsVertex.get(pathLayout.getTargetName()).name;
-        String streetName = exhibitsEdge.get(pathLayout.getId()).street;
+        String startName = directions.getStartName(exhibitsVertex, pathLayout);
+        String endName = directions.getEndName(exhibitsVertex, pathLayout);
+        String streetName = directions.getStreetName(exhibitsEdge, pathLayout);
         //check if in correct order
         //if not switch
-        if (position < this.getItemCount()-1) {
+        if (position < this.getItemCount()-1 && position+1 < this.getItemCount()) {
             if (startName == exhibitsVertex.get(edges.get(position + 1).getSourceName()).name ||
                     startName == exhibitsVertex.get(edges.get(position + 1).getTargetName()).name) {
                 String tempName = startName;
@@ -56,7 +60,7 @@ public class DirectionsAdapter extends RecyclerView.Adapter<DirectionsAdapter.Vi
                 endName = tempName;
             }
         }
-        if(position == this.getItemCount()-1){
+        if(position == this.getItemCount()-1 && position-1 > -1){
             if (endName == exhibitsVertex.get(edges.get(position - 1).getSourceName()).name ||
                     endName == exhibitsVertex.get(edges.get(position - 1).getTargetName()).name) {
                 String tempName = startName;
@@ -64,9 +68,8 @@ public class DirectionsAdapter extends RecyclerView.Adapter<DirectionsAdapter.Vi
                 endName = tempName;
             }
         }
-        int length = (int) exhibitsGraph.getEdgeWeight(pathLayout);
-        DirectionsTextView.setText("Go from " + startName + " down " + streetName
-                    + " " + length + "m towards  " + endName);
+        int length = directions.getLength(exhibitsGraph, pathLayout);
+        DirectionsTextView.setText(directions.pathFormat(startName, endName, streetName, length));
     }
 
     @Override

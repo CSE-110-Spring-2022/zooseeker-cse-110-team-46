@@ -57,14 +57,11 @@ public class SearchActivity extends AppCompatActivity {
         btnnext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent = new Intent(SearchActivity.this, PlanActivity.class);
                 intent.putExtra("exhibit_count", count.getText());
                 startActivity(intent);
             }
         });
-
-
     }
 
     @Override
@@ -72,9 +69,7 @@ public class SearchActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.search_main, menu);
         MenuItem menuItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) menuItem.getActionView();
-       // searchView.setOnSearchClickListener();
         searchView.setQueryHint("Type here to search");
-
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {//changes text when user presses enter...
@@ -84,6 +79,7 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {//changes text on every key(e.g. called twice if "ch" is typed. once for 'c' and again for 'h'
                 customAdapter.getFilter().filter(newText);
+                customAdapter.notifyDataSetChanged();
                 return false;
             }
         });

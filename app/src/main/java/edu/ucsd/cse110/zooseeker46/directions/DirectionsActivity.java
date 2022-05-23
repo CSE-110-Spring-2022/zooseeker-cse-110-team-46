@@ -14,6 +14,7 @@ import org.jgrapht.GraphPath;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -41,6 +42,7 @@ public class DirectionsActivity extends AppCompatActivity {
         adapter.exhibitsGraph = ZooData.loadZooGraphJSON(this,"sample_zoo_graph.json");
         adapter.exhibitsEdge = ZooData.loadEdgeInfoJSON(this, "sample_edge_info.json");
         adapter.exhibitsVertex = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
+        adapter.directions = new DetailedDirections();
 
         //load zoo graph and places
         Graph<String, IdentifiedWeightedEdge> zoo = ZooData.loadZooGraphJSON(this, "sample_zoo_graph.json");

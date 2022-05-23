@@ -1,7 +1,5 @@
 package edu.ucsd.cse110.zooseeker46.search;
 import android.content.Context;
-import android.graphics.ColorSpace;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,22 +7,20 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+
+
 import java.util.List;
 import java.util.Locale;
+
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.LogRecord;
 
 import edu.ucsd.cse110.zooseeker46.R;
 import edu.ucsd.cse110.zooseeker46.locations.Exhibit;
@@ -32,6 +28,7 @@ import edu.ucsd.cse110.zooseeker46.locations.Exhibit;
 
 public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
 
+    private final edu.ucsd.cse110.zooseeker46.search.searchFilter searchFilter = new searchFilter(this);
     private Context context;
 
     // Model Array Lists are what we pass the original animal list. You can initialize this in SearchActivity.java
@@ -61,9 +58,7 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
         return checked;
     }
 
-
     // Constructor
-
     public ExhibitSelectAdapter(Context context, ArrayList<Exhibit> modelArrayList) {
         this.context = context;
         Collections.sort(modelArrayList, Exhibit.ExhibitNameComparator);
@@ -76,7 +71,6 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
         }
     }
 
-
     public int getSelectedCount() {
         return this.SelectedCount;
     }
@@ -87,8 +81,6 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
 
     // All these override functions are required for adapter, please DO NOT MODIFY
     // If you need a helper function, make a new one
-
-
     @Override
     public int getViewTypeCount() {
         return getCount();
@@ -96,7 +88,6 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
 
     @Override
     public int getItemViewType(int position) {
-
         return position;
     }
 
@@ -143,13 +134,8 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        //holder.checkBox.setText("Checkbox " + position);
-
-
         holder.tvAnimal.setText(ModelArrayList.get(position).getName());
-
         holder.checkBox.setChecked(ModelArrayList.get(position).getIsSelected());
-
         holder.checkBox.setTag(R.integer.btnplusview, convertView);
         holder.checkBox.setTag(position);
         holder.checkBox.setOnClickListener(new View.OnClickListener() {
@@ -160,46 +146,21 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
                 Integer pos = (Integer) holder.checkBox.getTag();
                 String curr = ModelArrayList.get(pos).getName();
                 Toast.makeText(context, "Selected " + curr, Toast.LENGTH_SHORT).show();
-                //System.out.println("-------------------------");
                 if (ModelArrayList.get(pos).getIsSelected()) {
                     ModelArrayList.get(pos).setSelected(false);
-                    //System.out.println("curr unchecked: " + curr);
                     selectedExhibits.remove(curr);
-
                     setSelectedCount(selectedExhibits.size());
                     TextView foo = (TextView) ((SearchActivity)context).findViewById(R.id.selected_exhibit_count);
                     foo.setText(String.valueOf(getSelectedCount()));
 
-                    //Exhibit currExhibit = totalExhibits.get(curr);
-                    // currExhibit.setSelected(false);
-                    // totalExhibits.put(curr, currExhibit);
-
-
-                    //SelectedAnimals.remove(modelArrayList.get(pos).getName());
                 } else {
                     ModelArrayList.get(pos).setSelected(true);
-                    //ModelArrayList.get(pos).setSelected(true);
-                    // System.out.println("curr checked: " + curr);
                     selectedExhibits.add(curr);
-                    //Exhibit currExhibit = totalExhibits.get(curr);
-                    //currExhibit.setSelected(true);
-                    //totalExhibits.put(curr, currExhibit);
-                    // SelectedAnimals.add(ModelArrayList.get(pos).getName());
                     setSelectedCount(selectedExhibits.size());
                     TextView foo = (TextView) ((SearchActivity)context).findViewById(R.id.selected_exhibit_count);
                     foo.setText(String.valueOf(getSelectedCount()));
                 }
-
-                //ModelArrayList = new ArrayList<Exhibit>(totalExhibits.values());
-                //ModelArrayList = updateML(selectedExhibits);
-                //Collections.sort(ModelArrayList,Exhibit.ExhibitNameComparator);
-                // Collections.sort(ModelArrayListFiltered,Exhibit.ExhibitNameComparator);
-                //ModelArrayListFiltered = updateML(selectedExhibits);
-                //System.out.println("curr count: " + selectedExhibits.size());
                 selectedExhibits.forEach(System.out::println);
-                //System.out.println("-------------------------");
-                //System.out.println("count = " + getCount());
-
             }
         });
         return convertView;
@@ -208,66 +169,8 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
     // DO NOT TOUCH
     @Override
     public Filter getFilter() {
-        Filter filter = new Filter() {
-            @Override
-            protected FilterResults performFiltering(CharSequence constraint) {
+        return searchFilter.getFilter();
 
-                FilterResults filterResults = new FilterResults();
-                if(constraint == null || constraint.length() == 0){
-                    filterResults.count = ModelArrayListFiltered.size();
-                    filterResults.values = ModelArrayListFiltered;
-
-                }else{
-                    ArrayList<Exhibit> resultsModel = new ArrayList<>();
-                    String searchStr = constraint.toString().toLowerCase();
-
-                    for(Exhibit itemsModel:ModelArrayListFiltered){
-                        String lower = itemsModel.getName().toLowerCase();
-
-                        if(lower.contains(searchStr)){
-                            resultsModel.add(itemsModel);
-                        }
-                        else{
-                            for(String tag:itemsModel.tags.getTags()){
-                                tag.toLowerCase();
-                                if(tag.contains(searchStr)){
-                                    resultsModel.add(itemsModel);
-                                    break;
-                                }
-                            }
-                        }
-
-                        filterResults.count = resultsModel.size();
-                        filterResults.values = resultsModel;
-                    }
-                }
-
-                //Collections.sort((ArrayList<Exhibit>)filterResults.values ,Exhibit.ExhibitNameComparator);
-
-                return filterResults;
-            }
-
-            @Override
-            protected void publishResults(CharSequence constraint, FilterResults results) {
-               /*ArrayList<Exhibit> unchecked = new ArrayList<>();
-                ArrayList<Exhibit> checked = new ArrayList<>();
-                for (Exhibit curr: ModelArrayList){
-                    if(curr.getisSelected()){
-                        checked.add(curr);
-                    }
-                    else{unchecked.add(curr);}
-                }
-                checked.addAll(unchecked);
-                ModelArrayList = checked;
-                //results.values = checked;
-               //results.count = checked.size();*/
-
-                ModelArrayList = (ArrayList<Exhibit>) results.values;
-                //Collections.sort(ModelArrayList,Exhibit.ExhibitNameComparator);
-                notifyDataSetChanged();
-            }
-        };
-        return filter;
     }
     //this is a simple class that filtering the ArrayList of strings used in adapter
     private class ViewHolder {
