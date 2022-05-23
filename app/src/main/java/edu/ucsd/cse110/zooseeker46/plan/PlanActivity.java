@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Set;
 ;
 import edu.ucsd.cse110.zooseeker46.R;
+import edu.ucsd.cse110.zooseeker46.SettingsActivity;
 import edu.ucsd.cse110.zooseeker46.ZooData;
 import edu.ucsd.cse110.zooseeker46.ZooExhibits;
 import edu.ucsd.cse110.zooseeker46.directions.DirectionsActivity;
@@ -79,6 +80,11 @@ public class PlanActivity extends AppCompatActivity {
     public void onDirectionsButtonClicked(View view) {
         //Intent intent = new Intent(PlanActivity.this, DirectionsActivity.class);
         Intent intent = new Intent(PlanActivity.this, DirectionsActivity.class);
+        startActivity(intent);
+    }
+
+    public void onSettingsButtonClicked(View view) {
+        Intent intent = new Intent(PlanActivity.this, SettingsActivity.class);
         startActivity(intent);
     }
 }

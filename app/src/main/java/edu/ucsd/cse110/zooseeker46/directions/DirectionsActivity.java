@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -23,8 +24,10 @@ import edu.ucsd.cse110.zooseeker46.IdentifiedWeightedEdge;
 import edu.ucsd.cse110.zooseeker46.R;
 import edu.ucsd.cse110.zooseeker46.ZooData;
 import edu.ucsd.cse110.zooseeker46.ZooExhibits;
+import edu.ucsd.cse110.zooseeker46.plan.PlanActivity;
 import edu.ucsd.cse110.zooseeker46.search.ExhibitSelectAdapter;
 import edu.ucsd.cse110.zooseeker46.search.SearchActivity;
+import edu.ucsd.cse110.zooseeker46.SettingsActivity;
 
 public class DirectionsActivity extends AppCompatActivity {
 
@@ -149,5 +152,10 @@ public class DirectionsActivity extends AppCompatActivity {
             recyclerView.setAdapter(adapter);
         }
 
+    }
+
+    public void onSettingsButtonClicked(View view) {
+        Intent intent = new Intent(DirectionsActivity.this, SettingsActivity.class);
+        startActivity(intent);
     }
 }

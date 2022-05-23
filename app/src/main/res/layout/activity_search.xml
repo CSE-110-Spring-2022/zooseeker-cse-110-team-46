@@ -59,5 +59,16 @@
         android:layout_marginBottom="10dp"
         android:text="Plan" />
 
+    <Button
+        android:id="@+id/settings_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="4dp"
+        android:onClick="onSettingsButtonClicked"
+        android:text="Settings"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
 
 </RelativeLayout>

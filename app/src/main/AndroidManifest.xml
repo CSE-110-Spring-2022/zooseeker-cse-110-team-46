@@ -11,6 +11,10 @@
         android:theme="@style/Theme.ZooSeeker46">
         <activity
 
+            android:name=".SettingsActivity"
+            android:exported="false" />
+        <activity
+
             android:name=".search.SearchActivity"
             android:exported="false" />
         <activity
