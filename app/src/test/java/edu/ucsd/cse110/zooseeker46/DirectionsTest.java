@@ -77,8 +77,10 @@ public class DirectionsTest {
         assertEquals("lions", f.get(2).getStartVertex());
         assertEquals("arctic_foxes", f.get(3).getStartVertex());
         assertEquals("entrance_exit_gate", f.get(0).getStartVertex());*/
-
-
     }
-
+    @Test
+    public void testGraphPath() {
+        placestoVist.put("entrance_exit_gate", places.get("entrance_exit_gate"));
+        placestoVist.put("lions", places.get("lions"));
+    }
 }

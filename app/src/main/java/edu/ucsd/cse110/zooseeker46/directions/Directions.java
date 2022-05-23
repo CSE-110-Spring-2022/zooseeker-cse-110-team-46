@@ -23,7 +23,9 @@ public class Directions {
     private List<GraphPath<String, IdentifiedWeightedEdge>> finalPath;
     private Map<String, ZooData.VertexInfo> exhibitsToVisit;
     private Graph<String, IdentifiedWeightedEdge> zooGraph;
+    public Map<String, ZooData.VertexInfo> exhibitsVertex;
     private String startID = "entrance_exit_gate";
+    private List<String> exhibitsInGroups;
 
     public Directions(Map<String, ZooData.VertexInfo> exhibitsToVisit,
                       Graph<String, IdentifiedWeightedEdge> zooGraph){
@@ -45,7 +47,14 @@ public class Directions {
         GraphPath<String, IdentifiedWeightedEdge> newPath = null;
         for (String placeToVisit : exhibitsToVisit.keySet()) {
             if(placeToVisit != begin) {
-                newPath = DijkstraShortestPath.findPathBetween(zooGraph, begin, placeToVisit);
+                if(exhibitsVertex.get(placeToVisit).parent_id != ""){
+                    String groupToVisit = exhibitsVertex.get(placeToVisit).parent_id;
+                    newPath = DijkstraShortestPath.findPathBetween(zooGraph, begin, groupToVisit);
+                    exhibitsInGroups.add(placeToVisit);
+                }
+                else{
+                    newPath = DijkstraShortestPath.findPathBetween(zooGraph, begin, placeToVisit);
+                }
             }
             if (shortestPathAtoB == null || newPath.getWeight() < shortestPathAtoB.getWeight()) {
                 shortestPathAtoB = newPath;
@@ -85,6 +94,11 @@ public class Directions {
 
     public Map<String, ZooData.VertexInfo> getExhibitsToVisit(){
         return exhibitsToVisit;
+    }
+
+    //adjust exhibits list to account for exhibit groups
+    public void adjust_exhibits_to_visit(){
+
     }
 }
 
