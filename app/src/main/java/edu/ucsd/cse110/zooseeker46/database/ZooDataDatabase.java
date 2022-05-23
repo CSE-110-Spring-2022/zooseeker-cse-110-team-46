@@ -14,11 +14,12 @@ import java.util.concurrent.Executors;
 
 import edu.ucsd.cse110.zooseeker46.ZooExhibits;
 import edu.ucsd.cse110.zooseeker46.locations.Exhibit;
+import edu.ucsd.cse110.zooseeker46.locations.Exhibit_Group;
 import edu.ucsd.cse110.zooseeker46.locations.Gate;
 import edu.ucsd.cse110.zooseeker46.locations.Intersection;
 import edu.ucsd.cse110.zooseeker46.locations.languageConverterTags;
 
-@Database(entities = {Exhibit.class, Gate.class, Intersection.class}, version = 1, exportSchema = false)
+@Database(entities = {Exhibit.class, Gate.class, Intersection.class, Exhibit_Group.class}, version = 1, exportSchema = false)
 @TypeConverters({languageConverterTags.class})
 public abstract class ZooDataDatabase extends RoomDatabase {
 //    private static ZooDataDatabase singleton = null;
@@ -53,5 +54,7 @@ public abstract class ZooDataDatabase extends RoomDatabase {
 //                })
 //                .build();
 //    }
+
+    public abstract ExhibitGroupDao exhibitGroupDao();
 }
 
