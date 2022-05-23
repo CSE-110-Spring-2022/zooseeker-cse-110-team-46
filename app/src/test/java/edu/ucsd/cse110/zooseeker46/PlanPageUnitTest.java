@@ -29,8 +29,8 @@ public class PlanPageUnitTest {
     PlanExhibitsAdapter adapter = new PlanExhibitsAdapter();
     @Before
     public void createAdapter(){
-        testArrayZoo.add("lions");
-        testArrayZoo.add("gators");
+        testArrayZoo.add("flamingo");
+        testArrayZoo.add("capuchin");
         adapter.exhibitsGraph = ZooData.loadZooGraphJSON(context, "sample_zoo_graph.json");
         adapter.exhibitsEdge = ZooData.loadEdgeInfoJSON(context, "sample_edge_info.json");
         adapter.exhibitsVertex = ZooData.loadVertexInfoJSON(context, "sample_node_info.json");
@@ -39,15 +39,15 @@ public class PlanPageUnitTest {
     @Test
     public void orderIsCorrect() {
         createAdapter();
-        assertEquals("gators", adapter.getExhibitsPlan().get(0));
-        assertEquals("lions",adapter.getExhibitsPlan().get(1));
+        assertEquals("flamingo", adapter.getExhibitsPlan().get(0));
+        assertEquals("capuchin",adapter.getExhibitsPlan().get(1));
     }
 
     @Test
     public void DistanceIsCorrect() {
         createAdapter();
-        assertEquals((Integer) 310, adapter.exhibitsEntrance.get("lions"));
-        assertEquals((Integer) 110, adapter.exhibitsEntrance.get("gators"));
+        assertEquals((Integer) 90, adapter.exhibitsEntrance.get("flamingo"));
+        assertEquals((Integer) 240, adapter.exhibitsEntrance.get("capuchin"));
     }
 
 
