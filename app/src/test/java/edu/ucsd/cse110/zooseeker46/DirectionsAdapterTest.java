@@ -14,6 +14,8 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
+import edu.ucsd.cse110.zooseeker46.directions.DirectionsAdapter;
+
 
 @RunWith(AndroidJUnit4.class)
 public class DirectionsAdapterTest {
