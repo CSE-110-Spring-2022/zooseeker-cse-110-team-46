@@ -102,6 +102,45 @@ public class zooDatabaseTest {
     }
 
     @Test
+    public void testExhibitGetWithValidParent() {
+        String[] ex1Tags = {"lions", "cats", "mammal", "africa"};
+        List<String> ex1TagsList = new ArrayList<>();
+        Collections.addAll(ex1TagsList,ex1Tags);
+        String parent_id = "Avery_pkw";
+        Exhibit ex1 = new Exhibit("lions","Lions", parent_id, ex1TagsList);
+        long gen_id = exhibitDao.insert(ex1);
+
+        Exhibit item = exhibitDao.get(gen_id);
+
+        assertNotNull(gen_id);
+        assertNotNull(item);
+        assertEquals(gen_id, item.long_id);
+        assertEquals(ex1.name, item.name);
+        assertEquals(ex1.id, item.id);
+        assertEquals(ex1.tags.getTags(), item.tags.getTags());
+        assertEquals(ex1.getParent_id(), item.parent_id);
+    }
+
+    @Test
+    public void testExhibitGetWithNoParent() {
+        String[] ex1Tags = {"lions", "cats", "mammal", "africa"};
+        List<String> ex1TagsList = new ArrayList<>();
+        Collections.addAll(ex1TagsList,ex1Tags);
+        Exhibit ex1 = new Exhibit("lions","Lions", ex1TagsList);
+        long gen_id = exhibitDao.insert(ex1);
+
+        Exhibit item = exhibitDao.get(gen_id);
+
+        assertNotNull(gen_id);
+        assertNotNull(item);
+        assertEquals(gen_id, item.long_id);
+        assertEquals(ex1.name, item.name);
+        assertEquals(ex1.id, item.id);
+        assertEquals(ex1.tags.getTags(), item.tags.getTags());
+        assertEquals(ex1.getParent_id(), item.parent_id);
+    }
+
+    @Test
     public void testUpdate() {
         String[] ex1Tags = {"lions", "cats", "mammal", "africa"};
         List<String> ex1TagsList = new ArrayList<>();

@@ -19,9 +19,20 @@ public class Exhibit implements Location {
     public tags tags;
     public boolean isSelected;
 
+    public String parent_id;
+
     public Exhibit(@NonNull String id, String name, List<String> tags) {
         this.id = id;
         this.name = name;
+        this.parent_id = "";
+        this.tags = new tags(tags);
+        this.isSelected = false;
+    }
+
+    public Exhibit(@NonNull String id, String name, String pid, List<String> tags) {
+        this.id = id;
+        this.name = name;
+        this.parent_id = pid;
         this.tags = new tags(tags);
         this.isSelected = false;
     }
@@ -56,6 +67,9 @@ public class Exhibit implements Location {
         this.tags = new tags(tags);
     }
 
+    public String getParent_id() { return this.parent_id; }
+
+    public void setParent_id(String pid) { this.parent_id = pid; }
 
     public Exhibit() {
     }
