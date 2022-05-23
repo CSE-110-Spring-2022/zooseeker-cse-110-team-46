@@ -27,6 +27,22 @@ public class DetailedDirections implements DirectionTypeInterface {
     }
 
     public String pathFormat(String startName, String endName, String streetName, int length){
+
+        if (startName.contains("/") && endName.contains("/")){
+            String[] partsStart = startName.split("/");
+            String[] partsEnd = endName.split("/");
+            return "From junction of " + partsStart[0] + " and " + partsStart[1] + ", go down "
+                    + streetName + " " + length + "m towards " + partsEnd[0] + " and " + partsEnd[1];
+        }
+        else if (startName.contains("/")) {
+            String[] partsStart2 = startName.split("/");
+            return "From junction of " + partsStart2[0] + " and " + partsStart2[1] + ", go down "
+                    + streetName + " " + length + "m towards " + endName;
+        }
+        else if (endName.contains("/")) {
+            String[] partsEnd2 = endName.split("/");
+            return "From " + startName + " down " + streetName + " " + length + "m towards junction of " + partsEnd2[0] + partsEnd2[1];
+        }
         return "Go from " + startName + " down " + streetName
                 + " " + length + "m towards  " + endName;
     }

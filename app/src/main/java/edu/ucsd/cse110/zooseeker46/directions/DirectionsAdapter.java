@@ -23,7 +23,7 @@ public class DirectionsAdapter extends RecyclerView.Adapter<DirectionsAdapter.Vi
     public Graph<String, IdentifiedWeightedEdge> exhibitsGraph;
     public Map<String, ZooData.VertexInfo> exhibitsVertex;
     public Map<String, ZooData.EdgeInfo> exhibitsEdge;
-    public DirectionTypeInterface directions = new DetailedDirections();
+    public DirectionTypeInterface directions;
 
     public void setDirections(GraphPath<String, IdentifiedWeightedEdge> path){
         this.path = path;
