@@ -4,14 +4,15 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.ArrayList;
 import java.util.List;
 
-@Entity(tableName = "Gate_items")
-public class Gate implements Location {
+@Entity(tableName = "Exhibit_group_items")
+public class Exhibit_Group implements Location{
     @NonNull
-    public String id;
     public String name;
-    public tags tags;
+    public String id;
+    //public tags tags;
 
     @PrimaryKey(autoGenerate = true)
     public long long_id;
@@ -19,15 +20,23 @@ public class Gate implements Location {
     private double latitude;
     private double longitude;
 
-    public Gate(@NonNull String id, String name, List<String> tags){
+    /*public Exhibit_Group(@NonNull String id, String name, List<String> tags, double lat, double lng){
         this.name = name;
         this.id = id;
         this.tags = new tags(tags);
+        this.latitude = lat;
+        this.longitude = lng;
+    }*/
+
+    public Exhibit_Group(@NonNull String id, String name, double lat, double lng){
+        this.name = name;
+        this.id = id;
+        //this.tags = new tags(new ArrayList<String>());
+        this.latitude = lat;
+        this.longitude = lng;
     }
 
-    public Gate(){
-
-    }
+    public Exhibit_Group() {}
 
     @Override
     public String getName() {
@@ -41,7 +50,7 @@ public class Gate implements Location {
 
     @Override
     public String getId() {
-        return id;
+        return this.id;
     }
 
     @Override
@@ -49,13 +58,6 @@ public class Gate implements Location {
         this.id = ID;
     }
 
-    public List<String> getTags() {
-        return tags.getTags();
-    }
-
-    public void setTags(List<String> tags) {
-        this.tags = new tags(tags);
-    }
 
     public double getLatitude() {
         return latitude;
