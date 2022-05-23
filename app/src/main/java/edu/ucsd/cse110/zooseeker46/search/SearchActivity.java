@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
@@ -46,8 +47,9 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //ExhibitDao exhibitDao = ZooDataDatabase.getSingleton(this).exhibitDao();
-        //List<Exhibit> modelArrayList = exhibitDao.getAll();
+        ExhibitDao exhibitDao = ZooDataDatabase.getSingleton(this).exhibitDao();
+        List<Exhibit> ma = exhibitDao.getAll();
+        System.out.println("size: " + ma.size());
 
         listView = (ListView) findViewById(R.id.lv);
         btnnext = (Button) findViewById(R.id.plan_btn);
