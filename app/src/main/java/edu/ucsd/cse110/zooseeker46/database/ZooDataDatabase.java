@@ -1,5 +1,8 @@
 package edu.ucsd.cse110.zooseeker46.database;
 
+import static edu.ucsd.cse110.zooseeker46.ZooData.VertexInfo.Kind;
+import static edu.ucsd.cse110.zooseeker46.ZooData.VertexInfo.Kind.EXHIBIT;
+
 import android.content.Context;
 
 import androidx.annotation.NonNull;
@@ -57,7 +60,8 @@ public abstract class ZooDataDatabase extends RoomDatabase {
                             //checking format and calling constructor accordingly to add object
                             for (Map.Entry<String,ZooData.VertexInfo> entry : info.entrySet()) {
                                 ZooData.VertexInfo curr = entry.getValue();
-                                if (entry.getValue().kind.equals("exhibit")) {
+                                //if (entry.getValue().kind.equals("exhibit")) {
+                                if (entry.getValue().kind == EXHIBIT) {
                                     String pid = "";
                                     if(!(curr.parent_id.equals(""))){
                                         pid = curr.parent_id;

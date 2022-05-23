@@ -24,7 +24,9 @@ import java.util.Map;
 import edu.ucsd.cse110.zooseeker46.ZooData;
 import edu.ucsd.cse110.zooseeker46.ZooExhibits;
 import edu.ucsd.cse110.zooseeker46.database.ExhibitDao;
+import edu.ucsd.cse110.zooseeker46.database.ExhibitGroupDao;
 import edu.ucsd.cse110.zooseeker46.database.ZooDataDatabase;
+import edu.ucsd.cse110.zooseeker46.locations.Exhibit_Group;
 import edu.ucsd.cse110.zooseeker46.plan.PlanActivity;
 import edu.ucsd.cse110.zooseeker46.R;
 import edu.ucsd.cse110.zooseeker46.locations.Exhibit;
@@ -49,6 +51,8 @@ public class SearchActivity extends AppCompatActivity {
 
         ExhibitDao exhibitDao = ZooDataDatabase.getSingleton(this).exhibitDao();
         List<Exhibit> ma = exhibitDao.getAll();
+        ExhibitGroupDao eg = ZooDataDatabase.getSingleton(this).exhibitGroupDao();
+        List<Exhibit_Group> mag = eg.getAll();
         System.out.println("size: " + ma.size());
 
         listView = (ListView) findViewById(R.id.lv);
