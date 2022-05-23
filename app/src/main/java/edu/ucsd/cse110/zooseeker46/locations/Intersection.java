@@ -29,6 +29,14 @@ public class Intersection implements Location{
 
     }
 
+    public Intersection(@NonNull String id, String name, List<String> tags, double lat, double lng){
+        this.name = name;
+        this.id = id;
+        this.tags = new tags(tags);
+        this.latitude = lat;
+        this.longitude = lng;
+    }
+
     @Override
     public String getName() {
         return this.name;

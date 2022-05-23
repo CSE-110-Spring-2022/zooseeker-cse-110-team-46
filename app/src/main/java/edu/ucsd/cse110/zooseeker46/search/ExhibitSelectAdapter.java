@@ -177,4 +177,5 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
         protected CheckBox checkBox;
         private TextView tvAnimal;
     }
+
 }
