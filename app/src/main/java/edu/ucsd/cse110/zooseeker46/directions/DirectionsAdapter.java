@@ -23,6 +23,7 @@ public class DirectionsAdapter extends RecyclerView.Adapter<DirectionsAdapter.Vi
     public Graph<String, IdentifiedWeightedEdge> exhibitsGraph;
     public Map<String, ZooData.VertexInfo> exhibitsVertex;
     public Map<String, ZooData.EdgeInfo> exhibitsEdge;
+    public DirectionTypeInterface directions = new DetailedDirections();
 
     public void setDirections(GraphPath<String, IdentifiedWeightedEdge> path){
         this.path = path;
@@ -43,9 +44,9 @@ public class DirectionsAdapter extends RecyclerView.Adapter<DirectionsAdapter.Vi
         TextView DirectionsTextView = holder.getDirectionTextView();
         List<IdentifiedWeightedEdge> edges = path.getEdgeList();
         pathLayout = edges.get(position);
-        String startName = exhibitsVertex.get(pathLayout.getSourceName()).name;
-        String endName = exhibitsVertex.get(pathLayout.getTargetName()).name;
-        String streetName = exhibitsEdge.get(pathLayout.getId()).street;
+        String startName = directions.getStartName(exhibitsVertex, pathLayout);
+        String endName = directions.getEndName(exhibitsVertex, pathLayout);
+        String streetName = directions.getStreetName(exhibitsEdge, pathLayout);
         //check if in correct order
         //if not switch
         if (position < this.getItemCount()-1 && position+1 < this.getItemCount()) {
@@ -64,9 +65,8 @@ public class DirectionsAdapter extends RecyclerView.Adapter<DirectionsAdapter.Vi
                 endName = tempName;
             }
         }
-        int length = (int) exhibitsGraph.getEdgeWeight(pathLayout);
-        DirectionsTextView.setText("Go from " + startName + " down " + streetName
-                + " " + length + "m towards  " + endName);
+        int length = directions.getLength(exhibitsGraph, pathLayout);
+        DirectionsTextView.setText(directions.pathFormat(startName, endName, streetName, length));
     }
 
     @Override
