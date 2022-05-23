@@ -27,10 +27,12 @@ import java.util.Map;
 import java.util.Set;
 
 import edu.ucsd.cse110.zooseeker46.database.ExhibitDao;
+import edu.ucsd.cse110.zooseeker46.database.ExhibitGroupDao;
 import edu.ucsd.cse110.zooseeker46.database.GateDao;
 import edu.ucsd.cse110.zooseeker46.database.IntersectionDao;
 import edu.ucsd.cse110.zooseeker46.database.ZooDataDatabase;
 import edu.ucsd.cse110.zooseeker46.locations.Exhibit;
+import edu.ucsd.cse110.zooseeker46.locations.Exhibit_Group;
 import edu.ucsd.cse110.zooseeker46.locations.Gate;
 import edu.ucsd.cse110.zooseeker46.locations.Intersection;
 
@@ -40,6 +42,7 @@ public class zooDatabaseTest {
     private GateDao gateDao;
     private ZooDataDatabase db;
     private IntersectionDao intersectionDao;
+    private ExhibitGroupDao exhibitGroupDao;
     Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
     @Before
@@ -51,6 +54,7 @@ public class zooDatabaseTest {
         exhibitDao = db.exhibitDao();
         gateDao = db.gateDao();
         intersectionDao = db.intersectionDao();
+        exhibitGroupDao = db.ExhibitGroupDao();
     }
 
     @After
@@ -121,6 +125,30 @@ public class zooDatabaseTest {
         assertEquals(ex1.id, item.id);
         assertEquals(ex1.tags.getTags(), item.tags.getTags());
         assertEquals(ex1.getParent_id(), item.getParent_id());
+        assertEquals(ex1.getLatitude(), item.getLatitude(), 0.001);
+        assertEquals(ex1.getLongitude(), item.getLongitude(), 0.001);
+    }
+
+    @Test
+    public void testExhibitGroupGet() {
+        //String[] ex1Tags = {};
+        List<String> ex1TagsList = new ArrayList<>();
+        //Collections.addAll(ex1TagsList,ex1Tags);
+        String name = "Scripps Aviary";
+        String id = "scripps_aviary";
+        double lat = 32.748538318135594;
+        double lng = -117.17255093386991;
+        Exhibit_Group ex1 = new Exhibit_Group(id,name, lat, lng);
+        long gen_id = exhibitGroupDao.insert(ex1);
+
+        Exhibit_Group item = exhibitGroupDao.get(gen_id);
+
+
+        assertNotNull(gen_id);
+        assertNotNull(item);
+        assertEquals(gen_id, item.long_id);
+        assertEquals(ex1.name, item.name);
+        assertEquals(ex1.id, item.id);
         assertEquals(ex1.getLatitude(), item.getLatitude(), 0.001);
         assertEquals(ex1.getLongitude(), item.getLongitude(), 0.001);
     }

@@ -49,12 +49,10 @@ public class Intersection implements Location{
         this.id = ID;
     }
 
-    @Override
     public List<String> getTags() {
         return tags.getTags();
     }
 
-    @Override
     public void setTags(List<String> tags) {
         this.tags = new tags(tags);
     }
