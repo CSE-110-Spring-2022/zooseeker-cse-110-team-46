@@ -10,6 +10,6 @@ public interface Location {
     public String getId();
     public void setId(String ID);
 
-    public List<String> getTags();
-    public void setTags(List<String> tags);
+    //public List<String> getTags();
+    //public void setTags(List<String> tags);
 }
