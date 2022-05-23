@@ -55,6 +55,6 @@ public abstract class ZooDataDatabase extends RoomDatabase {
 //                .build();
 //    }
 
-    public abstract ExhibitGroupDao ExhibitGroupDao();
+    public abstract ExhibitGroupDao exhibitGroupDao();
 }
 

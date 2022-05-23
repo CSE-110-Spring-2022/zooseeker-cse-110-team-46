@@ -47,7 +47,7 @@ public class zooDatabaseTest {
         exhibitDao = db.exhibitDao();
         gateDao = db.gateDao();
         intersectionDao = db.intersectionDao();
-        exhibitGroupDao = db.ExhibitGroupDao();
+        exhibitGroupDao = db.exhibitGroupDao();
     }
 
     @After
