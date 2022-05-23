@@ -21,6 +21,8 @@ import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultUndirectedWeightedGraph;
 import org.jgrapht.nio.json.JSONImporter;
 
+import edu.ucsd.cse110.zooseeker46.locations.Exhibit_Group;
+
 public class ZooData {
     public static class VertexInfo {
         public static enum Kind {
@@ -28,13 +30,15 @@ public class ZooData {
             // from the strings in our JSON to this Enum.
             @SerializedName("gate") GATE,
             @SerializedName("exhibit") EXHIBIT,
-            @SerializedName("intersection") INTERSECTION
+            @SerializedName("intersection") INTERSECTION,
+            @SerializedName("exhibit_group") EXHIBIT_GROUP
         }
 
         public String id;
         public Kind kind;
         public String name;
         public List<String> tags;
+        public String parent_id;
     }
 
     public static class EdgeInfo {

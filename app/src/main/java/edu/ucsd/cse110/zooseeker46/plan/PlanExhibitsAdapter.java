@@ -40,6 +40,8 @@ public class PlanExhibitsAdapter extends RecyclerView.Adapter<PlanExhibitsAdapte
 
     public void setExhibits(List<String> newExhibits) {
         this.keyExhibits.clear();
+
+        //temp removal
         for(String name: newExhibits){
             findDistanceFromEntrance(name);
         }
@@ -61,9 +63,16 @@ public class PlanExhibitsAdapter extends RecyclerView.Adapter<PlanExhibitsAdapte
 
     public void findDistanceFromEntrance(String end){
         String start = "entrance_exit_gate";
-        //finds shortest path from entrance to exhibit
-        GraphPath<String, IdentifiedWeightedEdge> path = DijkstraShortestPath.findPathBetween
-                (exhibitsGraph, start, end);
+        GraphPath<String, IdentifiedWeightedEdge> path;
+        if(exhibitsVertex.get(end).parent_id != null){
+            path = DijkstraShortestPath.findPathBetween
+                    (exhibitsGraph, start, exhibitsVertex.get(end).parent_id);
+        }
+        else {
+            //finds shortest path from entrance to exhibit
+            path = DijkstraShortestPath.findPathBetween
+                    (exhibitsGraph, start, end);
+        }
         int total = 0;
         IdentifiedWeightedEdge eL = null;
         //finds total length of path

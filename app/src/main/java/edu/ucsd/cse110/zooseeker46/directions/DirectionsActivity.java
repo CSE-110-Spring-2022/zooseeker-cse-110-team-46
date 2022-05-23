@@ -62,10 +62,11 @@ public class DirectionsActivity extends AppCompatActivity {
         for(int i = 0; i < selectedList.size(); i++) {
             placesToVisit.put(idList.get(i), places.get(selectedList.get(i)));
         }
-        placesToVisit.put("entrance_exit_gate", places.get("entrance_exit_gate"));
+        //placesToVisit.put("entrance_exit_gate", places.get("entrance_exit_gate"));
 
         //Find shortest path with Directions object
         Directions d = new Directions(placesToVisit, zoo);
+        d.exhibitsVertex = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
         d.finalListOfPaths();
         finalPath = d.getFinalPath();
 
