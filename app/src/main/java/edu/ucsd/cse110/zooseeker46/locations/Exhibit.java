@@ -19,22 +19,66 @@ public class Exhibit implements Location {
     public tags tags;
     public boolean isSelected;
 
-    public String parent_id;
+    private String parent_id;
 
+    private double latitude;
+    private double longitude;
+
+    public Exhibit() {
+    }
+
+    /*
+        We will never be using this constructor because if it does not have a parent_id,
+        then it will have its own long/lat coordinates.
+        Only kept for the purpose of not redoing unit Tests.
+     */
     public Exhibit(@NonNull String id, String name, List<String> tags) {
         this.id = id;
         this.name = name;
         this.parent_id = "";
         this.tags = new tags(tags);
         this.isSelected = false;
+        this.latitude = 0;
+        this.longitude = 0;
     }
 
+    /*
+        Use for exhibit that does not belong in an exhibit group, meaning no parent_id
+     */
+    public Exhibit(@NonNull String id, String name, List<String> tags, double lat, double lng) {
+        this.id = id;
+        this.name = name;
+        this.parent_id = "";
+        this.tags = new tags(tags);
+        this.isSelected = false;
+        this.latitude = lat;
+        this.longitude = lng;
+    }
+
+    /*
+        Use for an exhibit that has parent_id and no long/lat
+     */
     public Exhibit(@NonNull String id, String name, String pid, List<String> tags) {
         this.id = id;
         this.name = name;
         this.parent_id = pid;
         this.tags = new tags(tags);
         this.isSelected = false;
+        this.latitude = 0;
+        this.longitude = 0;
+    }
+
+    /*
+        General Constructor for all member variables
+     */
+    public Exhibit(@NonNull String id, String name, String pid, List<String> tags, double lat, double lng) {
+        this.id = id;
+        this.name = name;
+        this.parent_id = pid;
+        this.tags = new tags(tags);
+        this.isSelected = false;
+        this.latitude = lat;
+        this.longitude = lng;
     }
 
     @Override
@@ -71,9 +115,6 @@ public class Exhibit implements Location {
 
     public void setParent_id(String pid) { this.parent_id = pid; }
 
-    public Exhibit() {
-    }
-
     public boolean getIsSelected() {
         return isSelected;
     }
@@ -82,6 +123,23 @@ public class Exhibit implements Location {
         // We should update Dao here! exhibitDao.update(this);
         isSelected = selected;
     }
+
+    public double getLongitude() {
+        return this.longitude;
+    }
+
+    public double getLatitude() {
+        return this. latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
 
     // Custom Comparator for Exhibit
     // Prioritizes those that are selected and than by the names

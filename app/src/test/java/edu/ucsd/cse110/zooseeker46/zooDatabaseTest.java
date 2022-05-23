@@ -41,6 +41,7 @@ public class zooDatabaseTest {
     private ZooDataDatabase db;
     private IntersectionDao intersectionDao;
     Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+
     @Before
     public void CreateDb(){
         Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
@@ -51,6 +52,7 @@ public class zooDatabaseTest {
         gateDao = db.gateDao();
         intersectionDao = db.intersectionDao();
     }
+
     @After
     public void CloseDb(){
         db.close();
@@ -118,7 +120,9 @@ public class zooDatabaseTest {
         assertEquals(ex1.name, item.name);
         assertEquals(ex1.id, item.id);
         assertEquals(ex1.tags.getTags(), item.tags.getTags());
-        assertEquals(ex1.getParent_id(), item.parent_id);
+        assertEquals(ex1.getParent_id(), item.getParent_id());
+        assertEquals(ex1.getLatitude(), item.getLatitude(), 0.001);
+        assertEquals(ex1.getLongitude(), item.getLongitude(), 0.001);
     }
 
     @Test
@@ -126,7 +130,9 @@ public class zooDatabaseTest {
         String[] ex1Tags = {"lions", "cats", "mammal", "africa"};
         List<String> ex1TagsList = new ArrayList<>();
         Collections.addAll(ex1TagsList,ex1Tags);
-        Exhibit ex1 = new Exhibit("lions","Lions", ex1TagsList);
+        double lng = -117.17255093386991;
+        double lat = 32.748538318135594;
+        Exhibit ex1 = new Exhibit("lions","Lions", ex1TagsList, lat, lng);
         long gen_id = exhibitDao.insert(ex1);
 
         Exhibit item = exhibitDao.get(gen_id);
@@ -137,7 +143,9 @@ public class zooDatabaseTest {
         assertEquals(ex1.name, item.name);
         assertEquals(ex1.id, item.id);
         assertEquals(ex1.tags.getTags(), item.tags.getTags());
-        assertEquals(ex1.getParent_id(), item.parent_id);
+        assertEquals(ex1.getParent_id(), item.getParent_id());
+        assertEquals(ex1.getLatitude(), item.getLatitude(), 0.001);
+        assertEquals(ex1.getLongitude(), item.getLongitude(), 0.001);
     }
 
     @Test

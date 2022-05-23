@@ -16,6 +16,9 @@ public class Intersection implements Location{
     @PrimaryKey(autoGenerate = true)
     public long long_id;
 
+    private double latitude;
+    private double longitude;
+
     public Intersection(@NonNull String id, String name, List<String> tags){
         this.name = name;
         this.id = id;
@@ -54,5 +57,21 @@ public class Intersection implements Location{
     @Override
     public void setTags(List<String> tags) {
         this.tags = new tags(tags);
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 }
