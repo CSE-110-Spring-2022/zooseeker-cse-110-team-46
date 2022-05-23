@@ -14,6 +14,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+
+
+import java.util.List;
+import java.util.Locale;
+
 import java.util.Map;
 import java.util.Set;
 
@@ -165,6 +170,7 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
     @Override
     public Filter getFilter() {
         return searchFilter.getFilter();
+
     }
     //this is a simple class that filtering the ArrayList of strings used in adapter
     private class ViewHolder {

@@ -11,7 +11,7 @@ public class Gate implements Location {
     @NonNull
     public String id;
     public String name;
-    public List<String> tags;
+    public tags tags;
 
     @PrimaryKey(autoGenerate = true)
     public long long_id;
@@ -19,7 +19,11 @@ public class Gate implements Location {
     public Gate(@NonNull String id, String name, List<String> tags){
         this.name = name;
         this.id = id;
-        this.tags = tags;
+        this.tags = new tags(tags);
+    }
+
+    public Gate(){
+
     }
 
     @Override
@@ -44,11 +48,11 @@ public class Gate implements Location {
 
     @Override
     public List<String> getTags() {
-        return tags;
+        return tags.getTags();
     }
 
     @Override
     public void setTags(List<String> tags) {
-        this.tags = tags;
+        this.tags = new tags(tags);
     }
 }

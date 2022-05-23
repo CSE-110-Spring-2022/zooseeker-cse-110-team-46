@@ -1,6 +1,7 @@
-package edu.ucsd.cse110.zooseeker46;
+package edu.ucsd.cse110.zooseeker46.directions;
 
 import android.content.Context;
+import android.util.Log;
 
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
@@ -12,17 +13,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.ucsd.cse110.zooseeker46.IdentifiedWeightedEdge;
+import edu.ucsd.cse110.zooseeker46.ZooData;
+
 /*
     Calculates the route of the trip from selected exhibits
  */
 public class Directions {
-    private List<GraphPath<String,IdentifiedWeightedEdge>> finalPath;
+    private List<GraphPath<String, IdentifiedWeightedEdge>> finalPath;
     private Map<String, ZooData.VertexInfo> exhibitsToVisit;
     private Graph<String, IdentifiedWeightedEdge> zooGraph;
     private String startID = "entrance_exit_gate";
 
-    Directions(Map<String, ZooData.VertexInfo> exhibitsToVisit,
-               Graph<String, IdentifiedWeightedEdge> zooGraph){
+    public Directions(Map<String, ZooData.VertexInfo> exhibitsToVisit,
+                      Graph<String, IdentifiedWeightedEdge> zooGraph){
         this.zooGraph = zooGraph;
         this.exhibitsToVisit = exhibitsToVisit;
         this.finalPath = new ArrayList<>();
@@ -36,7 +40,7 @@ public class Directions {
     }
 
     public GraphPath<String, IdentifiedWeightedEdge> findNearestNeighbor
-            (String begin, Map<String, ZooData.VertexInfo> exhibitsToVisit){
+            (String begin){
         GraphPath<String,IdentifiedWeightedEdge> shortestPathAtoB = null;
         GraphPath<String, IdentifiedWeightedEdge> newPath = null;
         for (String placeToVisit : exhibitsToVisit.keySet()) {
@@ -54,11 +58,13 @@ public class Directions {
     public void finalListOfPaths(){
         String begin = startID;
         while(exhibitsToVisit.size() > 1){
-            GraphPath<String, IdentifiedWeightedEdge> toAdd = findNearestNeighbor(begin, exhibitsToVisit);
+            GraphPath<String, IdentifiedWeightedEdge> toAdd = findNearestNeighbor(begin);
             finalPath.add(toAdd);
             begin = toAdd.getEndVertex();
+            Log.d("begin", begin);
         }
         finalPath.add(DijkstraShortestPath.findPathBetween(zooGraph, begin, startID));
+        Log.d("finalPath", finalPath.toString());
     }
 
     public void setExhibitsToVisit(Map<String,ZooData.VertexInfo> exhibitsToVisit){
