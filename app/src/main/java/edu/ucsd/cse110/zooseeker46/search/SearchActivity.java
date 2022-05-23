@@ -17,10 +17,13 @@ import android.widget.Button;
 
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import edu.ucsd.cse110.zooseeker46.ZooData;
 import edu.ucsd.cse110.zooseeker46.ZooExhibits;
+import edu.ucsd.cse110.zooseeker46.database.ExhibitDao;
+import edu.ucsd.cse110.zooseeker46.database.ZooDataDatabase;
 import edu.ucsd.cse110.zooseeker46.plan.PlanActivity;
 import edu.ucsd.cse110.zooseeker46.R;
 import edu.ucsd.cse110.zooseeker46.locations.Exhibit;
@@ -42,14 +45,15 @@ public class SearchActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        ExhibitDao exhibitDao = ZooDataDatabase.getSingleton(this).exhibitDao();
+        List<Exhibit> modelArrayList = exhibitDao.getAll();
         listView = (ListView) findViewById(R.id.lv);
         btnnext = (Button) findViewById(R.id.plan_btn);
         TextView count = findViewById(R.id.selected_exhibit_count);
         vertexInfoMap = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
         zoo = new ZooExhibits(vertexInfoMap);
-        modelArrayList = zoo.getExhibits();
-        customAdapter = new ExhibitSelectAdapter(this, modelArrayList);
+        //modelArrayList = zoo.getExhibits();
+        customAdapter = new ExhibitSelectAdapter(this, (ArrayList<Exhibit>) modelArrayList);
 
         listView.setAdapter(customAdapter);
         listView.setTextFilterEnabled(true);
