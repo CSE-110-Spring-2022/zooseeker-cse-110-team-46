@@ -1,6 +1,7 @@
 package edu.ucsd.cse110.zooseeker46;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import android.content.Context;
 
@@ -15,6 +16,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+
+import edu.ucsd.cse110.zooseeker46.locations.Exhibit;
+import edu.ucsd.cse110.zooseeker46.plan.PlanExhibitsAdapter;
+import edu.ucsd.cse110.zooseeker46.search.ExhibitSelectAdapter;
 
 @RunWith(AndroidJUnit4.class)
 public class SearchPageUnitTest {
@@ -54,6 +59,22 @@ public class SearchPageUnitTest {
         assertEquals(0, customAdapter.getSelectedExhibitsCount());
     }
 
+    @Test
+    public void selectWorks() {
+        createAdapter();
+        totalExhibits.get(1).setSelected(true);
+        boolean test = totalExhibits.get(1).getIsSelected();
+        assertEquals(true, test);
+    }
+
+    @Test
+    public void selectWorks1() {
+        createAdapter();
+        totalExhibits.get(1).setSelected(true);
+        totalExhibits.get(1).setSelected(false);
+        boolean test = totalExhibits.get(1).getIsSelected();
+        assertEquals(false, test);
+    }
 }
 
 

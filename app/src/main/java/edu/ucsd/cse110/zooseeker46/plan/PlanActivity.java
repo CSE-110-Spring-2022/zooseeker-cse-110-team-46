@@ -1,18 +1,26 @@
-package edu.ucsd.cse110.zooseeker46;
+package edu.ucsd.cse110.zooseeker46.plan;
 
 import android.content.Context;
 import android.content.Intent;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.ArrayList;
 import java.util.Set;
+
+import edu.ucsd.cse110.zooseeker46.directions.DirectionsActivity;
+import edu.ucsd.cse110.zooseeker46.R;
+import edu.ucsd.cse110.zooseeker46.ZooData;
+import edu.ucsd.cse110.zooseeker46.ZooExhibits;
+import edu.ucsd.cse110.zooseeker46.locations.Exhibit;
+import edu.ucsd.cse110.zooseeker46.search.ExhibitSelectAdapter;
+import edu.ucsd.cse110.zooseeker46.search.SearchActivity;
 
 public class PlanActivity extends AppCompatActivity {
     private String count;
