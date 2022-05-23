@@ -1,11 +1,8 @@
 package edu.ucsd.cse110.zooseeker46;
 
 import android.content.Context;
-import android.nfc.Tag;
-import android.util.Log;
 
 import androidx.room.Room;
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
@@ -15,16 +12,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runner.manipulation.Ordering;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import edu.ucsd.cse110.zooseeker46.database.ExhibitDao;
 import edu.ucsd.cse110.zooseeker46.database.ExhibitGroupDao;
