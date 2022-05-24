@@ -19,6 +19,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.ucsd.cse110.zooseeker46.directions.Directions;
+
 @RunWith(AndroidJUnit4.class)
 public class DirectionsTest {
     Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
@@ -47,40 +49,34 @@ public class DirectionsTest {
 
     @Test
     public void getNearestNeighbor(){
-        placestoVist.put("entrance_exit_gate",places.get("entrance_exit_gate"));
-        placestoVist.put("lions",places.get("lions"));
-        placestoVist.put("gators",places.get("gators"));
-        placestoVist.put("arctic_foxes",places.get("arctic_foxes"));
-        /*Directions d = new Directions(placestoVist,zoo);
-        GraphPath f = d.findNearestNeighbor("entrance_exit_gate", placestoVist);
-        assertEquals(3, d.getExhibitsToVisit().size());
-        assertEquals("gators", f.getEndVertex());
-        assertEquals(110, f.getWeight(), 0.01);
-        f = d.findNearestNeighbor((String)f.getEndVertex(), placestoVist);
+        placestoVist.put("koi",places.get("koi"));
+        placestoVist.put("flamingo",places.get("flamingo"));
+        Directions d = new Directions(placestoVist,zoo);
+        d.exhibitsVertex = places;
         assertEquals(2, d.getExhibitsToVisit().size());
-        assertEquals("lions", f.getEndVertex());
-        assertEquals(200, f.getWeight(), 0.01);*/
+        GraphPath f = d.findNearestNeighbor("entrance_exit_gate");
+        assertEquals(1, d.getExhibitsToVisit().size());
+        assertEquals("koi", f.getEndVertex());
+        assertEquals(60, f.getWeight(), 0.01);
+        f = d.findNearestNeighbor((String)f.getEndVertex());
+        assertEquals(0, d.getExhibitsToVisit().size());
+        assertEquals("flamingo", f.getEndVertex());
+        assertEquals(130, f.getWeight(), 0.01);
     }
 
     @Test
     public void finalPath(){
-        placestoVist.put("entrance_exit_gate",places.get("entrance_exit_gate"));
-        placestoVist.put("lions",places.get("lions"));
-        placestoVist.put("gators",places.get("gators"));
-        placestoVist.put("arctic_foxes",places.get("arctic_foxes"));
-        /*Directions d = new Directions(placestoVist,zoo);
-        //d.findStart(places);
+        placestoVist.put("capuchin",places.get("capuchin"));
+        placestoVist.put("flamingo",places.get("flamingo"));
+        placestoVist.put("koi",places.get("koi"));
+        Directions d = new Directions(placestoVist,zoo);
+        d.exhibitsVertex = places;
         d.finalListOfPaths();
         List<GraphPath<String,IdentifiedWeightedEdge>> f = d.getFinalPath();
         assertEquals("entrance_exit_gate", f.get(0).getStartVertex());
-        assertEquals("gators", f.get(1).getStartVertex());
-        assertEquals("lions", f.get(2).getStartVertex());
-        assertEquals("arctic_foxes", f.get(3).getStartVertex());
-        assertEquals("entrance_exit_gate", f.get(0).getStartVertex());*/
-    }
-    @Test
-    public void testGraphPath() {
-        placestoVist.put("entrance_exit_gate", places.get("entrance_exit_gate"));
-        placestoVist.put("lions", places.get("lions"));
+        assertEquals("koi", f.get(1).getStartVertex());
+        assertEquals("flamingo", f.get(2).getStartVertex());
+        assertEquals("capuchin", f.get(3).getStartVertex());
+        assertEquals("entrance_exit_gate", f.get(0).getStartVertex());
     }
 }
