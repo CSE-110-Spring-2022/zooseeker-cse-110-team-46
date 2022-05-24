@@ -1,6 +1,8 @@
 package edu.ucsd.cse110.zooseeker46;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.Switch;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +18,27 @@ public class SettingsActivity extends AppCompatActivity {
 
         // initiate the Switch
         Switch detailedSwitch = (Switch) findViewById(R.id.switch1);
-        isOn = detailedSwitch.isChecked();
+
+        //set switch to on or off
+        if(SettingsStaticClass.detailed)
+            detailedSwitch.setChecked(true);
+        else
+            detailedSwitch.setChecked(false);
+
+        //isOn = detailedSwitch.isChecked();
+
+        detailedSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    SettingsStaticClass.detailed = true;
+                } else {
+                    SettingsStaticClass.detailed = false;
+                }
+            }
+        });
+    }
+
+    public void onBackButtonClicked(View view) {
+        finish();
     }
 }

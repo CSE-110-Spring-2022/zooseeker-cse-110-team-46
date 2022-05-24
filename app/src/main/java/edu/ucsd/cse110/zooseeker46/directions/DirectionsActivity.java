@@ -22,6 +22,7 @@ import java.util.Set;
 
 import edu.ucsd.cse110.zooseeker46.IdentifiedWeightedEdge;
 import edu.ucsd.cse110.zooseeker46.R;
+import edu.ucsd.cse110.zooseeker46.SettingsStaticClass;
 import edu.ucsd.cse110.zooseeker46.ZooData;
 import edu.ucsd.cse110.zooseeker46.ZooExhibits;
 import edu.ucsd.cse110.zooseeker46.plan.PlanActivity;
@@ -45,7 +46,11 @@ public class DirectionsActivity extends AppCompatActivity {
         adapter.exhibitsGraph = ZooData.loadZooGraphJSON(this,"sample_zoo_graph.json");
         adapter.exhibitsEdge = ZooData.loadEdgeInfoJSON(this, "sample_edge_info.json");
         adapter.exhibitsVertex = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
-        adapter.directions = new DetailedDirections();
+
+        if(SettingsStaticClass.detailed)
+            adapter.directions = new DetailedDirections();
+        else
+            adapter.directions = new SimpleDirections();
 
         //load zoo graph and places
         Graph<String, IdentifiedWeightedEdge> zoo = ZooData.loadZooGraphJSON(this, "sample_zoo_graph.json");
@@ -81,6 +86,22 @@ public class DirectionsActivity extends AppCompatActivity {
         //Current animal text
         TextView animalText = findViewById(R.id.animalView);
         animalText.setText(vertexForNames.get(finalPath.get(counter).getEndVertex()).name);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if(SettingsStaticClass.detailed)
+            adapter.directions = new DetailedDirections();
+        else
+            adapter.directions = new SimpleDirections();
+
+        recyclerView = findViewById(R.id.directions_recycler);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        System.out.println(finalPath);
+        adapter.setDirections(finalPath.get(counter));
+        recyclerView.setAdapter(adapter);
     }
 
     public void onNextButtonClicked(View view) {
