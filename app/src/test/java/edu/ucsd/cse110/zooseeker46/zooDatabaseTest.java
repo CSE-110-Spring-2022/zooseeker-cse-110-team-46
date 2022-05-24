@@ -42,13 +42,15 @@ public class zooDatabaseTest {
     @Before
     public void CreateDb(){
         Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        db = Room.inMemoryDatabaseBuilder(context, ZooDataDatabase.class)
+        /*db = Room.inMemoryDatabaseBuilder(context, ZooDataDatabase.class)
                 .allowMainThreadQueries()
-                .build();
+                .build();*/
+        db = ZooDataDatabase.getSingleton(context);
         exhibitDao = db.exhibitDao();
         gateDao = db.gateDao();
         intersectionDao = db.intersectionDao();
         exhibitGroupDao = db.exhibitGroupDao();
+        //ZooDataDatabase.injectTestDatabase(db);
     }
 
     @After
@@ -58,15 +60,11 @@ public class zooDatabaseTest {
 
     @Test
     public void testDatabaseSimple(){
-        /*ExhibitDao exhibitDao = ZooDataDatabase.getSingleton(context).exhibitDao();
-
-        String[] ex1Tags = {"lions", "cats", "mammal", "africa"};
-        long id1 = exhibitDao.insert(new Exhibit("lions","Lions", ex1TagsList));*/
-        ZooDataDatabase zb = ZooDataDatabase.getSingleton(context);
-        ExhibitDao exhibitDao = zb.exhibitDao();
+        ExhibitDao exhibitDao = db.exhibitDao();
         List<Exhibit> allexhibits = exhibitDao.getAll();
         int size = allexhibits.size();
         Log.d("size of exhibit list: ", String.valueOf(size));
+        assertNotEquals(0, size);
     }
 
     @Test

@@ -4,6 +4,7 @@ import static edu.ucsd.cse110.zooseeker46.ZooData.VertexInfo.Kind;
 import static edu.ucsd.cse110.zooseeker46.ZooData.VertexInfo.Kind.EXHIBIT;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
@@ -40,6 +41,8 @@ public abstract class ZooDataDatabase extends RoomDatabase {
 
     public synchronized static ZooDataDatabase getSingleton(Context context) {
         if (singleton == null) {
+            String msg = "Singleton is null!";
+            Log.d("! + ", msg);
             singleton = ZooDataDatabase.makeDatabase(context);
         }
         return singleton;
@@ -52,32 +55,37 @@ public abstract class ZooDataDatabase extends RoomDatabase {
                     @Override
                     public void onCreate(@NonNull SupportSQLiteDatabase db) {
                         super.onCreate(db);
-
+                        ZooDataDatabase zb = ZooDataDatabase.getSingleton(context);
                         //Single thread for singleton
                         Executors.newSingleThreadExecutor().execute(() -> {
                             Map<String, ZooData.VertexInfo> info =
                                     zooDataObj.loadVertexInfoJSON(context,"sample_node_info.json");
+                            Log.d("size of map --- : ", String.valueOf(info.size()));
                             //checking format and calling constructor accordingly to add object
                             for (Map.Entry<String,ZooData.VertexInfo> entry : info.entrySet()) {
                                 ZooData.VertexInfo curr = entry.getValue();
                                 //if (entry.getValue().kind.equals("exhibit")) {
                                 if (entry.getValue().kind == EXHIBIT) {
-                                    String pid = "0";
-                                    if(!(curr.parent_id.equals("0"))){
+                                    String pid = "";
+                                    if(!(curr.parent_id.equals(""))){
                                         pid = curr.parent_id;
                                     }
                                     Exhibit exhibitObj = new Exhibit(curr.id, curr.name, pid, curr.tags,0 , 0);
-                                    getSingleton(context).exhibitDao().insert(exhibitObj);
+                                    //getSingleton(context).exhibitDao().insert(exhibitObj);
+                                    zb.exhibitDao().insert(exhibitObj);
                                 } else if (entry.getValue().kind.equals("gate")) {
                                     Gate gateObj = new Gate(curr.id, curr.name, curr.tags,0 , 0);
-                                    getSingleton(context).gateDao().insert(gateObj);
+                                    //getSingleton(context).gateDao().insert(gateObj);
+                                    zb.gateDao().insert(gateObj);
 
                                 } else if (entry.getValue().kind.equals("intersection")) {
                                     Intersection intersectionObj = new Intersection(curr.id, curr.name, curr.tags,0 , 0);
-                                    getSingleton(context).intersectionDao().insert(intersectionObj);
-
+                                    //getSingleton(context).intersectionDao().insert(intersectionObj);
+                                    zb.intersectionDao().insert(intersectionObj);
                                 } else {
                                     Exhibit_Group exhibit_groupObj = new Exhibit_Group(curr.id, curr.name, 0 ,0);
+                                    //getSingleton(context).exhibitGroupDao().insert(exhibit_groupObj);
+                                    zb.exhibitGroupDao().insert(exhibit_groupObj);
                                 }
                             }
                         });
