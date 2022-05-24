@@ -62,8 +62,8 @@ public abstract class ZooDataDatabase extends RoomDatabase {
                                 ZooData.VertexInfo curr = entry.getValue();
                                 //if (entry.getValue().kind.equals("exhibit")) {
                                 if (entry.getValue().kind == EXHIBIT) {
-                                    String pid = "";
-                                    if(!(curr.parent_id.equals(""))){
+                                    String pid = "0";
+                                    if(!(curr.parent_id.equals("0"))){
                                         pid = curr.parent_id;
                                     }
                                     Exhibit exhibitObj = new Exhibit(curr.id, curr.name, pid, curr.tags,0 , 0);

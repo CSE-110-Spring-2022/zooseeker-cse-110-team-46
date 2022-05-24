@@ -49,18 +49,19 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ExhibitDao exhibitDao = ZooDataDatabase.getSingleton(this).exhibitDao();
-        List<Exhibit> ma = exhibitDao.getAll();
-        ExhibitGroupDao eg = ZooDataDatabase.getSingleton(this).exhibitGroupDao();
-        List<Exhibit_Group> mag = eg.getAll();
-        System.out.println("size: " + ma.size());
+        ZooDataDatabase zb = ZooDataDatabase.getSingleton(this);
+        ExhibitDao exhibitDao = zb.exhibitDao();
+        List<Exhibit> allexhibits = exhibitDao.getAll();
+        int size = allexhibits.size();
+        Log.d("size of exhibit list: ", String.valueOf(size));
+        modelArrayList = (ArrayList<Exhibit>) allexhibits;
 
         listView = (ListView) findViewById(R.id.lv);
         btnnext = (Button) findViewById(R.id.plan_btn);
         TextView count = findViewById(R.id.selected_exhibit_count);
-        vertexInfoMap = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
+        //vertexInfoMap = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
         zoo = new ZooExhibits(vertexInfoMap);
-        modelArrayList = zoo.getExhibits();
+        //modelArrayList = zoo.getExhibits();
         customAdapter = new ExhibitSelectAdapter(this, (ArrayList<Exhibit>) modelArrayList);
 
         listView.setAdapter(customAdapter);

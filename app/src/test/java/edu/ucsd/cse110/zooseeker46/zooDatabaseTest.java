@@ -1,6 +1,7 @@
 package edu.ucsd.cse110.zooseeker46;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.room.Room;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -53,6 +54,19 @@ public class zooDatabaseTest {
     @After
     public void CloseDb(){
         db.close();
+    }
+
+    @Test
+    public void testDatabaseSimple(){
+        /*ExhibitDao exhibitDao = ZooDataDatabase.getSingleton(context).exhibitDao();
+
+        String[] ex1Tags = {"lions", "cats", "mammal", "africa"};
+        long id1 = exhibitDao.insert(new Exhibit("lions","Lions", ex1TagsList));*/
+        ZooDataDatabase zb = ZooDataDatabase.getSingleton(context);
+        ExhibitDao exhibitDao = zb.exhibitDao();
+        List<Exhibit> allexhibits = exhibitDao.getAll();
+        int size = allexhibits.size();
+        Log.d("size of exhibit list: ", String.valueOf(size));
     }
 
     @Test

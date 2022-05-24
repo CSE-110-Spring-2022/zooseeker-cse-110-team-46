@@ -83,11 +83,6 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
 
     // All these override functions are required for adapter, please DO NOT MODIFY
     // If you need a helper function, make a new one
-//    @Override
-//    public int getViewTypeCount() {
-//        //return getCount();
-//        return 1;
-//    }
 
     @Override
     public int getItemViewType(int position) {

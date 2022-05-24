@@ -31,7 +31,6 @@ public class dbLoadTest {
     public ExhibitGroupDao exhibitGroupDao;
     static ZooData zooDataObj = new ZooData();
 
-
     @Before
     public void resetDatabase(){
         Context context = ApplicationProvider.getApplicationContext();
