@@ -54,7 +54,7 @@ public class SettingsTest {
         adapter.exhibitsVertex = ZooData.loadVertexInfoJSON(context, "sample_node_info.json");
         adapter.setExhibits(testArrayZoo);
 
-        adapter2.setDirections(DijkstraShortestPath.findPathBetween
+        adapter2.setPath(DijkstraShortestPath.findPathBetween
                 (ZooData.loadZooGraphJSON(context, "sample_zoo_graph.json"),
                         "entrance_exit_gate", "capuchin"));
 
@@ -93,28 +93,11 @@ public class SettingsTest {
         assertEquals("(intxn_front_treetops :front_to_monkey: intxn_front_monkey)", simple_paths1);
 
 
-        ActivityScenario<DirectionsActivity> scenario = ActivityScenario.launch(DirectionsActivity.class);
-        scenario.moveToState(Lifecycle.State.CREATED);
-        scenario.moveToState(Lifecycle.State.STARTED);
-        scenario.moveToState(Lifecycle.State.RESUMED);
 
         SettingsStaticClass.detailed = true; //set to detailed directions
-        adapter2.directions = new DetailedDirections();
+        adapter2.directionsType = new DetailedDirections();
 
-        scenario.onActivity(activity -> {
 
-            Button settingsButton = activity.findViewById(R.id.settings_btn);
-            settingsButton.performClick();
-
-            RecyclerView recyclerView = activity.findViewById(R.id.directions_recycler);
-            recyclerView.setLayoutManager(new LinearLayoutManager(context));
-
-            adapter2.setDirections(DijkstraShortestPath.findPathBetween
-                    (ZooData.loadZooGraphJSON(context, "sample_zoo_graph.json"),
-                            "entrance_exit_gate", "capuchin"));
-            recyclerView.setAdapter(adapter2);
-
-        });
 
         List<IdentifiedWeightedEdge> edges2 = adapter2.path.getEdgeList();
 
