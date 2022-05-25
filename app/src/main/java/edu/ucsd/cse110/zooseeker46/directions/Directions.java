@@ -1,15 +1,12 @@
 package edu.ucsd.cse110.zooseeker46.directions;
 
-import android.content.Context;
 import android.util.Log;
 
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
-import org.jgrapht.alg.interfaces.ShortestPathAlgorithm;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,14 +22,14 @@ public class Directions {
     private Graph<String, IdentifiedWeightedEdge> zooGraph;
     public Map<String, ZooData.VertexInfo> exhibitsVertex;
     private String startID = "entrance_exit_gate";
-    private List<String> exhibitsInGroups;
+    private List<String> exhibitsNamesID;
 
     public Directions(Map<String, ZooData.VertexInfo> exhibitsToVisit,
                       Graph<String, IdentifiedWeightedEdge> zooGraph){
         this.zooGraph = zooGraph;
         this.exhibitsToVisit = exhibitsToVisit;
         this.finalPath = new ArrayList<>();
-        this.exhibitsInGroups = new ArrayList<>();
+        this.exhibitsNamesID = new ArrayList<>();
     }
     public void findStart(Map<String, ZooData.VertexInfo> places) {
         for (String placeToVisit : places.keySet()) {
@@ -60,12 +57,9 @@ public class Directions {
             if (shortestPathAtoB == null || newPath.getWeight() < shortestPathAtoB.getWeight()) {
                 shortestPathAtoB = newPath;
                 visited = placeToVisit;
-                if(exhibitsVertex.get(shortestPathAtoB.getEndVertex()).kind ==
-                        ZooData.VertexInfo.Kind.EXHIBIT_GROUP ){
-                    exhibitsInGroups.add(visited);
-                }
             }
         }
+        exhibitsNamesID.add(visited);
         this.exhibitsToVisit.remove(visited);
         return shortestPathAtoB;
     }
@@ -79,6 +73,7 @@ public class Directions {
             Log.d("begin", begin);
         }
         finalPath.add(DijkstraShortestPath.findPathBetween(zooGraph, begin, startID));
+        this.exhibitsNamesID.add(startID);
         Log.d("finalPath", finalPath.toString());
     }
 
@@ -102,9 +97,9 @@ public class Directions {
         return exhibitsToVisit;
     }
 
-    //adjust exhibits list to account for exhibit groups
-    public void adjust_exhibits_to_visit(){
-
+    public List<String> getExhibitsNamesID() {
+        return exhibitsNamesID;
     }
+
 }
 

@@ -11,17 +11,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import edu.ucsd.cse110.zooseeker46.IdentifiedWeightedEdge;
 import edu.ucsd.cse110.zooseeker46.R;
 import edu.ucsd.cse110.zooseeker46.ZooData;
 
-public class DirectionsAdapter extends RecyclerView.Adapter<DirectionsAdapter.ViewHolder>{
+public class DirectionsGroupAdapter extends DirectionsAdapter{
     public GraphPath<String, IdentifiedWeightedEdge> path = null;
     public Graph<String, IdentifiedWeightedEdge> exhibitsGraph;
     public Map<String, ZooData.VertexInfo> exhibitsVertex;
@@ -44,9 +41,16 @@ public class DirectionsAdapter extends RecyclerView.Adapter<DirectionsAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull DirectionsAdapter.ViewHolder holder, int position) {
-        IdentifiedWeightedEdge pathLayout;
         TextView DirectionsTextView = holder.getDirectionTextView();
+        IdentifiedWeightedEdge pathLayout;
         List<IdentifiedWeightedEdge> edges = path.getEdgeList();
+        if(position == this.getItemCount()-1){
+            String exhibitGroup = (exhibitsVertex.get(exhibitsVertex.get(end).parent_id).name);
+            String endExhibit = (exhibitsVertex.get(end)).name;
+            DirectionsTextView.setText("Within " +
+                    (exhibitGroup + " find " + endExhibit));
+            return;
+        }
         pathLayout = edges.get(position);
         String startName = directionsType.getStartName(exhibitsVertex, pathLayout);
         String endName = directionsType.getEndName(exhibitsVertex, pathLayout);
@@ -70,7 +74,7 @@ public class DirectionsAdapter extends RecyclerView.Adapter<DirectionsAdapter.Vi
             }
         }
         if(position == path.getLength()-1 && position+1 == path.getLength()){
-            if(startName == exhibitsVertex.get(end).name){
+            if(startName == exhibitsVertex.get(exhibitsVertex.get(end).parent_id).name){
                 String tempName = startName;
                 startName = endName;
                 endName = tempName;
@@ -82,26 +86,12 @@ public class DirectionsAdapter extends RecyclerView.Adapter<DirectionsAdapter.Vi
 
     @Override
     public int getItemCount() {
-        return path.getLength();
-    }
-
-    public static class ViewHolder extends RecyclerView.ViewHolder{
-        private final TextView directionTextView;
-
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            this.directionTextView = itemView.findViewById(R.id.dirText);
-        }
-
-        public TextView getDirectionTextView() {
-            return directionTextView;
-        }
+        return path.getLength() + 1;
     }
 
     public void setExhibitsGraph(Graph<String, IdentifiedWeightedEdge> exhibitsGraph) {
         this.exhibitsGraph = exhibitsGraph;
     }
-
     public void setExhibitsVertex(Map<String, ZooData.VertexInfo> exhibitsVertex) {
         this.exhibitsVertex = exhibitsVertex;
     }

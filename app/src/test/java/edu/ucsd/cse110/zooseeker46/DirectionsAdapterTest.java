@@ -25,7 +25,7 @@ public class DirectionsAdapterTest {
 
     @Before
     public void createAdapter(){
-        adapter.setDirections(DijkstraShortestPath.findPathBetween
+        adapter.setPath(DijkstraShortestPath.findPathBetween
                 (ZooData.loadZooGraphJSON(context, "sample_zoo_graph.json"),
                         "entrance_exit_gate", "gorilla"));
     }
