@@ -41,7 +41,8 @@ public class DetailedDirections implements DirectionTypeInterface {
         }
         else if (endName.contains("/")) {
             String[] partsEnd2 = endName.split("/");
-            return "From " + startName + " down " + streetName + " " + length + "m towards junction of " + partsEnd2[0] + partsEnd2[1];
+            return "From " + startName + " down " + streetName + " " + length + "m towards junction of "
+                    + partsEnd2[0] + " and " + partsEnd2[1];
         }
         return "Go from " + startName + " down " + streetName
                 + " " + length + "m towards  " + endName;
