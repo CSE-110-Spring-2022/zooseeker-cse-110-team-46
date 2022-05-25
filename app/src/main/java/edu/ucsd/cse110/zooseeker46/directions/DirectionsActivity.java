@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,10 +23,13 @@ import java.util.Set;
 
 import edu.ucsd.cse110.zooseeker46.IdentifiedWeightedEdge;
 import edu.ucsd.cse110.zooseeker46.R;
+import edu.ucsd.cse110.zooseeker46.SettingsStaticClass;
 import edu.ucsd.cse110.zooseeker46.ZooData;
 import edu.ucsd.cse110.zooseeker46.ZooExhibits;
+import edu.ucsd.cse110.zooseeker46.plan.PlanActivity;
 import edu.ucsd.cse110.zooseeker46.search.ExhibitSelectAdapter;
 import edu.ucsd.cse110.zooseeker46.search.SearchActivity;
+import edu.ucsd.cse110.zooseeker46.SettingsActivity;
 
 public class DirectionsActivity extends AppCompatActivity {
 
@@ -41,6 +45,16 @@ public class DirectionsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_directions);
         vertexForNames = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
+
+        adapter.exhibitsGraph = ZooData.loadZooGraphJSON(this,"sample_zoo_graph.json");
+        adapter.exhibitsEdge = ZooData.loadEdgeInfoJSON(this, "sample_edge_info.json");
+        adapter.exhibitsVertex = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
+
+        if(SettingsStaticClass.detailed)
+            adapter.directionsType = new DetailedDirections();
+        else
+            adapter.directionsType = new SimpleDirections();
+
 
         //load zoo graph and places
         Graph<String, IdentifiedWeightedEdge> zoo = ZooData.loadZooGraphJSON(this, "sample_zoo_graph.json");
@@ -94,6 +108,22 @@ public class DirectionsActivity extends AppCompatActivity {
         //Current animal text
         TextView animalText = findViewById(R.id.animalView);
         animalText.setText(vertexForNames.get(exhibitNamesID.get(counter)).name);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if(SettingsStaticClass.detailed)
+            adapter.directionsType = new DetailedDirections();
+        else
+            adapter.directionsType = new SimpleDirections();
+
+        recyclerView = findViewById(R.id.directions_recycler);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        System.out.println(finalPath);
+        adapter.setPath(finalPath.get(counter));
+        recyclerView.setAdapter(adapter);
     }
 
     public void onNextButtonClicked(View view) {
@@ -168,6 +198,11 @@ public class DirectionsActivity extends AppCompatActivity {
 
     }
 
+
+    public void onSettingsButtonClicked(View view) {
+        Intent intent = new Intent(DirectionsActivity.this, SettingsActivity.class);
+        startActivity(intent);
+    }
     public void setAdapter(){
         //set adapter
         if(vertexForNames.get(exhibitNamesID.get(counter)).parent_id != null ){

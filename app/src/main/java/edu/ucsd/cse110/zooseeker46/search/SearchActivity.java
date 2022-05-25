@@ -19,8 +19,10 @@ import android.widget.Button;
 import java.util.ArrayList;
 import java.util.Map;
 
+import edu.ucsd.cse110.zooseeker46.SettingsActivity;
 import edu.ucsd.cse110.zooseeker46.ZooData;
 import edu.ucsd.cse110.zooseeker46.ZooExhibits;
+import edu.ucsd.cse110.zooseeker46.directions.DirectionsActivity;
 import edu.ucsd.cse110.zooseeker46.plan.PlanActivity;
 import edu.ucsd.cse110.zooseeker46.R;
 import edu.ucsd.cse110.zooseeker46.locations.Exhibit;
@@ -87,6 +89,11 @@ public class SearchActivity extends AppCompatActivity {
     }
     public static ExhibitSelectAdapter getCustomAdapter(){
         return customAdapter;
+    }
+
+    public void onSettingsButtonClicked(View view) {
+        Intent intent = new Intent(SearchActivity.this, SettingsActivity.class);
+        startActivity(intent);
     }
 
 }
