@@ -51,9 +51,9 @@ public class DirectionsActivity extends AppCompatActivity {
         adapter.exhibitsVertex = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
 
         if(SettingsStaticClass.detailed)
-            adapter.directions = new DetailedDirections();
+            adapter.directionsType = new DetailedDirections();
         else
-            adapter.directions = new SimpleDirections();
+            adapter.directionsType = new SimpleDirections();
 
 
         //load zoo graph and places
@@ -115,14 +115,14 @@ public class DirectionsActivity extends AppCompatActivity {
         super.onResume();
 
         if(SettingsStaticClass.detailed)
-            adapter.directions = new DetailedDirections();
+            adapter.directionsType = new DetailedDirections();
         else
-            adapter.directions = new SimpleDirections();
+            adapter.directionsType = new SimpleDirections();
 
         recyclerView = findViewById(R.id.directions_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         System.out.println(finalPath);
-        adapter.setDirections(finalPath.get(counter));
+        adapter.setPath(finalPath.get(counter));
         recyclerView.setAdapter(adapter);
     }
 
@@ -202,6 +202,7 @@ public class DirectionsActivity extends AppCompatActivity {
     public void onSettingsButtonClicked(View view) {
         Intent intent = new Intent(DirectionsActivity.this, SettingsActivity.class);
         startActivity(intent);
+    }
     public void setAdapter(){
         //set adapter
         if(vertexForNames.get(exhibitNamesID.get(counter)).parent_id != null ){
