@@ -4,14 +4,15 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.ArrayList;
 import java.util.List;
 
-@Entity(tableName = "Intersection_items")
-public class Intersection implements Location{
+@Entity(tableName = "Exhibit_group_items")
+public class Exhibit_Group implements Location{
     @NonNull
     public String name;
     public String id;
-    public tags tags;
+    //public tags tags;
 
     @PrimaryKey(autoGenerate = true)
     public long long_id;
@@ -19,23 +20,23 @@ public class Intersection implements Location{
     private double latitude;
     private double longitude;
 
-    public Intersection(@NonNull String id, String name, List<String> tags){
-        this.name = name;
-        this.id = id;
-        this.tags = new tags(tags);
-    }
-
-    public Intersection() {
-
-    }
-
-    public Intersection(@NonNull String id, String name, List<String> tags, double lat, double lng){
+    /*public Exhibit_Group(@NonNull String id, String name, List<String> tags, double lat, double lng){
         this.name = name;
         this.id = id;
         this.tags = new tags(tags);
         this.latitude = lat;
         this.longitude = lng;
+    }*/
+
+    public Exhibit_Group(@NonNull String id, String name, double lat, double lng){
+        this.name = name;
+        this.id = id;
+        //this.tags = new tags(new ArrayList<String>());
+        this.latitude = lat;
+        this.longitude = lng;
     }
+
+    public Exhibit_Group() {}
 
     @Override
     public String getName() {
@@ -57,13 +58,6 @@ public class Intersection implements Location{
         this.id = ID;
     }
 
-    public List<String> getTags() {
-        return tags.getTags();
-    }
-
-    public void setTags(List<String> tags) {
-        this.tags = new tags(tags);
-    }
 
     public double getLatitude() {
         return latitude;

@@ -1,11 +1,9 @@
 package edu.ucsd.cse110.zooseeker46;
 
 import android.content.Context;
-import android.nfc.Tag;
 import android.util.Log;
 
 import androidx.room.Room;
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
@@ -15,22 +13,20 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runner.manipulation.Ordering;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import edu.ucsd.cse110.zooseeker46.database.ExhibitDao;
+import edu.ucsd.cse110.zooseeker46.database.ExhibitGroupDao;
 import edu.ucsd.cse110.zooseeker46.database.GateDao;
 import edu.ucsd.cse110.zooseeker46.database.IntersectionDao;
 import edu.ucsd.cse110.zooseeker46.database.ZooDataDatabase;
 import edu.ucsd.cse110.zooseeker46.locations.Exhibit;
+import edu.ucsd.cse110.zooseeker46.locations.Exhibit_Group;
 import edu.ucsd.cse110.zooseeker46.locations.Gate;
 import edu.ucsd.cse110.zooseeker46.locations.Intersection;
 
@@ -40,20 +36,35 @@ public class zooDatabaseTest {
     private GateDao gateDao;
     private ZooDataDatabase db;
     private IntersectionDao intersectionDao;
+    private ExhibitGroupDao exhibitGroupDao;
     Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+
     @Before
     public void CreateDb(){
         Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        db = Room.inMemoryDatabaseBuilder(context, ZooDataDatabase.class)
+        /*db = Room.inMemoryDatabaseBuilder(context, ZooDataDatabase.class)
                 .allowMainThreadQueries()
-                .build();
+                .build();*/
+        db = ZooDataDatabase.getSingleton(context);
         exhibitDao = db.exhibitDao();
         gateDao = db.gateDao();
         intersectionDao = db.intersectionDao();
+        exhibitGroupDao = db.exhibitGroupDao();
+        //ZooDataDatabase.injectTestDatabase(db);
     }
+
     @After
     public void CloseDb(){
         db.close();
+    }
+
+    @Test
+    public void testDatabaseSimple(){
+        ExhibitDao exhibitDao = db.exhibitDao();
+        List<Exhibit> allexhibits = exhibitDao.getAll();
+        int size = allexhibits.size();
+        Log.d("size of exhibit list: ", String.valueOf(size));
+        assertNotEquals(0, size);
     }
 
     @Test
@@ -99,6 +110,75 @@ public class zooDatabaseTest {
         assertEquals(ex1.name, item.name);
         assertEquals(ex1.id, item.id);
         assertEquals(ex1.tags.getTags(), item.tags.getTags());
+    }
+
+    @Test
+    public void testExhibitGetWithValidParent() {
+        String[] ex1Tags = {"lions", "cats", "mammal", "africa"};
+        List<String> ex1TagsList = new ArrayList<>();
+        Collections.addAll(ex1TagsList,ex1Tags);
+        String parent_id = "Avery_pkw";
+        Exhibit ex1 = new Exhibit("lions","Lions", parent_id, ex1TagsList);
+        long gen_id = exhibitDao.insert(ex1);
+
+        Exhibit item = exhibitDao.get(gen_id);
+
+        assertNotNull(gen_id);
+        assertNotNull(item);
+        assertEquals(gen_id, item.long_id);
+        assertEquals(ex1.name, item.name);
+        assertEquals(ex1.id, item.id);
+        assertEquals(ex1.tags.getTags(), item.tags.getTags());
+        assertEquals(ex1.getParent_id(), item.getParent_id());
+        assertEquals(ex1.getLatitude(), item.getLatitude(), 0.001);
+        assertEquals(ex1.getLongitude(), item.getLongitude(), 0.001);
+    }
+
+    @Test
+    public void testExhibitGroupGet() {
+        //String[] ex1Tags = {};
+        List<String> ex1TagsList = new ArrayList<>();
+        //Collections.addAll(ex1TagsList,ex1Tags);
+        String name = "Scripps Aviary";
+        String id = "scripps_aviary";
+        double lat = 32.748538318135594;
+        double lng = -117.17255093386991;
+        Exhibit_Group ex1 = new Exhibit_Group(id,name, lat, lng);
+        long gen_id = exhibitGroupDao.insert(ex1);
+
+        Exhibit_Group item = exhibitGroupDao.get(gen_id);
+
+
+        assertNotNull(gen_id);
+        assertNotNull(item);
+        assertEquals(gen_id, item.long_id);
+        assertEquals(ex1.name, item.name);
+        assertEquals(ex1.id, item.id);
+        assertEquals(ex1.getLatitude(), item.getLatitude(), 0.001);
+        assertEquals(ex1.getLongitude(), item.getLongitude(), 0.001);
+    }
+
+    @Test
+    public void testExhibitGetWithNoParent() {
+        String[] ex1Tags = {"lions", "cats", "mammal", "africa"};
+        List<String> ex1TagsList = new ArrayList<>();
+        Collections.addAll(ex1TagsList,ex1Tags);
+        double lng = -117.17255093386991;
+        double lat = 32.748538318135594;
+        Exhibit ex1 = new Exhibit("lions","Lions", ex1TagsList, lat, lng);
+        long gen_id = exhibitDao.insert(ex1);
+
+        Exhibit item = exhibitDao.get(gen_id);
+
+        assertNotNull(gen_id);
+        assertNotNull(item);
+        assertEquals(gen_id, item.long_id);
+        assertEquals(ex1.name, item.name);
+        assertEquals(ex1.id, item.id);
+        assertEquals(ex1.tags.getTags(), item.tags.getTags());
+        assertEquals(ex1.getParent_id(), item.getParent_id());
+        assertEquals(ex1.getLatitude(), item.getLatitude(), 0.001);
+        assertEquals(ex1.getLongitude(), item.getLongitude(), 0.001);
     }
 
     @Test
