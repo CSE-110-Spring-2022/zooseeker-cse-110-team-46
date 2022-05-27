@@ -11,9 +11,11 @@ import java.util.List;
 @Entity(tableName = "Exhibit_items")
 public class Exhibit implements Location {
 
-    @PrimaryKey(autoGenerate = true)
-    public long long_id = 0;
+    //@PrimaryKey(autoGenerate = true)
+    //public long long_id = 0;
 
+    //@NonNull
+    @PrimaryKey(autoGenerate = false)
     @NonNull
     public String id;
 
@@ -138,19 +140,17 @@ public class Exhibit implements Location {
         isSelected = selected;
     }
 
-    public double getLongitude() {
+    public Double getLongitude() {
         return this.longitude;
     }
 
-    public double getLatitude() {
-        return this. latitude;
-    }
+    public Double getLatitude() { return this. latitude; }
 
-    public void setLatitude(double latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
-    public void setLongitude(double longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 

@@ -10,11 +10,14 @@ import java.util.List;
 public class Intersection implements Location{
     @NonNull
     public String name;
-    public String id;
     public tags tags;
 
-    @PrimaryKey(autoGenerate = true)
-    public long long_id;
+    @PrimaryKey(autoGenerate = false)
+    @NonNull
+    public String id;
+
+    //@PrimaryKey(autoGenerate = true)
+    //public long long_id;
 
     private double latitude;
     private double longitude;

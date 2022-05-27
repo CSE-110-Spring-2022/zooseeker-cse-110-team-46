@@ -16,8 +16,8 @@ public interface GateDao {
     @Insert
     long insert(Gate gateItem);
 
-    @Query("SELECT * FROM `Gate_items` WHERE `long_id`=:num_id")
-    Gate get(long num_id);
+    @Query("SELECT * FROM `Gate_items` WHERE `id`=:num_id")
+    Gate get(String num_id);
 
     @Query("SELECT * FROM `Gate_items`")
     List<Gate> getAll();

@@ -13,10 +13,10 @@ import edu.ucsd.cse110.zooseeker46.locations.Exhibit;
 @Dao
 public interface ExhibitDao {
     @Insert
-    long insert(Exhibit exhibitItem);
+    Long insert(Exhibit exhibitItem);
 
-    @Query("SELECT * FROM `Exhibit_items` WHERE `long_id`=:num_id")
-    Exhibit get(long num_id);
+    @Query("SELECT * FROM `Exhibit_items` WHERE `id`=:num_id")
+    Exhibit get(String num_id);
 
     @Query("SELECT * FROM `Exhibit_items`")
     List<Exhibit> getAll();

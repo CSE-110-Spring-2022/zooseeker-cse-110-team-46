@@ -9,12 +9,15 @@ import java.util.List;
 @Entity(tableName = "Gate_items")
 public class Gate implements Location {
     @NonNull
-    public String id;
     public String name;
     public tags tags;
 
-    @PrimaryKey(autoGenerate = true)
-    public long long_id;
+    @PrimaryKey(autoGenerate = false)
+    @NonNull
+    public String id;
+
+    //@PrimaryKey(autoGenerate = true)
+    //public long long_id;
 
     private double latitude;
     private double longitude;
