@@ -15,8 +15,8 @@ public interface ExhibitGroupDao {
     @Insert
     long insert(Exhibit_Group exhibitItem);
 
-    @Query("SELECT * FROM `Exhibit_group_items` WHERE `long_id`=:num_id")
-    Exhibit_Group get(long num_id);
+    @Query("SELECT * FROM `Exhibit_group_items` WHERE `id`=:num_id")
+    Exhibit_Group get(String num_id);
 
     @Query("SELECT * FROM `Exhibit_group_items`")
     List<Exhibit_Group> getAll();

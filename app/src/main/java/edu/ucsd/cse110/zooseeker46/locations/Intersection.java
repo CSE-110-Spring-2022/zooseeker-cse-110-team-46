@@ -1,6 +1,7 @@
 package edu.ucsd.cse110.zooseeker46.locations;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -10,23 +11,39 @@ import java.util.List;
 public class Intersection implements Location{
     @NonNull
     public String name;
-    public String id;
     public tags tags;
 
-    @PrimaryKey(autoGenerate = true)
-    public long long_id;
+    @PrimaryKey(autoGenerate = false)
+    @NonNull
+    public String id;
 
-    private double latitude;
-    private double longitude;
+    //@PrimaryKey(autoGenerate = true)
+    //public long long_id;
+
+    @Nullable
+    private Double latitude;
+
+    @Nullable
+    private Double longitude;
 
     public Intersection(@NonNull String id, String name, List<String> tags){
         this.name = name;
         this.id = id;
         this.tags = new tags(tags);
+        this.latitude = null;
+        this.longitude= null;
     }
 
     public Intersection() {
 
+    }
+
+    public Intersection(@NonNull String id, String name, List<String> tags, Double lat, Double lng){
+        this.name = name;
+        this.id = id;
+        this.tags = new tags(tags);
+        this.latitude = lat;
+        this.longitude = lng;
     }
 
     @Override
