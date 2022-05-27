@@ -23,6 +23,8 @@ import java.util.Map;
 import java.util.Set;
 
 import edu.ucsd.cse110.zooseeker46.R;
+import edu.ucsd.cse110.zooseeker46.database.ExhibitDao;
+import edu.ucsd.cse110.zooseeker46.database.ZooDataDatabase;
 import edu.ucsd.cse110.zooseeker46.locations.Exhibit;
 
 
@@ -81,10 +83,6 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
 
     // All these override functions are required for adapter, please DO NOT MODIFY
     // If you need a helper function, make a new one
-    @Override
-    public int getViewTypeCount() {
-        return getCount();
-    }
 
     @Override
     public int getItemViewType(int position) {
@@ -96,6 +94,14 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
         return ModelArrayList.size();
     }
 
+    @Override
+    public int getViewTypeCount(){
+        if(getCount()>0) {
+            return getCount();
+        }else{
+            return super.getViewTypeCount();
+    }
+}
     @Override
     public Object getItem(int position) {
         return ModelArrayList.get(position);
@@ -177,4 +183,5 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
         protected CheckBox checkBox;
         private TextView tvAnimal;
     }
+
 }

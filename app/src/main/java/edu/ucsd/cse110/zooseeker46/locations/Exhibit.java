@@ -1,6 +1,7 @@
 package edu.ucsd.cse110.zooseeker46.locations;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -9,37 +10,54 @@ import java.util.List;
 
 @Entity(tableName = "Exhibit_items")
 public class Exhibit implements Location {
-    
-    @PrimaryKey(autoGenerate = true)
-    public long long_id;
 
+    //@PrimaryKey(autoGenerate = true)
+    //public long long_id = 0;
+
+    //@NonNull
+    @PrimaryKey(autoGenerate = false)
     @NonNull
     public String id;
+
+    @NonNull
     public String name;
+
     public tags tags;
+
     public boolean isSelected;
 
+    @Nullable
     private String parent_id;
 
-    private double latitude;
-    private double longitude;
+    @Nullable
+    private Double latitude;
 
-    public Exhibit() {
+    @Nullable
+    private Double longitude;
+
+    public Exhibit(@NonNull String id,
+                   @NonNull String name,
+                   tags tags,
+                   boolean isSelected,
+                   @Nullable String parent_id,
+                   @Nullable Double latitude,
+                   @Nullable Double longitude) {
+        this.id = id;
+        this.name = name;
+        this.tags = tags;
+        this.isSelected = isSelected;
+        this.parent_id = parent_id;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     /*
-        We will never be using this constructor because if it does not have a parent_id,
-        then it will have its own long/lat coordinates.
-        Only kept for the purpose of not redoing unit Tests.
-     */
+            We will never be using this constructor because if it does not have a parent_id,
+            then it will have its own long/lat coordinates.
+            Only kept for the purpose of not redoing unit Tests.
+         */
     public Exhibit(@NonNull String id, String name, List<String> tags) {
-        this.id = id;
-        this.name = name;
-        this.parent_id = "";
-        this.tags = new tags(tags);
-        this.isSelected = false;
-        this.latitude = 0;
-        this.longitude = 0;
+        this(id, name, new tags(tags), false, null, null, null);
     }
 
     /*
@@ -48,7 +66,7 @@ public class Exhibit implements Location {
     public Exhibit(@NonNull String id, String name, List<String> tags, double lat, double lng) {
         this.id = id;
         this.name = name;
-        this.parent_id = "";
+        this.parent_id = null;
         this.tags = new tags(tags);
         this.isSelected = false;
         this.latitude = lat;
@@ -58,20 +76,20 @@ public class Exhibit implements Location {
     /*
         Use for an exhibit that has parent_id and no long/lat
      */
-    public Exhibit(@NonNull String id, String name, String pid, List<String> tags) {
+    public Exhibit(@NonNull String id, String name, @Nullable String pid, List<String> tags) {
         this.id = id;
         this.name = name;
         this.parent_id = pid;
         this.tags = new tags(tags);
         this.isSelected = false;
-        this.latitude = 0;
-        this.longitude = 0;
+        this.latitude = null;
+        this.longitude = null;
     }
 
     /*
         General Constructor for all member variables
      */
-    public Exhibit(@NonNull String id, String name, String pid, List<String> tags, double lat, double lng) {
+    public Exhibit(@NonNull String id, String name, @Nullable String pid, List<String> tags, double lat, double lng) {
         this.id = id;
         this.name = name;
         this.parent_id = pid;
@@ -122,19 +140,17 @@ public class Exhibit implements Location {
         isSelected = selected;
     }
 
-    public double getLongitude() {
+    public Double getLongitude() {
         return this.longitude;
     }
 
-    public double getLatitude() {
-        return this. latitude;
-    }
+    public Double getLatitude() { return this. latitude; }
 
-    public void setLatitude(double latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
-    public void setLongitude(double longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 

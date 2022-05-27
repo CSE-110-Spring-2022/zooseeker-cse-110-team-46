@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
@@ -17,12 +18,17 @@ import android.widget.Button;
 
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import edu.ucsd.cse110.zooseeker46.SettingsActivity;
 import edu.ucsd.cse110.zooseeker46.ZooData;
 import edu.ucsd.cse110.zooseeker46.ZooExhibits;
 import edu.ucsd.cse110.zooseeker46.directions.DirectionsActivity;
+import edu.ucsd.cse110.zooseeker46.database.ExhibitDao;
+import edu.ucsd.cse110.zooseeker46.database.ExhibitGroupDao;
+import edu.ucsd.cse110.zooseeker46.database.ZooDataDatabase;
+import edu.ucsd.cse110.zooseeker46.locations.Exhibit_Group;
 import edu.ucsd.cse110.zooseeker46.plan.PlanActivity;
 import edu.ucsd.cse110.zooseeker46.R;
 import edu.ucsd.cse110.zooseeker46.locations.Exhibit;
@@ -45,13 +51,22 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Two lines for accessing db
+        ZooDataDatabase zb = ZooDataDatabase.getSingleton(this);
+        ExhibitDao exhibitDao = zb.exhibitDao();
+
+        List<Exhibit> allexhibits = exhibitDao.getAll();
+        int size = allexhibits.size();
+        Log.d("size of exhibit list: ", String.valueOf(size));
+        modelArrayList = (ArrayList<Exhibit>) allexhibits;
+
         listView = (ListView) findViewById(R.id.lv);
         btnnext = (Button) findViewById(R.id.plan_btn);
         TextView count = findViewById(R.id.selected_exhibit_count);
-        vertexInfoMap = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
+        //vertexInfoMap = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
         zoo = new ZooExhibits(vertexInfoMap);
-        modelArrayList = zoo.getExhibits();
-        customAdapter = new ExhibitSelectAdapter(this, modelArrayList);
+        //modelArrayList = zoo.getExhibits();
+        customAdapter = new ExhibitSelectAdapter(this, (ArrayList<Exhibit>) modelArrayList);
 
         listView.setAdapter(customAdapter);
         listView.setTextFilterEnabled(true);

@@ -8,6 +8,10 @@ public class tags {
     boolean isEmpty = false;
 
     public tags(List<String> tags) {
+        if (tags.equals(null)) {
+            this.tags = null;
+            return;
+        }
         if(tags.size() == 0){
             isEmpty = true;
         }
