@@ -37,21 +37,23 @@ public class zooDatabaseTest {
     private ZooDataDatabase db;
     private IntersectionDao intersectionDao;
     private ExhibitGroupDao exhibitGroupDao;
+
+    private ExhibitDao exhibitDao2;
+    private GateDao gateDao2;
+    private ZooDataDatabase db2;
+    private IntersectionDao intersectionDao2;
+    private ExhibitGroupDao exhibitGroupDao2;
     Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-    @Before
-    public void CreateDb(){
-        Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        /*db = Room.inMemoryDatabaseBuilder(context, ZooDataDatabase.class)
-                .allowMainThreadQueries()
-                .build();*/
-        db = ZooDataDatabase.getSingleton(context);
-        exhibitDao = db.exhibitDao();
-        gateDao = db.gateDao();
-        intersectionDao = db.intersectionDao();
-        exhibitGroupDao = db.exhibitGroupDao();
-        //ZooDataDatabase.injectTestDatabase(db);
-    }
+//    @Before
+//    public void CreateDb(){
+//        Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+//        db = ZooDataDatabase.getSingleton(context);
+//        exhibitDao2 = db.exhibitDao();
+//        gateDao2 = db.gateDao();
+//        intersectionDao2 = db.intersectionDao();
+//        exhibitGroupDao2 = db.exhibitGroupDao();
+//    }
 
     @After
     public void CloseDb(){
@@ -190,199 +192,181 @@ public class zooDatabaseTest {
         assertEquals(ex1.getLongitude(), item.getLongitude(), 0.001);
     }
 
-//    @Test
-//    public void testUpdate() {
-//        String[] ex1Tags = {"lions", "cats", "mammal", "africa"};
-//        List<String> ex1TagsList = new ArrayList<>();
-//        Collections.addAll(ex1TagsList,ex1Tags);
-//
-//        Exhibit ex1 = new Exhibit("lions","Lions", ex1TagsList);
-//
-//        long id = exhibitDao.insert(ex1);
-//
-//        ex1 = exhibitDao.get(id);
-//
-//        ex1.name = "Super Lions";
-//
-//        int itemsUpdate = exhibitDao.update(ex1);
-//
-//        assertEquals(1, itemsUpdate);
-//
-//        ex1 = exhibitDao.get(id);
-//        Exhibit e = exhibitDao.get(id);
-//        assertNotNull(ex1);
-//        assertEquals("Super Lions", e.name);
-//    }
-//
-//    @Test
-//    public void testExhibitGetAll(){
-//        /*Map<String, ZooData.VertexInfo> map = ZooData.loadVertexInfoJSON(context, "sample_node_info.json");
-//        ZooExhibits zoo = new ZooExhibits(map);
-//        List<Exhibit> actList = zoo.getExhibits();
-//        for (Exhibit ex : actList){
-//            exhibitDao.insert(ex);
-//        }*/
-//        String[] ex1Tags = {"lions", "cats", "mammal", "africa"};
-//        List<String> ex1TagsList = new ArrayList<>();
-//        Collections.addAll(ex1TagsList,ex1Tags);
-//        Exhibit ex1 = new Exhibit("lions","Lions", ex1TagsList);
-//        long gen_id = exhibitDao.insert(ex1);
-//        ex1 = exhibitDao.get(gen_id);
-//        ex1.isSelected = true;
-//        int smt = exhibitDao.update(ex1);
-//        String[] ex2Tags = {"gorilla", "monkey", "ape", "mammal"};
-//        List<String> ex2TagsList = new ArrayList<>();
-//        Collections.addAll(ex1TagsList,ex2Tags);
-//        Exhibit ex2 = new Exhibit("gorillas","Gorillas", ex2TagsList);
-//        long id2 = exhibitDao.insert(ex2);
-//        Exhibit return2 = exhibitDao.get(gen_id);
-//        Exhibit return1 = exhibitDao.get(id2);
-//        List<Exhibit> exhibitList = exhibitDao.getAll();
-//        assertEquals(false, return1.getIsSelected());
-//        assertEquals(true, return2.getIsSelected());
-//        //assertEquals(1, exhibitList);
-//    }
-//
-//    @Test
-//    public void testGateInsert(){
-//        String[] ex1Tags = {"enter", "leave", "start", "begin", "entrance", "exit"};
-//        List<String> ex1TagsList = new ArrayList<>();
-//        Collections.addAll(ex1TagsList,ex1Tags);
-//        Gate gate = new Gate("entrance_exit_gate", "Entrance and Exit Gate", ex1TagsList);
-//        long id1 = gateDao.insert(gate);
-//        Gate item1 = gateDao.get(id1);
-//        assertEquals(id1, item1.long_id);
-//    }
-//
-//    @Test
-//    public void testGateGet() {
-//        String[] ex1Tags = {"enter", "leave", "start", "begin", "entrance", "exit"};
-//        List<String> ex1TagsList = new ArrayList<>();
-//        Collections.addAll(ex1TagsList,ex1Tags);
-//        Gate gate = new Gate("entrance_exit_gate", "Entrance and Exit Gate", ex1TagsList);
-//        long id1 = gateDao.insert(gate);
-//
-//        Gate item1 = gateDao.get(id1);
-//
-//        assertNotNull(id1);
-//        assertNotNull(item1);
-//        assertEquals(id1, item1.long_id);
-//        assertEquals(gate.name, item1.name);
-//        assertEquals(gate.id, item1.id);
-//        assertEquals(gate.tags.getTags(), item1.tags.getTags());
-//    }
-//
-//    @Test
-//    public void testGateUpdate() {
-//        String[] ex1Tags = {"enter", "leave", "start", "begin", "entrance", "exit"};
-//        List<String> ex1TagsList = new ArrayList<>();
-//        Collections.addAll(ex1TagsList,ex1Tags);
-//        Gate gate = new Gate("entrance_exit_gate", "Entrance and Exit Gate", ex1TagsList);
-//        long id1 = gateDao.insert(gate);
-//        gate = gateDao.get(id1);
-//        gate.name = "Super Main Entrance";
-//
-//
-//        int itemsUpdate = gateDao.update(gate);
-//
-//        assertEquals(1, itemsUpdate);
-//
-//        Gate gate1 = gateDao.get(id1);
-//        assertNotNull(gate);
-//        assertEquals("Super Main Entrance", gate1.getName());
-//    }
-//
-//    @Test
-//    public void testGateGetAll(){
-//        String[] ex1Tags = {"enter", "leave", "start", "begin", "entrance", "exit"};
-//        List<String> ex1TagsList = new ArrayList<>();
-//        Collections.addAll(ex1TagsList,ex1Tags);
-//        Gate gate = new Gate("entrance_exit_gate", "Entrance and Exit Gate", ex1TagsList);
-//        long id1 = gateDao.insert(gate);
-//        List<Gate> gateList = gateDao.getAll();
-//        assertEquals(1, gateList.size());
-//    }
-//
-//    @Test
-//    public void testIntersectionInsert(){
-//        //String[] ex1Tags = {"enter", "leave", "start", "begin", "entrance", "exit"};
-//        List<String> ex1TagsList = new ArrayList<>();
-//        //Collections.addAll(ex1TagsList,ex1Tags);
-//        Intersection inter = new Intersection("entrance_plaza", "Entrance Plaza", ex1TagsList);
-//        long id1 = intersectionDao.insert(inter);
-//        Intersection item1 = intersectionDao.get(id1);
-//        assertEquals(id1, item1.long_id);
-//    }
-//
-//    @Test
-//    public void testIntersectionGet(){
-//        List<String> ex1TagsList = new ArrayList<>();
-//        //Collections.addAll(ex1TagsList,ex1Tags);
-//        Intersection inter = new Intersection("entrance_plaza", "Entrance Plaza", ex1TagsList);
-//        long id1 = intersectionDao.insert(inter);
-//        Intersection item1 = intersectionDao.get(id1);
-//        assertNotNull(item1);
-//        assertEquals(id1, item1.long_id);
-//    }
-//
-//    @Test
-//    public void testIntersectionGetAll(){
-//        List<String> ex1TagsList = new ArrayList<>();
-//        //Collections.addAll(ex1TagsList,ex1Tags);
-//        Intersection inter = new Intersection("entrance_plaza", "Entrance Plaza", ex1TagsList);
-//        long id1 = intersectionDao.insert(inter);
-//        Intersection item1 = intersectionDao.get(id1);
-//        List<Intersection> interList = intersectionDao.getAll();
-//        //assertNotNull(item1);
-//        assertEquals(1, interList.size());
-//    }
-//
-//    @Test
-//    public void testIntersectionUpdate(){
-//        List<String> ex1TagsList = new ArrayList<>();
-//        //Collections.addAll(ex1TagsList,ex1Tags);
-//        Intersection inter = new Intersection("entrance_plaza", "Entrance Plaza", ex1TagsList);
-//        long id1 = intersectionDao.insert(inter);
-//        Intersection item1 = intersectionDao.get(id1);
-//        item1.name = "Enter here!";
-//        int smt = intersectionDao.update(item1);
-//        item1 = intersectionDao.get(id1);
-//        assertNotNull(item1);
-//        assertEquals("Enter here!", item1.name);
-//    }
-//
-//    @Test
-//    public void testExhibitSelectOne() {
-//        String[] ex1Tags = {"lions", "cats", "mammal", "africa"};
-//        List<String> ex1TagsList = new ArrayList<>();
-//        Collections.addAll(ex1TagsList,ex1Tags);
-//        Exhibit ex1 = new Exhibit("lions","Lions", ex1TagsList);
-//        long id = exhibitDao.insert(ex1);
-//        ex1 = exhibitDao.get(id);
-//
-//        assertEquals(0, exhibitDao.getSelectedExhibits().size());
-//
-//        ex1.setSelected(true);
-//        int itemsUpdate = exhibitDao.update(ex1);
-//        assertEquals(1, itemsUpdate);
-//        assertTrue(exhibitDao.get(id).getIsSelected());
-//        assertEquals(1, exhibitDao.getSelectedExhibits().size());
-//        assertEquals(ex1.getName(), exhibitDao.getSelectedExhibits().get(0).getName());
-//    }
-//
+    @Test
+    public void testUpdate() {
+        String[] ex1Tags = {"lions", "cats", "mammal", "africa"};
+        List<String> ex1TagsList = new ArrayList<>();
+        Collections.addAll(ex1TagsList,ex1Tags);
+
+        Exhibit ex1 = new Exhibit("lions","Lions", ex1TagsList);
+
+        exhibitDao.insert(ex1);
+
+        ex1 = exhibitDao.get("lions");
+
+        ex1.name = "Super Lions";
+
+        int itemsUpdate = exhibitDao.update(ex1);
+
+        assertEquals(1, itemsUpdate);
+
+        //ex1 = exhibitDao.get(id);
+        Exhibit e = exhibitDao.get("lions");
+        assertNotNull(e);
+        assertEquals("Super Lions", e.name);
+        Exhibit e2 = exhibitDao.get("Super Lions");
+        assertNull(e2);
+    }
+
+    @Test
+    public void testExhibitGetAll(){
+        String[] ex1Tags = {"lions", "cats", "mammal", "africa"};
+        List<String> ex1TagsList = new ArrayList<>();
+        Collections.addAll(ex1TagsList,ex1Tags);
+        Exhibit ex1 = new Exhibit("lions","Lions", ex1TagsList);
+        exhibitDao.insert(ex1);
+        ex1 = exhibitDao.get("lions");
+        ex1.isSelected = true;
+        int smt = exhibitDao.update(ex1);
+        String[] ex2Tags = {"gorilla", "monkey", "ape", "mammal"};
+        List<String> ex2TagsList = new ArrayList<>();
+        Collections.addAll(ex1TagsList,ex2Tags);
+        Exhibit ex2 = new Exhibit("gorillas","Gorillas", ex2TagsList);
+        long id2 = exhibitDao.insert(ex2);
+        Exhibit return2 = exhibitDao.get("lions");
+        Exhibit return1 = exhibitDao.get("gorillas");
+        List<Exhibit> exhibitList = exhibitDao.getAll();
+        assertEquals(false, return1.getIsSelected());
+        assertEquals(true, return2.getIsSelected());
+        //assertEquals(1, exhibitList);
+    }
+
+    @Test
+    public void testGateInsert(){
+        String[] ex1Tags = {"enter", "leave", "start", "begin", "entrance", "exit"};
+        List<String> ex1TagsList = new ArrayList<>();
+        Collections.addAll(ex1TagsList,ex1Tags);
+        Gate gate = new Gate("entrance_exit_gate", "Entrance and Exit Gate", ex1TagsList);
+        long id1 = gateDao.insert(gate);
+        Gate item1 = gateDao.get("entrance_exit_gate");
+        assertEquals(gate.getName(), item1.getName());
+    }
+
+    @Test
+    public void testGateGet() {
+        String[] ex1Tags = {"enter", "leave", "start", "begin", "entrance", "exit"};
+        List<String> ex1TagsList = new ArrayList<>();
+        Collections.addAll(ex1TagsList,ex1Tags);
+        Gate gate = new Gate("entrance_exit_gate", "Entrance and Exit Gate", ex1TagsList);
+        long id1 = gateDao.insert(gate);
+
+        Gate item1 = gateDao.get("entrance_exit_gate");
+
+        assertNotNull(item1);
+        assertEquals(gate.getName(), item1.getName());
+        assertEquals(gate.name, item1.name);
+        assertEquals(gate.id, item1.id);
+        assertEquals(gate.tags.getTags(), item1.tags.getTags());
+    }
+
+    @Test
+    public void testGateUpdate() {
+        String[] ex1Tags = {"enter", "leave", "start", "begin", "entrance", "exit"};
+        List<String> ex1TagsList = new ArrayList<>();
+        Collections.addAll(ex1TagsList,ex1Tags);
+        Gate gate = new Gate("entrance_exit_gate", "Entrance and Exit Gate", ex1TagsList);
+        long id1 = gateDao.insert(gate);
+        gate = gateDao.get("entrance_exit_gate");
+        gate.setName("Super Main Entrance");
+
+        int itemsUpdate = gateDao.update(gate);
+
+        assertEquals(1, itemsUpdate);
+
+        Gate gate1 = gateDao.get("entrance_exit_gate");
+        assertNotNull(gate);
+        assertEquals("Super Main Entrance", gate1.getName());
+    }
+
+    @Test
+    public void testGateGetAll(){
+        String[] ex1Tags = {"enter", "leave", "start", "begin", "entrance", "exit"};
+        List<String> ex1TagsList = new ArrayList<>();
+        Collections.addAll(ex1TagsList,ex1Tags);
+        Gate gate = new Gate("entrance_exit_gate", "Entrance and Exit Gate", ex1TagsList);
+        gateDao.insert(gate);
+        List<Gate> gateList = gateDao.getAll();
+        assertEquals(1, gateList.size());
+    }
+
+    @Test
+    public void testIntersectionInsert(){
+        List<String> ex1TagsList = new ArrayList<>();
+        Intersection inter = new Intersection("entrance_plaza", "Entrance Plaza", ex1TagsList);
+        intersectionDao.insert(inter);
+        Intersection item1 = intersectionDao.get("entrance_plaza");
+        assertEquals(inter.getName(), item1.getName());
+    }
+
+    @Test
+    public void testIntersectionGetAll(){
+        List<String> ex1TagsList = new ArrayList<>();
+        //Collections.addAll(ex1TagsList,ex1Tags);
+        Intersection inter = new Intersection("entrance_plaza", "Entrance Plaza", ex1TagsList);
+        long id1 = intersectionDao.insert(inter);
+        Intersection item1 = intersectionDao.get("entrance_plaza");
+        List<Intersection> interList = intersectionDao.getAll();
+        assertEquals(1, interList.size());
+    }
+
+    @Test
+    public void testIntersectionUpdate(){
+        List<String> ex1TagsList = new ArrayList<>();
+        //Collections.addAll(ex1TagsList,ex1Tags);
+        Intersection inter = new Intersection("entrance_plaza", "Entrance Plaza", ex1TagsList);
+        intersectionDao.insert(inter);
+        Intersection item1 = intersectionDao.get("entrance_plaza");
+        item1.name = "Enter here!";
+        int smt = intersectionDao.update(item1);
+        item1 = intersectionDao.get("entrance_plaza");
+        assertNotNull(item1);
+        assertEquals("Enter here!", item1.name);
+    }
+
+    @Test
+    public void testExhibitSelectOne() {
+        String[] ex1Tags = {"lions", "cats", "mammal", "africa"};
+        List<String> ex1TagsList = new ArrayList<>();
+        Collections.addAll(ex1TagsList,ex1Tags);
+        Exhibit ex1 = new Exhibit("lions","Lions", ex1TagsList);
+        exhibitDao.insert(ex1);
+        ex1 = exhibitDao.get("lions");
+
+        assertEquals(0, exhibitDao.getSelectedExhibits().size());
+
+        ex1.setSelected(true);
+        int itemsUpdate = exhibitDao.update(ex1);
+        assertEquals(1, itemsUpdate);
+        assertTrue(exhibitDao.get("lions").getIsSelected());
+        assertEquals(1, exhibitDao.getSelectedExhibits().size());
+        assertEquals(ex1.getName(), exhibitDao.getSelectedExhibits().get(0).getName());
+    }
+
 //    @Test
 //    public void testExhibitSelectMany() {
 //        Map<String, ZooData.VertexInfo> map = ZooData.loadVertexInfoJSON(context, "sample_node_info.json");
 //        ZooExhibits zoo = new ZooExhibits(map);
 //        List<Exhibit> actList = zoo.getExhibits();
-//        List<Long> ids = new ArrayList<>();
+//       // List<Long> ids = new ArrayList<>();
+//        List<String> ids = new ArrayList<>();
 //        for (Exhibit ex : actList){
-//            ids.add(exhibitDao.insert(ex));
+//            exhibitDao.insert(ex);
+//            ids.add(ex.getName());
 //        }
 //
 //        // Check if all exhibits inserted correctly:
 //        for(int i = 0; i < actList.size(); i++){
-//            assertEquals(actList.get(i).getName(),exhibitDao.get(ids.get(i)).getName());
+//            assertEquals(actList.get(i).getName(), exhibitDao.get(ids.get(i)).getName());
 //        }
 //
 //        // Select every few exhibits
@@ -405,11 +389,11 @@ public class zooDatabaseTest {
 //        }
 //
 //        // Deselect a few of the selected exhibits
-//        Map<String, Long> m = new HashMap<String, Long>();
+//        Map<String, String> m = new HashMap<String, String>();
 //        for(int i = 0; i < actList.size(); i++){
 //            m.put(actList.get(i).getName(), ids.get(i));
 //        }
-//        List<Long> selectedIDS = new ArrayList<>();
+//        List<String> selectedIDS = new ArrayList<>();
 //        for(Exhibit curr: ExpectedSelectedExhibit){
 //            selectedIDS.add(m.get(curr.getName()));
 //            System.out.println("before: " + curr.getName());

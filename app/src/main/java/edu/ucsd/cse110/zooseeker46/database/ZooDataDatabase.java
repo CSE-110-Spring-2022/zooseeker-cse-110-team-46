@@ -109,7 +109,7 @@ public abstract class ZooDataDatabase extends RoomDatabase {
                 //getSingleton(context).gateDao().insert(gateObj);
                 zb.gateDao().insert(gateObj);
             } else if (kind == Kind.INTERSECTION) {
-                Intersection intersectionObj = new Intersection(curr.id, curr.name, curr.tags, 0, 0);
+                Intersection intersectionObj = new Intersection(curr.id, curr.name, curr.tags, null, null);
                 //getSingleton(context).intersectionDao().insert(intersectionObj);
                 zb.intersectionDao().insert(intersectionObj);
             } else if (kind == Kind.EXHIBIT_GROUP) {
