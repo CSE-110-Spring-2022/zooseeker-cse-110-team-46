@@ -3,6 +3,8 @@ package edu.ucsd.cse110.zooseeker46;
 import android.content.Context;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.room.Room;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -29,6 +31,7 @@ import edu.ucsd.cse110.zooseeker46.locations.Exhibit;
 import edu.ucsd.cse110.zooseeker46.locations.Exhibit_Group;
 import edu.ucsd.cse110.zooseeker46.locations.Gate;
 import edu.ucsd.cse110.zooseeker46.locations.Intersection;
+import edu.ucsd.cse110.zooseeker46.locations.tags;
 
 @RunWith(AndroidJUnit4.class)
 public class zooDatabaseTest {
@@ -45,29 +48,36 @@ public class zooDatabaseTest {
     private ExhibitGroupDao exhibitGroupDao2;
     Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-//    @Before
-//    public void CreateDb(){
-//        Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
-//        db = ZooDataDatabase.getSingleton(context);
-//        exhibitDao2 = db.exhibitDao();
-//        gateDao2 = db.gateDao();
-//        intersectionDao2 = db.intersectionDao();
-//        exhibitGroupDao2 = db.exhibitGroupDao();
-//    }
+    @Before
+    public void CreateDb(){
+        Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        db2 = ZooDataDatabase.getSingleton(context);
+        exhibitDao2 = db2.exhibitDao();
+        gateDao2 = db2.gateDao();
+        intersectionDao2 = db2.intersectionDao();
+        exhibitGroupDao2 = db2.exhibitGroupDao();
+
+        db = Room.inMemoryDatabaseBuilder(context, ZooDataDatabase.class)
+                .allowMainThreadQueries()
+                .build();
+        exhibitDao = db.exhibitDao();
+        intersectionDao = db.intersectionDao();
+        gateDao = db.gateDao();
+        exhibitGroupDao = db.exhibitGroupDao();
+    }
 
     @After
     public void CloseDb(){
         db.close();
     }
 
-    @Test
-    public void testDatabaseSimple(){
-        ExhibitDao exhibitDao = db.exhibitDao();
-        List<Exhibit> allexhibits = exhibitDao.getAll();
-        int size = allexhibits.size();
-        Log.d("size of exhibit list: ", String.valueOf(size));
-        assertNotEquals(0, size);
-    }
+//    @Test
+//    public void testDatabaseSimple(){
+//        List<Exhibit> allexhibits = exhibitDao2.getAll();
+//        int size = allexhibits.size();
+//        Log.d("size of exhibit list: ", String.valueOf(size));
+//        assertNotEquals(0, size);
+//    }
 
     @Test
     public void testExhibitOne(){
@@ -301,8 +311,7 @@ public class zooDatabaseTest {
 
     @Test
     public void testIntersectionInsert(){
-        List<String> ex1TagsList = new ArrayList<>();
-        Intersection inter = new Intersection("entrance_plaza", "Entrance Plaza", ex1TagsList);
+        Intersection inter = new Intersection("entrance_plaza", "Entrance Plaza");
         intersectionDao.insert(inter);
         Intersection item1 = intersectionDao.get("entrance_plaza");
         assertEquals(inter.getName(), item1.getName());
@@ -310,10 +319,8 @@ public class zooDatabaseTest {
 
     @Test
     public void testIntersectionGetAll(){
-        List<String> ex1TagsList = new ArrayList<>();
-        //Collections.addAll(ex1TagsList,ex1Tags);
-        Intersection inter = new Intersection("entrance_plaza", "Entrance Plaza", ex1TagsList);
-        long id1 = intersectionDao.insert(inter);
+        Intersection inter = new Intersection("entrance_plaza", "Entrance Plaza");
+        intersectionDao.insert(inter);
         Intersection item1 = intersectionDao.get("entrance_plaza");
         List<Intersection> interList = intersectionDao.getAll();
         assertEquals(1, interList.size());
@@ -321,9 +328,7 @@ public class zooDatabaseTest {
 
     @Test
     public void testIntersectionUpdate(){
-        List<String> ex1TagsList = new ArrayList<>();
-        //Collections.addAll(ex1TagsList,ex1Tags);
-        Intersection inter = new Intersection("entrance_plaza", "Entrance Plaza", ex1TagsList);
+        Intersection inter = new Intersection("entrance_plaza", "Entrance Plaza");
         intersectionDao.insert(inter);
         Intersection item1 = intersectionDao.get("entrance_plaza");
         item1.name = "Enter here!";
