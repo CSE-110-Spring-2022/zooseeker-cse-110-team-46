@@ -66,15 +66,26 @@
         android:gravity="bottom|center_horizontal"
         android:orientation="horizontal">
 
+
+        <Button
+            android:id="@+id/clear_btn"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/clear" />
+        <Space
+            android:layout_width="10dp"
+            android:layout_height="1dp" >
+        </Space>
         <Button
             android:id="@+id/plan_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="@string/plan" />
+
     </LinearLayout>
-
-
 
 </LinearLayout>
 

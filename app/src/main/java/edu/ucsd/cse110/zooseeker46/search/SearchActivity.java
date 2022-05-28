@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -47,7 +48,7 @@ public class SearchActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        Log.d("On create called!", "inside search");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -59,6 +60,7 @@ public class SearchActivity extends AppCompatActivity {
         int size = allexhibits.size();
         Log.d("size of exhibit list: ", String.valueOf(size));
         modelArrayList = (ArrayList<Exhibit>) allexhibits;
+        Log.d("size of selected exhibit list: ", String.valueOf(exhibitDao.getSelectedExhibits().size()));
 
         listView = (ListView) findViewById(R.id.lv);
         btnnext = (Button) findViewById(R.id.plan_btn);
@@ -69,6 +71,18 @@ public class SearchActivity extends AppCompatActivity {
         listView.setAdapter(customAdapter);
         listView.setTextFilterEnabled(true);
         listView.setEmptyView(findViewById(R.id.empty)); // no results text); // sets no results text to the list
+
+//        for(Exhibit curr: modelArrayList){
+//            CheckBox checkItem = findViewById(R.id.cb);
+//            checkItem.setChecked(curr.getIsSelected());
+//        }
+
+//        View rowView = layoutInflater.inflate(R.layout.listview,parent,false);
+//        TextView moviesName=(TextView)rowView.findViewById(R.id.movieNameTv);
+//        CheckBox checkBox=(CheckBox)rowView.findViewById(R.id.checkbox);
+//        movieModel = moviesData.get(position);
+//        checkBox.setChecked(curr.getIsSelected());
+
         btnnext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
