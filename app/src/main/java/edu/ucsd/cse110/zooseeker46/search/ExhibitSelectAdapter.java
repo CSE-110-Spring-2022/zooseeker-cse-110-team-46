@@ -76,6 +76,7 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
         }
         this.zb = ZooDataDatabase.getSingleton(context);
         exhibitDao = zb.exhibitDao();
+        setSelectedCount(exhibitDao.getSelectedExhibits().size());
     }
 
     public int getSelectedCount() {
