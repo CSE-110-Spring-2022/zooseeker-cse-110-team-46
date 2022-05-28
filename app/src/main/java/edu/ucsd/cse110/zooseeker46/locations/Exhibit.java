@@ -63,7 +63,7 @@ public class Exhibit implements Location {
     /*
         Use for exhibit that does not belong in an exhibit group, meaning no parent_id
      */
-    public Exhibit(@NonNull String id, String name, List<String> tags, double lat, double lng) {
+    public Exhibit(@NonNull String id, String name, List<String> tags, Double lat, Double lng) {
         this.id = id;
         this.name = name;
         this.parent_id = null;
