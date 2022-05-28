@@ -1,5 +1,6 @@
 package edu.ucsd.cse110.zooseeker46.search;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,6 +78,7 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
         this.zb = ZooDataDatabase.getSingleton(context);
         exhibitDao = zb.exhibitDao();
         setSelectedCount(exhibitDao.getSelectedExhibits().size());
+        Log.d("In constructor of exhibitselectadapter, size of selected: ", String.valueOf(exhibitDao.getSelectedExhibits().size()));
     }
 
     public int getSelectedCount() {
