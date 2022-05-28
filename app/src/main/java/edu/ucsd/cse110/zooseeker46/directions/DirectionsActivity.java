@@ -46,16 +46,6 @@ public class DirectionsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_directions);
         vertexForNames = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
 
-        adapter.exhibitsGraph = ZooData.loadZooGraphJSON(this,"sample_zoo_graph.json");
-        adapter.exhibitsEdge = ZooData.loadEdgeInfoJSON(this, "sample_edge_info.json");
-        adapter.exhibitsVertex = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
-
-        if(SettingsStaticClass.detailed)
-            adapter.directionsType = new DetailedDirections();
-        else
-            adapter.directionsType = new SimpleDirections();
-
-
         //load zoo graph and places
         Graph<String, IdentifiedWeightedEdge> zoo = ZooData.loadZooGraphJSON(this, "sample_zoo_graph.json");
         Map<String, ZooData.VertexInfo> places = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
@@ -101,6 +91,11 @@ public class DirectionsActivity extends AppCompatActivity {
         adapter.setExhibitsVertex(ZooData.loadVertexInfoJSON(this, "sample_node_info.json"));
         adapter.setEnd(exhibitNamesID.get(counter));
         adapter.setDirectionsType(new DetailedDirections());
+
+        if(SettingsStaticClass.detailed)
+            adapter.directionsType = new DetailedDirections();
+        else
+            adapter.directionsType = new SimpleDirections();
 
         adapter.setPath(finalPath.get(counter));
         recyclerView.setAdapter(adapter);
