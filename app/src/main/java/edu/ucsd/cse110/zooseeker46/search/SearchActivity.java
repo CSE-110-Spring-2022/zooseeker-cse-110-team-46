@@ -63,9 +63,7 @@ public class SearchActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.lv);
         btnnext = (Button) findViewById(R.id.plan_btn);
         TextView count = findViewById(R.id.selected_exhibit_count);
-        //vertexInfoMap = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
         zoo = new ZooExhibits(vertexInfoMap);
-        //modelArrayList = zoo.getExhibits();
         customAdapter = new ExhibitSelectAdapter(this, (ArrayList<Exhibit>) modelArrayList);
 
         listView.setAdapter(customAdapter);

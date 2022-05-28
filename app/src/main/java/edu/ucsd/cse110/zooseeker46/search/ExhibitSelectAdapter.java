@@ -45,6 +45,9 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
     // As the name implies.. (string = exhibit name)
     public Map<String, Exhibit> totalExhibits;
 
+    public ZooDataDatabase zb;
+    public ExhibitDao exhibitDao;
+
     // You can ignore this function. We are still figuring out a way to update listview so checked boxes are filtered to top of listview
     public ArrayList<Exhibit> updateML(Set<String> selectedList){
         ArrayList<Exhibit> unchecked = new ArrayList<>();
@@ -71,6 +74,8 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
         for (Exhibit exhibit : modelArrayList) {
             totalExhibits.put(exhibit.getName(), exhibit);
         }
+        this.zb = ZooDataDatabase.getSingleton(context);
+        exhibitDao = zb.exhibitDao();
     }
 
     public int getSelectedCount() {
@@ -153,16 +158,24 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
                 String curr = ModelArrayList.get(pos).getName();
                 Toast.makeText(context, "Selected " + curr, Toast.LENGTH_SHORT).show();
                 if (ModelArrayList.get(pos).getIsSelected()) {
-                    ModelArrayList.get(pos).setSelected(false);
+                    Exhibit currExhibit = ModelArrayList.get(pos);
+                    currExhibit.setSelected(false);
+                    exhibitDao.update(currExhibit);
+
                     selectedExhibits.remove(curr);
-                    setSelectedCount(selectedExhibits.size());
+                    setSelectedCount(exhibitDao.getSelectedExhibits().size());
+                    //setSelectedCount(selectedExhibits.size());
                     TextView foo = (TextView) ((SearchActivity)context).findViewById(R.id.selected_exhibit_count);
                     foo.setText(String.valueOf(getSelectedCount()));
 
                 } else {
-                    ModelArrayList.get(pos).setSelected(true);
+                    Exhibit currExhibit = ModelArrayList.get(pos);
+                    currExhibit.setSelected(true);
+                    exhibitDao.update(currExhibit);
+
                     selectedExhibits.add(curr);
-                    setSelectedCount(selectedExhibits.size());
+                    setSelectedCount(exhibitDao.getSelectedExhibits().size());
+                    //setSelectedCount(selectedExhibits.size());
                     TextView foo = (TextView) ((SearchActivity)context).findViewById(R.id.selected_exhibit_count);
                     foo.setText(String.valueOf(getSelectedCount()));
                 }
