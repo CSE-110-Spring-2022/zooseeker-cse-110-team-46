@@ -22,6 +22,7 @@ import java.util.concurrent.Executors;
 import edu.ucsd.cse110.zooseeker46.ZooData;
 import edu.ucsd.cse110.zooseeker46.ZooExhibits;
 import edu.ucsd.cse110.zooseeker46.locations.Exhibit;
+import edu.ucsd.cse110.zooseeker46.locations.ExhibitBuilder;
 import edu.ucsd.cse110.zooseeker46.locations.Exhibit_Group;
 import edu.ucsd.cse110.zooseeker46.locations.Gate;
 import edu.ucsd.cse110.zooseeker46.locations.Intersection;
@@ -99,21 +100,31 @@ public abstract class ZooDataDatabase extends RoomDatabase {
             ZooData.VertexInfo curr = entry.getValue();
             //if (entry.getValue().kind.equals("exhibit")) {
 
+            Log.d("entry: ", curr.name);
             Kind kind = entry.getValue().kind;
             if (kind == Kind.EXHIBIT) {
-                Exhibit exhibitObj = new Exhibit(curr.id, curr.name, curr.parent_id, curr.tags, 0, 0);
+                ExhibitBuilder ex = new ExhibitBuilder();
+                ex.addid(curr.id);
+                ex.addname(curr.name);
+                ex.addCoords(curr.lat, curr.lng);
+                ex.addParentid(curr.parent_id);
+                ex.addtags(curr.tags);
+                Exhibit exhibitObj = ex.getExhibit();
+                        //new Exhibit(curr.id, curr.name, curr.parent_id, curr.tags, (Double) curr.latitude, curr.longitude);
                 //getSingleton(context).exhibitDao().insert(exhibitObj);
                 zb.exhibitDao().insert(exhibitObj);
             } else if (kind == Kind.GATE) {
-                Gate gateObj = new Gate(curr.id, curr.name, curr.tags, 0, 0);
+                Gate gateObj = new Gate(curr.id, curr.name, curr.tags, curr.lat, curr.lng);
                 //getSingleton(context).gateDao().insert(gateObj);
                 zb.gateDao().insert(gateObj);
             } else if (kind == Kind.INTERSECTION) {
-                Intersection intersectionObj = new Intersection(curr.id, curr.name, curr.tags, null, null);
+                Intersection intersectionObj = new Intersection(curr.id, curr.name, curr.tags, curr.lat, curr.lng);
                 //getSingleton(context).intersectionDao().insert(intersectionObj);
                 zb.intersectionDao().insert(intersectionObj);
             } else if (kind == Kind.EXHIBIT_GROUP) {
-                Exhibit_Group exhibit_groupObj = new Exhibit_Group(curr.id, curr.name, 0, 0);
+                //Log.d("new entry! with lat: ", String.valueOf(curr.lat));
+                //Log.d(" and long ", String.valueOf(curr.lng));
+                Exhibit_Group exhibit_groupObj = new Exhibit_Group(curr.id, curr.name, curr.lat, curr.lng);
                 //getSingleton(context).exhibitGroupDao().insert(exhibit_groupObj);
                 zb.exhibitGroupDao().insert(exhibit_groupObj);
             } else {
