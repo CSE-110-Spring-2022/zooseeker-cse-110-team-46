@@ -25,9 +25,14 @@ public class DirectionsGroupAdapter extends DirectionsAdapter{
     public Map<String, ZooData.EdgeInfo> exhibitsEdge;
     public DirectionTypeInterface directionsType;
     public String end;
+    boolean isReverse = false;
 
     public void setPath(GraphPath<String, IdentifiedWeightedEdge> path){
         this.path = path;
+    }
+
+    public void setReversed(boolean isReverse){
+        this.isReverse = isReverse;
     }
 
     @NonNull
@@ -51,6 +56,10 @@ public class DirectionsGroupAdapter extends DirectionsAdapter{
                     (exhibitGroup + " find " + endExhibit));
             return;
         }
+
+        if (isReverse) {
+            position = path.getLength()-1 - position;
+        }
         pathLayout = edges.get(position);
         String startName = directionsType.getStartName(exhibitsVertex, pathLayout);
         String endName = directionsType.getEndName(exhibitsVertex, pathLayout);
@@ -64,10 +73,20 @@ public class DirectionsGroupAdapter extends DirectionsAdapter{
                 startName = endName;
                 endName = tempName;
             }
+            if(isReverse){
+                String tempName = startName;
+                startName = endName;
+                endName = tempName;
+            }
         }
         if(position == path.getLength()-1 && position-1 > -1){
             if (endName == exhibitsVertex.get(edges.get(position - 1).getSourceName()).name ||
                     endName == exhibitsVertex.get(edges.get(position - 1).getTargetName()).name) {
+                String tempName = startName;
+                startName = endName;
+                endName = tempName;
+            }
+            if(isReverse){
                 String tempName = startName;
                 startName = endName;
                 endName = tempName;

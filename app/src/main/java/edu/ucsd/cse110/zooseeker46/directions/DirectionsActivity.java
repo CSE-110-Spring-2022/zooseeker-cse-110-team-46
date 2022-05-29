@@ -98,6 +98,7 @@ public class DirectionsActivity extends AppCompatActivity {
             adapter.directionsType = new SimpleDirections();
 
         adapter.setPath(finalPath.get(counter));
+        adapter.setReversed(false);
         recyclerView.setAdapter(adapter);
 
         //Current animal text
@@ -134,6 +135,7 @@ public class DirectionsActivity extends AppCompatActivity {
             setAdapter();
             animalText.setText(vertexForNames.get(exhibitNamesID.get(counter)).name);;
             adapter.setPath(finalPath.get(counter));
+            adapter.setReversed(false);
             recyclerView.setAdapter(adapter);
         }
 
@@ -187,7 +189,13 @@ public class DirectionsActivity extends AppCompatActivity {
             setAdapter();
             animalText.setText(vertexForNames.get(exhibitNamesID.get(counter)).name);
 
-            adapter.setPath(finalPath.get(counter));
+            if(counter+1 < finalPath.size()) {
+                adapter.setPath(finalPath.get(counter + 1));
+            }
+            else{
+                adapter.setPath(finalPath.get(counter));
+            }
+            adapter.setReversed(true);
             recyclerView.setAdapter(adapter);
         }
 

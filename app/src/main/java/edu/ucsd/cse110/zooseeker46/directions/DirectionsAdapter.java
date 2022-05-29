@@ -28,9 +28,14 @@ public class DirectionsAdapter extends RecyclerView.Adapter<DirectionsAdapter.Vi
     public Map<String, ZooData.EdgeInfo> exhibitsEdge;
     public DirectionTypeInterface directionsType;
     public String end;
+    boolean isReverse = false;
 
     public void setPath(GraphPath<String, IdentifiedWeightedEdge> path){
         this.path = path;
+    }
+
+    public void setReversed(boolean isReverse){
+        this.isReverse = isReverse;
     }
 
     @NonNull
@@ -47,6 +52,9 @@ public class DirectionsAdapter extends RecyclerView.Adapter<DirectionsAdapter.Vi
         IdentifiedWeightedEdge pathLayout;
         TextView DirectionsTextView = holder.getDirectionTextView();
         List<IdentifiedWeightedEdge> edges = path.getEdgeList();
+        if (isReverse) {
+            position = path.getLength()-1 - position;
+        }
         pathLayout = edges.get(position);
         String startName = directionsType.getStartName(exhibitsVertex, pathLayout);
         String endName = directionsType.getEndName(exhibitsVertex, pathLayout);
@@ -60,10 +68,20 @@ public class DirectionsAdapter extends RecyclerView.Adapter<DirectionsAdapter.Vi
                 startName = endName;
                 endName = tempName;
             }
+            if(isReverse){
+                String tempName = startName;
+                startName = endName;
+                endName = tempName;
+            }
         }
         if(position == path.getLength()-1 && position-1 > -1){
             if (endName == exhibitsVertex.get(edges.get(position - 1).getSourceName()).name ||
                     endName == exhibitsVertex.get(edges.get(position - 1).getTargetName()).name) {
+                String tempName = startName;
+                startName = endName;
+                endName = tempName;
+            }
+            if(isReverse){
                 String tempName = startName;
                 startName = endName;
                 endName = tempName;
