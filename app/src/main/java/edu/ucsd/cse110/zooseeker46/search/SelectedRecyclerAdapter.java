@@ -47,7 +47,7 @@ public class SelectedRecyclerAdapter extends RecyclerView.Adapter<SelectedRecycl
         //default view in a 1d list
         View view = LayoutInflater
                 .from(parent.getContext())
-                .inflate(R.layout.exhibt_item, parent, false);
+                .inflate(R.layout.selected_text, parent, false);
         return new SelectedRecyclerAdapter.ViewHolder(view);
     }
 
