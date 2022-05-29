@@ -7,4 +7,5 @@
     <string name="empty">Empty</string>
     <string name="no_results_found">No Results Found</string>
     <string name="clear">Clear</string>
+    <string name="selectedexhibits">Selected Exhibits:</string>
 </resources>

@@ -24,7 +24,7 @@
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:gravity="center"
         android:text="Exhibits"
         android:textSize="45dp" />
@@ -42,15 +42,29 @@
     <ListView
         android:id="@+id/lv"
         android:layout_width="304dp"
-        android:layout_height="283dp"
+        android:layout_height="50dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="15dp"
-        android:layout_marginBottom="45dp"
+        android:layout_marginBottom="25dp"
         android:layout_weight="1"
         android:textFilterEnabled="true">
 
 
     </ListView>
+
+    <TextView
+        android:id="@+id/selectedexhibittitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="@string/selectedexhibits"
+        android:textSize="20sp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/selected_rv"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center_horizontal" />
 
     <TextView
         android:id="@+id/empty"
@@ -62,7 +76,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="5dp"
         android:gravity="bottom|center_horizontal"
         android:orientation="horizontal">
 
@@ -85,7 +99,10 @@
             android:layout_gravity="center_horizontal"
             android:text="@string/plan" />
 
+
     </LinearLayout>
+
+
 
 </LinearLayout>
 

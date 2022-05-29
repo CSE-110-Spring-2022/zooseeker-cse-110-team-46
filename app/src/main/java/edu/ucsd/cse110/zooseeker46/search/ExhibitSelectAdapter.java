@@ -29,7 +29,7 @@ import edu.ucsd.cse110.zooseeker46.database.ZooDataDatabase;
 import edu.ucsd.cse110.zooseeker46.locations.Exhibit;
 
 
-public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
+public class ExhibitSelectAdapter extends BaseAdapter implements Filterable {
 
     private final edu.ucsd.cse110.zooseeker46.search.searchFilter searchFilter = new searchFilter(this);
     private Context context;
@@ -48,6 +48,8 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
 
     public ZooDataDatabase zb;
     public ExhibitDao exhibitDao;
+
+    public SelectedRecyclerAdapter sra;
 
     // You can ignore this function. We are still figuring out a way to update listview so checked boxes are filtered to top of listview
     public ArrayList<Exhibit> updateML(Set<String> selectedList){
@@ -78,6 +80,9 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
         this.zb = ZooDataDatabase.getSingleton(context);
         exhibitDao = zb.exhibitDao();
         setSelectedCount(exhibitDao.getSelectedExhibits().size());
+
+        this.sra = new SelectedRecyclerAdapter(context, (ArrayList<Exhibit>) exhibitDao.getSelectedExhibits());
+
         Log.d("In constructor of exhibitselectadapter, size of selected: ", String.valueOf(exhibitDao.getSelectedExhibits().size()));
     }
 
@@ -135,12 +140,14 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
 
         if (convertView == null) {
             holder = new ViewHolder();
+
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.row_item, null, true);
 
             holder.checkBox = (CheckBox) convertView.findViewById(R.id.cb);
             holder.tvAnimal = (TextView) convertView.findViewById(R.id.animal);
+
 
             convertView.setTag(holder);
         } else {
@@ -166,11 +173,13 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
                     exhibitDao.update(currExhibit);
 
                     selectedExhibits.remove(curr);
+
                     setSelectedCount(exhibitDao.getSelectedExhibits().size());
                     //setSelectedCount(selectedExhibits.size());
                     TextView foo = (TextView) ((SearchActivity)context).findViewById(R.id.selected_exhibit_count);
                     foo.setText(String.valueOf(getSelectedCount()));
 
+                    sra.updateData((ArrayList<Exhibit>) exhibitDao.getSelectedExhibits());
                 } else {
                     Exhibit currExhibit = ModelArrayList.get(pos);
                     currExhibit.setSelected(true);
@@ -181,6 +190,8 @@ public class ExhibitSelectAdapter  extends BaseAdapter implements Filterable {
                     //setSelectedCount(selectedExhibits.size());
                     TextView foo = (TextView) ((SearchActivity)context).findViewById(R.id.selected_exhibit_count);
                     foo.setText(String.valueOf(getSelectedCount()));
+
+                    sra.updateData((ArrayList<Exhibit>) exhibitDao.getSelectedExhibits());
                 }
                 selectedExhibits.forEach(System.out::println);
             }
