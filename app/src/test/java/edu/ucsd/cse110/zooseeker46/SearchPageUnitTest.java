@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -17,9 +18,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import edu.ucsd.cse110.zooseeker46.database.ExhibitDao;
+import edu.ucsd.cse110.zooseeker46.database.ZooDataDatabase;
 import edu.ucsd.cse110.zooseeker46.locations.Exhibit;
 import edu.ucsd.cse110.zooseeker46.plan.PlanExhibitsAdapter;
 import edu.ucsd.cse110.zooseeker46.search.ExhibitSelectAdapter;
+import edu.ucsd.cse110.zooseeker46.search.mockExhibitSelectAdapter;
 
 @RunWith(AndroidJUnit4.class)
 public class SearchPageUnitTest {
@@ -28,10 +32,10 @@ public class SearchPageUnitTest {
     List<String> testArrayZoo = new ArrayList<>();
     PlanExhibitsAdapter adapter = new PlanExhibitsAdapter();
     ArrayList<Exhibit> totalExhibits;
-    ExhibitSelectAdapter customAdapter;
+    //ExhibitSelectAdapter customAdapter;
+    mockExhibitSelectAdapter customAdapter;
     ZooExhibits ze = new ZooExhibits(ZooData.loadVertexInfoJSON(context, "sample_node_info.json"));
 
-    @Before
     public void createAdapter() {
         Map<String, Exhibit> mapExhibits =  ze.nameToVertexMap();
         totalExhibits = new ArrayList<>();
@@ -40,11 +44,19 @@ public class SearchPageUnitTest {
             totalExhibits.add(curr.getValue());
         }
 
-        customAdapter = new ExhibitSelectAdapter(context, totalExhibits);
+        customAdapter = new mockExhibitSelectAdapter(context, totalExhibits);
     }
     @Test
     public void orderIsCorrect() {
-        createAdapter();
+        Map<String, Exhibit> mapExhibits =  ze.nameToVertexMap();
+        totalExhibits = new ArrayList<>();
+
+        for(Map.Entry<String, Exhibit> curr: mapExhibits.entrySet()){
+            totalExhibits.add(curr.getValue());
+        }
+
+        customAdapter = new mockExhibitSelectAdapter(context, totalExhibits);
+
         ArrayList<Exhibit> trueorder = totalExhibits;
         Collections.sort(trueorder, Exhibit.ExhibitNameComparator);
 
@@ -61,7 +73,12 @@ public class SearchPageUnitTest {
 
     @Test
     public void selectWorks() {
-        createAdapter();
+        Map<String, Exhibit> mapExhibits =  ze.nameToVertexMap();
+        totalExhibits = new ArrayList<>();
+
+        for(Map.Entry<String, Exhibit> curr: mapExhibits.entrySet()){
+            totalExhibits.add(curr.getValue());
+        }
         totalExhibits.get(1).setSelected(true);
         boolean test = totalExhibits.get(1).getIsSelected();
         assertEquals(true, test);
@@ -69,7 +86,12 @@ public class SearchPageUnitTest {
 
     @Test
     public void selectWorks1() {
-        createAdapter();
+        Map<String, Exhibit> mapExhibits =  ze.nameToVertexMap();
+        totalExhibits = new ArrayList<>();
+
+        for(Map.Entry<String, Exhibit> curr: mapExhibits.entrySet()){
+            totalExhibits.add(curr.getValue());
+        }
         totalExhibits.get(1).setSelected(true);
         totalExhibits.get(1).setSelected(false);
         boolean test = totalExhibits.get(1).getIsSelected();

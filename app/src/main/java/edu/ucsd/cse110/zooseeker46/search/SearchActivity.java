@@ -2,12 +2,15 @@ package edu.ucsd.cse110.zooseeker46.search;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -43,40 +46,67 @@ public class SearchActivity extends AppCompatActivity {
 
     private ArrayList<Exhibit> modelArrayList;
     public static ExhibitSelectAdapter customAdapter;
+    public SelectedRecyclerAdapter selectadapter;
     private Button btnnext;
+    public ZooDataDatabase zb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        Log.d("On create called!", "inside search");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         //Two lines for accessing db
-        ZooDataDatabase zb = ZooDataDatabase.getSingleton(this);
+        zb= ZooDataDatabase.getSingleton(this);
         ExhibitDao exhibitDao = zb.exhibitDao();
 
         List<Exhibit> allexhibits = exhibitDao.getAll();
         int size = allexhibits.size();
         Log.d("size of exhibit list: ", String.valueOf(size));
         modelArrayList = (ArrayList<Exhibit>) allexhibits;
+        Log.d("size of selected exhibit list: ", String.valueOf(exhibitDao.getSelectedExhibits().size()));
 
         listView = (ListView) findViewById(R.id.lv);
         btnnext = (Button) findViewById(R.id.plan_btn);
         TextView count = findViewById(R.id.selected_exhibit_count);
-        //vertexInfoMap = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
+        count.setText(String.valueOf(exhibitDao.getSelectedExhibits().size()));
         zoo = new ZooExhibits(vertexInfoMap);
-        //modelArrayList = zoo.getExhibits();
-        customAdapter = new ExhibitSelectAdapter(this, (ArrayList<Exhibit>) modelArrayList);
+
+
+        RecyclerView rvSelectedExhibits = (RecyclerView) findViewById(R.id.selected_rv);
+        selectadapter = new SelectedRecyclerAdapter((ArrayList<Exhibit>) exhibitDao.getSelectedExhibits());
+        rvSelectedExhibits.setLayoutManager(new LinearLayoutManager(this));
+        rvSelectedExhibits.setAdapter(selectadapter);
+        rvSelectedExhibits.setHasFixedSize(true);
+        customAdapter = new ExhibitSelectAdapter(this, (ArrayList<Exhibit>) modelArrayList, selectadapter);
 
         listView.setAdapter(customAdapter);
         listView.setTextFilterEnabled(true);
         listView.setEmptyView(findViewById(R.id.empty)); // no results text); // sets no results text to the list
+
+
+        List<Exhibit> selected = exhibitDao.getSelectedExhibits();
+
         btnnext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SearchActivity.this, PlanActivity.class);
                 intent.putExtra("exhibit_count", count.getText());
                 startActivity(intent);
+            }
+        });
+
+        Button clearbtn = (Button) findViewById(R.id.clear_btn);
+
+        clearbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("being called");
+                customAdapter.forceRepopulate();
+
+                resetUI();
+                customAdapter.notifyDataSetChanged();
+                selectadapter.clearData();
             }
         });
     }
@@ -111,4 +141,17 @@ public class SearchActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void resetUI() {
+        TextView exhibitCount = findViewById(R.id.selected_exhibit_count);
+        exhibitCount.setText("0");
+
+        CheckBox cb;
+
+        for(int i=0; i<listView.getChildCount();i++)
+        {
+            //cb = (CheckBox)listView.getChildAt(i).findViewById(R.id.cb);
+            //cb.setChecked(false);
+            customAdapter.ModelArrayList.get(i).setSelected(false);
+        }
+    }
 }
