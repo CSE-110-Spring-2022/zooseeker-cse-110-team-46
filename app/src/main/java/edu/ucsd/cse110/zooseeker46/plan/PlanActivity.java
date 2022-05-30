@@ -5,21 +5,20 @@ import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-;
 import edu.ucsd.cse110.zooseeker46.R;
 import edu.ucsd.cse110.zooseeker46.SettingsActivity;
 import edu.ucsd.cse110.zooseeker46.ZooData;
 import edu.ucsd.cse110.zooseeker46.ZooExhibits;
+import edu.ucsd.cse110.zooseeker46.database.ExhibitDao;
+import edu.ucsd.cse110.zooseeker46.database.ZooDataDatabase;
 import edu.ucsd.cse110.zooseeker46.directions.Directions;
 import edu.ucsd.cse110.zooseeker46.directions.DirectionsActivity;
 import edu.ucsd.cse110.zooseeker46.locations.Exhibit;
@@ -39,8 +38,11 @@ public class PlanActivity extends AppCompatActivity {
     private Set<String> selected;
     ZooExhibits zoo;
     ExhibitSelectAdapter exhibitSelectAdapter;
+    ZooDataDatabase zb;
+    ExhibitDao exhibitDao;
     Map<String,ZooData.VertexInfo> placesToVisit = new HashMap<>();
     Directions d;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +73,12 @@ public class PlanActivity extends AppCompatActivity {
         exhibitSelectAdapter = SearchActivity.getCustomAdapter();
         selected = exhibitSelectAdapter.selectedExhibits;
         selectedList = new ArrayList<>(selected);
+//        this.zb = ZooDataDatabase.getSingleton(context);
+//        exhibitDao = zb.exhibitDao();
+//        for(Exhibit curr: exhibitDao.getSelectedExhibits()){
+//            selectedList.add(curr.getName());
+//        }
+//        selectedList = exhibitDao.getSelectedExhibits();
         idList = zoo.getIDList(selectedList);
 
         Map<String,ZooData.VertexInfo> placesToVisit = new HashMap<>();
