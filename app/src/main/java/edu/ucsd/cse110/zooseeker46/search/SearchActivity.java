@@ -2,6 +2,8 @@ package edu.ucsd.cse110.zooseeker46.search;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -45,6 +47,7 @@ public class SearchActivity extends AppCompatActivity {
     private ArrayList<Exhibit> modelArrayList;
     public static ExhibitSelectAdapter customAdapter;
     private Button btnnext;
+    RecyclerView rvSelectedExhibits;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,22 +69,24 @@ public class SearchActivity extends AppCompatActivity {
         btnnext = (Button) findViewById(R.id.plan_btn);
         TextView count = findViewById(R.id.selected_exhibit_count);
         zoo = new ZooExhibits(vertexInfoMap);
-        customAdapter = new ExhibitSelectAdapter(this, (ArrayList<Exhibit>) modelArrayList);
+
+
+        RecyclerView rvSelectedExhibits = (RecyclerView) findViewById(R.id.selected_rv);
+        Exhibit test = new Exhibit("test1", "test1name", new ArrayList<>());
+        ArrayList<Exhibit> testlist = new ArrayList<>();
+        testlist.add(test);
+        SelectedRecyclerAdapter selectadapter = new SelectedRecyclerAdapter((ArrayList<Exhibit>) exhibitDao.getSelectedExhibits());
+        rvSelectedExhibits.setLayoutManager(new LinearLayoutManager(this));
+        rvSelectedExhibits.setAdapter(selectadapter);
+        rvSelectedExhibits.setHasFixedSize(true);
+        customAdapter = new ExhibitSelectAdapter(this, (ArrayList<Exhibit>) modelArrayList, selectadapter);
 
         listView.setAdapter(customAdapter);
         listView.setTextFilterEnabled(true);
         listView.setEmptyView(findViewById(R.id.empty)); // no results text); // sets no results text to the list
 
-//        for(Exhibit curr: modelArrayList){
-//            CheckBox checkItem = findViewById(R.id.cb);
-//            checkItem.setChecked(curr.getIsSelected());
-//        }
 
-//        View rowView = layoutInflater.inflate(R.layout.listview,parent,false);
-//        TextView moviesName=(TextView)rowView.findViewById(R.id.movieNameTv);
-//        CheckBox checkBox=(CheckBox)rowView.findViewById(R.id.checkbox);
-//        movieModel = moviesData.get(position);
-//        checkBox.setChecked(curr.getIsSelected());
+        List<Exhibit> selected = exhibitDao.getSelectedExhibits();
 
         btnnext.setOnClickListener(new View.OnClickListener() {
             @Override

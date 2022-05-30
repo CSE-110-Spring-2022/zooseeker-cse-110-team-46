@@ -1,6 +1,7 @@
 package edu.ucsd.cse110.zooseeker46.search;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.UiThread;
 import androidx.lifecycle.ViewModel;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,16 +23,20 @@ import edu.ucsd.cse110.zooseeker46.plan.PlanExhibitsAdapter;
 public class SelectedRecyclerAdapter extends RecyclerView.Adapter<SelectedRecyclerAdapter.ViewHolder>{
     private ArrayList<Exhibit> items;
     Context context;
-//    private OnItemClickListener onItemClickListener;
+    private OnItemClickListener onItemClickListener;
+    public static RecyclerView.Adapter adapter;
+    private ViewHolder holder;
+    private int position;
 
     public SelectedRecyclerAdapter(ArrayList<Exhibit> items) {
+        adapter = this;
         this.items = items;
     }
 
 //
-//    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-//        this.onItemClickListener = onItemClickListener;
-//    }
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
 //
 //    @Override
 //    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -51,10 +57,17 @@ public class SelectedRecyclerAdapter extends RecyclerView.Adapter<SelectedRecycl
         return new SelectedRecyclerAdapter.ViewHolder(view);
     }
 
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        TextView exhibittext = holder.tvAnimal;
+        exhibittext.setText(items.get(position).getName());
+    }
+
     public SelectedRecyclerAdapter(Context context, ArrayList<Exhibit> modelArrayList){
         this.context = context;
         this.items = modelArrayList;
     }
+
 
     public View getView(int position, View convertView, ViewGroup parent) {
         final SelectedRecyclerAdapter.ViewHolder holder;
@@ -81,6 +94,13 @@ public class SelectedRecyclerAdapter extends RecyclerView.Adapter<SelectedRecycl
     public void updateData(ArrayList<Exhibit> viewModels) {
         items.clear();
         items.addAll(viewModels);
+        Log.d("SelectedRecyclerAdapter item size: ", String.valueOf(items.size()));
+        dataSetChanged();
+    }
+
+    @UiThread
+    protected void dataSetChanged() {
+        notifyDataSetChanged();
     }
 
     public void addItem(int position, Exhibit viewModel) {
@@ -103,12 +123,6 @@ public class SelectedRecyclerAdapter extends RecyclerView.Adapter<SelectedRecycl
         return items.size();
     }
 
-    @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        TextView exhibittext = holder.tvAnimal;
-        exhibittext.setText(items.get(position).getName());
-    }
-
 
 //
 //    @Override
@@ -126,14 +140,15 @@ public class SelectedRecyclerAdapter extends RecyclerView.Adapter<SelectedRecycl
 
     protected static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tvAnimal;
+
         public ViewHolder(View itemView){
             super(itemView);
-            this.tvAnimal = itemView.findViewById(R.id.selected_tv);
+            this.tvAnimal = (TextView) itemView.findViewById(R.id.selected_tv);
         }
     }
 
-//    public interface OnItemClickListener {
-//        void onItemClick(View view, ViewModel viewModel);
-//    }
+    public interface OnItemClickListener {
+        void onItemClick(View view, ViewModel viewModel);
+    }
 
 }

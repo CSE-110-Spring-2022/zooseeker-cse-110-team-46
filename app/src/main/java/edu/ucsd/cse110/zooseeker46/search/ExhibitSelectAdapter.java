@@ -1,6 +1,7 @@
 package edu.ucsd.cse110.zooseeker46.search;
 import android.content.Context;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,8 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -49,7 +52,7 @@ public class ExhibitSelectAdapter extends BaseAdapter implements Filterable {
     public ZooDataDatabase zb;
     public ExhibitDao exhibitDao;
 
-    public SelectedRecyclerAdapter sra;
+    SelectedRecyclerAdapter sra;
 
     // You can ignore this function. We are still figuring out a way to update listview so checked boxes are filtered to top of listview
     public ArrayList<Exhibit> updateML(Set<String> selectedList){
@@ -81,8 +84,23 @@ public class ExhibitSelectAdapter extends BaseAdapter implements Filterable {
         exhibitDao = zb.exhibitDao();
         setSelectedCount(exhibitDao.getSelectedExhibits().size());
 
-        this.sra = new SelectedRecyclerAdapter(context, (ArrayList<Exhibit>) exhibitDao.getSelectedExhibits());
+        Log.d("In constructor of exhibitselectadapter, size of selected: ", String.valueOf(exhibitDao.getSelectedExhibits().size()));
+    }
 
+    public ExhibitSelectAdapter(Context context, ArrayList<Exhibit> modelArrayList, SelectedRecyclerAdapter sra) {
+        this.context = context;
+        Collections.sort(modelArrayList, Exhibit.ExhibitNameComparator);
+        this.ModelArrayList = modelArrayList;
+        this.ModelArrayListFiltered = modelArrayList;
+        this.selectedExhibits = new HashSet<>();
+        this.totalExhibits = new HashMap<>();
+        for (Exhibit exhibit : modelArrayList) {
+            totalExhibits.put(exhibit.getName(), exhibit);
+        }
+        this.zb = ZooDataDatabase.getSingleton(context);
+        exhibitDao = zb.exhibitDao();
+        setSelectedCount(exhibitDao.getSelectedExhibits().size());
+        this.sra = sra;
         Log.d("In constructor of exhibitselectadapter, size of selected: ", String.valueOf(exhibitDao.getSelectedExhibits().size()));
     }
 
@@ -134,6 +152,7 @@ public class ExhibitSelectAdapter extends BaseAdapter implements Filterable {
     public int getSelectedExhibitsCount(){
         return selectedExhibits.size();
     }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final ViewHolder holder;
@@ -155,6 +174,7 @@ public class ExhibitSelectAdapter extends BaseAdapter implements Filterable {
             holder = (ViewHolder) convertView.getTag();
         }
 
+
         holder.tvAnimal.setText(ModelArrayList.get(position).getName());
         holder.checkBox.setChecked(ModelArrayList.get(position).getIsSelected());
         holder.checkBox.setTag(R.integer.btnplusview, convertView);
@@ -175,7 +195,6 @@ public class ExhibitSelectAdapter extends BaseAdapter implements Filterable {
                     selectedExhibits.remove(curr);
 
                     setSelectedCount(exhibitDao.getSelectedExhibits().size());
-                    //setSelectedCount(selectedExhibits.size());
                     TextView foo = (TextView) ((SearchActivity)context).findViewById(R.id.selected_exhibit_count);
                     foo.setText(String.valueOf(getSelectedCount()));
 
@@ -210,5 +229,6 @@ public class ExhibitSelectAdapter extends BaseAdapter implements Filterable {
         protected CheckBox checkBox;
         private TextView tvAnimal;
     }
+
 
 }
