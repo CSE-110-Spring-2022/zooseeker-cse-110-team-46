@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="64dp">
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/dirText"
@@ -17,4 +17,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="4dp" />
+
+    <Button
+        android:id="@+id/mock_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onMockButtonClicked"
+        android:text="Mock Location"
+        tools:layout_editor_absoluteX="237dp"
+        tools:layout_editor_absoluteY="16dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

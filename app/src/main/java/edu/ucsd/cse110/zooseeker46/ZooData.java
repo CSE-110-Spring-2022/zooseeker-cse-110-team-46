@@ -39,6 +39,8 @@ public class ZooData {
         public String name;
         public List<String> tags;
         public String parent_id;
+        public double lat;
+        public double lng;
     }
 
     public static class EdgeInfo {

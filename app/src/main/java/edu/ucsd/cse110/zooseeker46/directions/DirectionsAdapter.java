@@ -117,4 +117,6 @@ public class DirectionsAdapter extends RecyclerView.Adapter<DirectionsAdapter.Vi
     public void setEnd(String end) {
         this.end = end;
     }
+
+
 }

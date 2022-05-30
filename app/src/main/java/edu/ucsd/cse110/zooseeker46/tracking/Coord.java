@@ -42,4 +42,10 @@ public class Coord {
     public String toString() {
         return String.format("Coord{lat=%s, lng=%s}", lat, lng);
     }
+
+    public Coord compareCoord(Coord c1, Coord c2){
+        double lat = c1.lat - c2.lat;
+        double lng = c1.lng - c2.lng;
+        return new Coord(lat, lng);
+    }
 }

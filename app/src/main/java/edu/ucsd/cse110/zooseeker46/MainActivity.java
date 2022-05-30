@@ -42,8 +42,11 @@ public class MainActivity extends AppCompatActivity {
         // Set up the model.
         model = new ViewModelProvider(this).get(LocationModel.class);
 
-        // If GPS is enabled, then update the model from the Location service.
         if (useLocationService) {
+            setupLocationListener(model::mockLocation);
+        }
+
+        else {
             LocationPermissionChecker permissionChecker = new LocationPermissionChecker(this);
             permissionChecker.ensurePermissions();
 

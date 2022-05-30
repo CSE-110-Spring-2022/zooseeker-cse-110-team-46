@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,9 +22,11 @@ import java.util.Map;
 import java.util.Set;
 
 import edu.ucsd.cse110.zooseeker46.IdentifiedWeightedEdge;
+import edu.ucsd.cse110.zooseeker46.MockLocation;
 import edu.ucsd.cse110.zooseeker46.R;
 import edu.ucsd.cse110.zooseeker46.ZooData;
 import edu.ucsd.cse110.zooseeker46.ZooExhibits;
+import edu.ucsd.cse110.zooseeker46.plan.PlanActivity;
 import edu.ucsd.cse110.zooseeker46.search.ExhibitSelectAdapter;
 import edu.ucsd.cse110.zooseeker46.search.SearchActivity;
 
@@ -31,6 +34,11 @@ public class DirectionsActivity extends AppCompatActivity {
 
     public RecyclerView recyclerView;
     DirectionsAdapter adapter;
+
+    public int getCounter() {
+        return counter;
+    }
+
     private int counter = 0;
     List<GraphPath<String, IdentifiedWeightedEdge>> finalPath;
     Map<String, ZooData.VertexInfo> vertexForNames;
@@ -184,5 +192,16 @@ public class DirectionsActivity extends AppCompatActivity {
         adapter.setDirectionsType(new DetailedDirections());
 
         recyclerView.setAdapter(adapter);
+    }
+
+    public List<String> getExhibitNamesID() {
+        return exhibitNamesID;
+    }
+
+    public void onMockButtonClicked(View view) {
+        //Intent intent = new Intent(PlanActivity.this, DirectionsActivity.class);
+        Intent intent = new Intent(this, MockLocation.class);
+        intent.putExtra("count", counter);
+        startActivity(intent);
     }
 }

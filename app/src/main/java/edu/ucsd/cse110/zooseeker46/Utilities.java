@@ -8,9 +8,9 @@ public class Utilities {
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(activity);
 
         alertBuilder
-                .setTitle("Alert!")
+                .setTitle("Alert")
                 .setMessage(message)
-                .setPositiveButton("Ok", (dialog, id) -> {
+                .setPositiveButton("Replan", (dialog, id) -> {
                     dialog.cancel();
                 })
                 .setCancelable(true);
