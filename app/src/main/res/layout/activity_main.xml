@@ -85,10 +85,10 @@
 
         <Button
             android:id="@+id/clear_btn"
-            android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
             android:text="@string/clear" />
         <Space
             android:layout_width="10dp"

@@ -46,8 +46,9 @@ public class SearchActivity extends AppCompatActivity {
 
     private ArrayList<Exhibit> modelArrayList;
     public static ExhibitSelectAdapter customAdapter;
+    public SelectedRecyclerAdapter selectadapter;
     private Button btnnext;
-    RecyclerView rvSelectedExhibits;
+    public ZooDataDatabase zb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +57,7 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //Two lines for accessing db
-        ZooDataDatabase zb = ZooDataDatabase.getSingleton(this);
+        zb= ZooDataDatabase.getSingleton(this);
         ExhibitDao exhibitDao = zb.exhibitDao();
 
         List<Exhibit> allexhibits = exhibitDao.getAll();
@@ -75,7 +76,7 @@ public class SearchActivity extends AppCompatActivity {
         Exhibit test = new Exhibit("test1", "test1name", new ArrayList<>());
         ArrayList<Exhibit> testlist = new ArrayList<>();
         testlist.add(test);
-        SelectedRecyclerAdapter selectadapter = new SelectedRecyclerAdapter((ArrayList<Exhibit>) exhibitDao.getSelectedExhibits());
+        selectadapter = new SelectedRecyclerAdapter((ArrayList<Exhibit>) exhibitDao.getSelectedExhibits());
         rvSelectedExhibits.setLayoutManager(new LinearLayoutManager(this));
         rvSelectedExhibits.setAdapter(selectadapter);
         rvSelectedExhibits.setHasFixedSize(true);
@@ -94,6 +95,18 @@ public class SearchActivity extends AppCompatActivity {
                 Intent intent = new Intent(SearchActivity.this, PlanActivity.class);
                 intent.putExtra("exhibit_count", count.getText());
                 startActivity(intent);
+            }
+        });
+
+        Button clearbtn = (Button) findViewById(R.id.clear_btn);
+
+        clearbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("being called");
+                customAdapter.forceRepopulate();
+                customAdapter.notifyDataSetChanged();
+                selectadapter.notifyDataSetChanged();
             }
         });
     }
@@ -127,5 +140,6 @@ public class SearchActivity extends AppCompatActivity {
         Intent intent = new Intent(SearchActivity.this, SettingsActivity.class);
         startActivity(intent);
     }
+
 
 }

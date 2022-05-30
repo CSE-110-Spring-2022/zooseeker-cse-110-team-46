@@ -25,6 +25,7 @@ import java.util.Locale;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.Executors;
 
 import edu.ucsd.cse110.zooseeker46.R;
 import edu.ucsd.cse110.zooseeker46.database.ExhibitDao;
@@ -230,5 +231,7 @@ public class ExhibitSelectAdapter extends BaseAdapter implements Filterable {
         private TextView tvAnimal;
     }
 
-
+    public void forceRepopulate(){
+        zb = zb.resetSingleton(context);
+    }
 }

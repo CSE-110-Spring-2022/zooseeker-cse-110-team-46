@@ -18,6 +18,8 @@ import edu.ucsd.cse110.zooseeker46.R;
 import edu.ucsd.cse110.zooseeker46.SettingsActivity;
 import edu.ucsd.cse110.zooseeker46.ZooData;
 import edu.ucsd.cse110.zooseeker46.ZooExhibits;
+import edu.ucsd.cse110.zooseeker46.database.ExhibitDao;
+import edu.ucsd.cse110.zooseeker46.database.ZooDataDatabase;
 import edu.ucsd.cse110.zooseeker46.directions.DirectionsActivity;
 import edu.ucsd.cse110.zooseeker46.locations.Exhibit;
 import edu.ucsd.cse110.zooseeker46.search.ExhibitSelectAdapter;
@@ -36,6 +38,9 @@ public class PlanActivity extends AppCompatActivity {
     private Set<String> selected;
     ZooExhibits zoo;
     ExhibitSelectAdapter exhibitSelectAdapter;
+    ZooDataDatabase zb;
+    ExhibitDao exhibitDao;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +70,12 @@ public class PlanActivity extends AppCompatActivity {
         exhibitSelectAdapter = SearchActivity.getCustomAdapter();
         selected = exhibitSelectAdapter.selectedExhibits;
         selectedList = new ArrayList<>(selected);
+//        this.zb = ZooDataDatabase.getSingleton(context);
+//        exhibitDao = zb.exhibitDao();
+//        for(Exhibit curr: exhibitDao.getSelectedExhibits()){
+//            selectedList.add(curr.getName());
+//        }
+//        selectedList = exhibitDao.getSelectedExhibits();
         idList = zoo.getIDList(selectedList);
 
 

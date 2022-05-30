@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
+
 import edu.ucsd.cse110.zooseeker46.database.ZooDataDatabase;
 import edu.ucsd.cse110.zooseeker46.search.SearchActivity;
 
@@ -31,5 +34,20 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public class Worker implements Runnable {
+        private List<String> outputScraper;
+        private CountDownLatch countDownLatch;
 
+        public Worker(List<String> outputScraper, CountDownLatch countDownLatch) {
+            this.outputScraper = outputScraper;
+            this.countDownLatch = countDownLatch;
+        }
+
+        @Override
+        public void run() {
+            ZooDataDatabase.setShouldForceRepopulate();
+            outputScraper.add("Counted down");
+            countDownLatch.countDown();
+        }
+    }
 }

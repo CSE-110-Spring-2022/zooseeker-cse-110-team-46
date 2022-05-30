@@ -35,6 +35,7 @@ public abstract class ZooDataDatabase extends RoomDatabase {
     private static ZooDataDatabase singleton = null;
 
     static ZooData zooDataObj = new ZooData();
+    public Map<String, ZooData.VertexInfo> info;
 
     public static void setShouldForceRepopulate() {
         ZooDataDatabase.shouldForceRepopulate = true;
@@ -58,6 +59,18 @@ public abstract class ZooDataDatabase extends RoomDatabase {
             Log.d("! + ", msg);
             singleton = ZooDataDatabase.makeDatabase(context);
         }
+        return singleton;
+    }
+
+    public ZooDataDatabase resetSingleton(Context context){
+//        setShouldForceRepopulate();
+//        singleton = ZooDataDatabase.makeDatabase(context);
+        Executors.newSingleThreadExecutor().execute(() -> {
+            ZooDataDatabase zb = ZooDataDatabase.getSingleton(context);
+            zb.clearAllTables();
+            Map<String, ZooData.VertexInfo> info = ZooData.loadVertexInfoJSON(context, "sample_node_info.json");
+            populateDatabase(zb, info);
+        });
         return singleton;
     }
 
