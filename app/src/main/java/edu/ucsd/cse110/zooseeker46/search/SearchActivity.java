@@ -103,8 +103,12 @@ public class SearchActivity extends AppCompatActivity {
             public void onClick(View v) {
                 System.out.println("being called");
                 customAdapter.forceRepopulate();
+
+                resetUI();
                 customAdapter.notifyDataSetChanged();
                 selectadapter.notifyDataSetChanged();
+
+                
             }
         });
     }
@@ -139,5 +143,17 @@ public class SearchActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void resetUI() {
+        TextView exhibitCount = findViewById(R.id.selected_exhibit_count);
+        exhibitCount.setText("0");
 
+        CheckBox cb;
+
+        for(int i=0; i<listView.getChildCount();i++)
+        {
+            //cb = (CheckBox)listView.getChildAt(i).findViewById(R.id.cb);
+            //cb.setChecked(false);
+            customAdapter.ModelArrayList.get(i).setSelected(false);
+        }
+    }
 }
