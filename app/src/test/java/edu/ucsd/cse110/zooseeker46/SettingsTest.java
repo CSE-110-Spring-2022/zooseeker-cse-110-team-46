@@ -32,6 +32,7 @@ import edu.ucsd.cse110.zooseeker46.locations.Exhibit;
 import edu.ucsd.cse110.zooseeker46.plan.PlanExhibitsAdapter;
 import edu.ucsd.cse110.zooseeker46.search.ExhibitSelectAdapter;
 import edu.ucsd.cse110.zooseeker46.search.SearchActivity;
+import edu.ucsd.cse110.zooseeker46.search.mockExhibitSelectAdapter;
 
 @RunWith(AndroidJUnit4.class)
 public class SettingsTest {
@@ -42,7 +43,7 @@ public class SettingsTest {
 
     DirectionsAdapter adapter2 = new DirectionsAdapter();
 
-    ExhibitSelectAdapter customAdapter;
+    mockExhibitSelectAdapter customAdapter;
     ZooExhibits ze = new ZooExhibits(ZooData.loadVertexInfoJSON(context, "sample_node_info.json"));
     ArrayList<Exhibit> totalExhibits;
 
@@ -65,7 +66,7 @@ public class SettingsTest {
             totalExhibits.add(curr.getValue());
         }
 
-        customAdapter = new ExhibitSelectAdapter(context, totalExhibits);
+        customAdapter = new mockExhibitSelectAdapter(context, totalExhibits);
     }
 
 

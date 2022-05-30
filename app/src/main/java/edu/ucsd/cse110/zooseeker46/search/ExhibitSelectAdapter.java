@@ -85,6 +85,8 @@ public class ExhibitSelectAdapter extends BaseAdapter implements Filterable {
         exhibitDao = zb.exhibitDao();
         setSelectedCount(exhibitDao.getSelectedExhibits().size());
 
+        this.sra = null;
+
         Log.d("In constructor of exhibitselectadapter, size of selected: ", String.valueOf(exhibitDao.getSelectedExhibits().size()));
     }
 
@@ -199,7 +201,7 @@ public class ExhibitSelectAdapter extends BaseAdapter implements Filterable {
                     TextView foo = (TextView) ((SearchActivity)context).findViewById(R.id.selected_exhibit_count);
                     foo.setText(String.valueOf(getSelectedCount()));
 
-                    sra.updateData((ArrayList<Exhibit>) exhibitDao.getSelectedExhibits());
+                    if(sra != null){ sra.updateData((ArrayList<Exhibit>) exhibitDao.getSelectedExhibits()); }
                 } else {
                     Exhibit currExhibit = ModelArrayList.get(pos);
                     currExhibit.setSelected(true);
@@ -211,7 +213,7 @@ public class ExhibitSelectAdapter extends BaseAdapter implements Filterable {
                     TextView foo = (TextView) ((SearchActivity)context).findViewById(R.id.selected_exhibit_count);
                     foo.setText(String.valueOf(getSelectedCount()));
 
-                    sra.updateData((ArrayList<Exhibit>) exhibitDao.getSelectedExhibits());
+                    if(sra != null){ sra.updateData((ArrayList<Exhibit>) exhibitDao.getSelectedExhibits()); }
                 }
                 selectedExhibits.forEach(System.out::println);
             }
