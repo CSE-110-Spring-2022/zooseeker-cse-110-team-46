@@ -45,7 +45,7 @@ public class ExhibitSelectAdapter extends BaseAdapter implements Filterable {
     // As checkboxes are selected/deselected, this keeps all the exhibit names stored
     public static Set<String> selectedExhibits;
 
-    private int SelectedCount  =  0;
+    private int SelectedCount;
 
     // As the name implies.. (string = exhibit name)
     public Map<String, Exhibit> totalExhibits;
@@ -151,7 +151,7 @@ public class ExhibitSelectAdapter extends BaseAdapter implements Filterable {
 
     // Helper function to get the selected exhibit count -> Kevin use this!
     public int getSelectedExhibitsCount(){
-        return selectedExhibits.size();
+        return exhibitDao.getSelectedExhibits().size();
     }
 
     @Override

@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
         SettingsStaticClass.detailed = false;
         // Uncomment for debugging:
-        ZooDataDatabase.setShouldForceRepopulate();
+        //ZooDataDatabase.setShouldForceRepopulate();
 
         Intent intent = new Intent(this, SearchActivity.class);
         startActivity(intent);

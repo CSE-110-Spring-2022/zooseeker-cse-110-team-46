@@ -69,6 +69,7 @@ public class SearchActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.lv);
         btnnext = (Button) findViewById(R.id.plan_btn);
         TextView count = findViewById(R.id.selected_exhibit_count);
+        count.setText(String.valueOf(exhibitDao.getSelectedExhibits().size()));
         zoo = new ZooExhibits(vertexInfoMap);
 
 
