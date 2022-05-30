@@ -5,21 +5,21 @@ import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
-;
 import edu.ucsd.cse110.zooseeker46.R;
 import edu.ucsd.cse110.zooseeker46.SettingsActivity;
 import edu.ucsd.cse110.zooseeker46.ZooData;
 import edu.ucsd.cse110.zooseeker46.ZooExhibits;
 import edu.ucsd.cse110.zooseeker46.database.ExhibitDao;
 import edu.ucsd.cse110.zooseeker46.database.ZooDataDatabase;
+import edu.ucsd.cse110.zooseeker46.directions.Directions;
 import edu.ucsd.cse110.zooseeker46.directions.DirectionsActivity;
 import edu.ucsd.cse110.zooseeker46.locations.Exhibit;
 import edu.ucsd.cse110.zooseeker46.search.ExhibitSelectAdapter;
@@ -40,6 +40,9 @@ public class PlanActivity extends AppCompatActivity {
     ExhibitSelectAdapter exhibitSelectAdapter;
     ZooDataDatabase zb;
     ExhibitDao exhibitDao;
+    Map<String,ZooData.VertexInfo> placesToVisit = new HashMap<>();
+    Directions d;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,14 +81,16 @@ public class PlanActivity extends AppCompatActivity {
 //        selectedList = exhibitDao.getSelectedExhibits();
         idList = zoo.getIDList(selectedList);
 
+        Map<String,ZooData.VertexInfo> placesToVisit = new HashMap<>();
 
-
-        //temporary till actual implementation of checking exhibit
-        testExhibitList = new ArrayList<>();
-        testExhibitList.add("elephant_odyssey");
-        testExhibitList.add("gators");
-        testExhibitList.add("arctic_foxes");
-        adapter.setExhibits(idList);
+        //get the hashmap of animals/location
+        for(int i = 0; i < selectedList.size(); i++) {
+            placesToVisit.put(idList.get(i), adapter.exhibitsVertex.get(selectedList.get(i)));
+        }
+        d = new Directions(placesToVisit, adapter.exhibitsGraph);
+        d.exhibitsVertex = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
+        d.finalListOfPaths();
+        adapter.orderPlan(d.getFinalPath(),d.getExhibitsNamesID());
     }
 
     public void onDirectionsButtonClicked(View view) {
