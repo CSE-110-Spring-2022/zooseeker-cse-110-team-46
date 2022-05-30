@@ -41,7 +41,7 @@ public class PlanExhibitsAdapter extends RecyclerView.Adapter<PlanExhibitsAdapte
     List<GraphPath<String, IdentifiedWeightedEdge>> finalPath;
     List<String> exhibitNamesID;
 
-    public void OrderPlan(List<GraphPath<String, IdentifiedWeightedEdge>> finalPath,List<String> exhibitNamesID) {
+    public void orderPlan(List<GraphPath<String, IdentifiedWeightedEdge>> finalPath,List<String> exhibitNamesID) {
         this.finalPath = finalPath;
         this.exhibitNamesID = exhibitNamesID;
         this.keyExhibits.clear();

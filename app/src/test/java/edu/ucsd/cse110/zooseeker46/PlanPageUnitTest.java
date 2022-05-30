@@ -19,35 +19,56 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.ucsd.cse110.zooseeker46.directions.Directions;
 import edu.ucsd.cse110.zooseeker46.plan.PlanExhibitsAdapter;
 
 //should update later with a database
 @RunWith(AndroidJUnit4.class)
 public class PlanPageUnitTest {
     Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
-    List<String> testArrayZoo = new ArrayList<>();
+    Map<String,ZooData.VertexInfo> testMapZoo = new HashMap<>();
     PlanExhibitsAdapter adapter = new PlanExhibitsAdapter();
+    Directions d;
     @Before
     public void createAdapter(){
-        testArrayZoo.add("flamingo");
-        testArrayZoo.add("capuchin");
         adapter.exhibitsGraph = ZooData.loadZooGraphJSON(context, "sample_zoo_graph.json");
         adapter.exhibitsEdge = ZooData.loadEdgeInfoJSON(context, "sample_edge_info.json");
         adapter.exhibitsVertex = ZooData.loadVertexInfoJSON(context, "sample_node_info.json");
-        adapter.setExhibits(testArrayZoo);
+        testMapZoo.put("flamingo", adapter.exhibitsVertex.get("flamingo"));
+        testMapZoo.put("capuchin", adapter.exhibitsVertex.get("capuchin"));
+        testMapZoo.put("toucan", adapter.exhibitsVertex.get("toucan"));
+        testMapZoo.put("motmot", adapter.exhibitsVertex.get("motmot"));
+        d = new Directions(testMapZoo,adapter.exhibitsGraph);
+        d.exhibitsVertex = adapter.exhibitsVertex;
+        d.finalListOfPaths();
+        adapter.orderPlan(d.getFinalPath(),d.getExhibitsNamesID());
     }
     @Test
     public void orderIsCorrect() {
         createAdapter();
         assertEquals("flamingo", adapter.getExhibitsPlan().get(0));
         assertEquals("capuchin",adapter.getExhibitsPlan().get(1));
+        assertEquals("motmot",adapter.getExhibitsPlan().get(2));
+        assertEquals("toucan",adapter.getExhibitsPlan().get(3));
     }
 
     @Test
     public void DistanceIsCorrect() {
         createAdapter();
-        assertEquals((Integer) 90, adapter.exhibitsEntrance.get("flamingo"));
-        assertEquals((Integer) 240, adapter.exhibitsEntrance.get("capuchin"));
+        assertEquals((Integer) 90, adapter.exhibitsDistFromStart.get("flamingo"));
+        assertEquals((Integer) 240, adapter.exhibitsDistFromStart.get("capuchin"));
+        assertEquals((Integer) 420, adapter.exhibitsDistFromStart.get("toucan"));
+        assertEquals((Integer) 420, adapter.exhibitsDistFromStart.get("motmot"));
+
+    }
+
+    @Test
+    public void StreetIsCorrect(){
+        createAdapter();
+        assertEquals("Monkey Trail", adapter.exhibitsStreet.get("flamingo"));
+        assertEquals("Monkey Trail", adapter.exhibitsStreet.get("capuchin"));
+        assertEquals("Treetops Way", adapter.exhibitsStreet.get("toucan"));
+        assertEquals("Treetops Way", adapter.exhibitsStreet.get("motmot"));
     }
 
 

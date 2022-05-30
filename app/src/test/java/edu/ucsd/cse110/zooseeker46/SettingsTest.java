@@ -22,10 +22,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import edu.ucsd.cse110.zooseeker46.directions.DetailedDirections;
+import edu.ucsd.cse110.zooseeker46.directions.Directions;
 import edu.ucsd.cse110.zooseeker46.directions.DirectionsActivity;
 import edu.ucsd.cse110.zooseeker46.directions.DirectionsAdapter;
 import edu.ucsd.cse110.zooseeker46.locations.Exhibit;
@@ -37,8 +39,10 @@ import edu.ucsd.cse110.zooseeker46.search.SearchActivity;
 public class SettingsTest {
 
     Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
-    List<String> testArrayZoo = new ArrayList<>();
+
+    Map<String,ZooData.VertexInfo> testMapZoo = new HashMap<>();
     PlanExhibitsAdapter adapter = new PlanExhibitsAdapter();
+    Directions d;
 
     DirectionsAdapter adapter2 = new DirectionsAdapter();
 
@@ -48,11 +52,14 @@ public class SettingsTest {
 
     @Before
     public void createAdapter(){
-        testArrayZoo.add("capuchin");
         adapter.exhibitsGraph = ZooData.loadZooGraphJSON(context, "sample_zoo_graph.json");
         adapter.exhibitsEdge = ZooData.loadEdgeInfoJSON(context, "sample_edge_info.json");
         adapter.exhibitsVertex = ZooData.loadVertexInfoJSON(context, "sample_node_info.json");
-        adapter.setExhibits(testArrayZoo);
+        testMapZoo.put("capuchin", adapter.exhibitsVertex.get("capuchin"));
+        d = new Directions(testMapZoo,adapter.exhibitsGraph);
+        d.exhibitsVertex = adapter.exhibitsVertex;
+        d.finalListOfPaths();
+        adapter.orderPlan(d.getFinalPath(),d.getExhibitsNamesID());
 
         adapter2.setPath(DijkstraShortestPath.findPathBetween
                 (ZooData.loadZooGraphJSON(context, "sample_zoo_graph.json"),
@@ -81,7 +88,7 @@ public class SettingsTest {
         assertEquals(true, test);
 
         //plan user story
-        assertEquals((Integer) 240, adapter.exhibitsEntrance.get("capuchin"));
+        assertEquals((Integer) 240, adapter.exhibitsDistFromStart.get("capuchin"));
 
         List<IdentifiedWeightedEdge> edges = adapter2.path.getEdgeList();
 

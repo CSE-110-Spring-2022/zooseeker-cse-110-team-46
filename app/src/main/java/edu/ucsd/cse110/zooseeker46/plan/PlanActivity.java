@@ -82,7 +82,7 @@ public class PlanActivity extends AppCompatActivity {
         d = new Directions(placesToVisit, adapter.exhibitsGraph);
         d.exhibitsVertex = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
         d.finalListOfPaths();
-        adapter.OrderPlan(d.getFinalPath(),d.getExhibitsNamesID());
+        adapter.orderPlan(d.getFinalPath(),d.getExhibitsNamesID());
     }
 
     public void onDirectionsButtonClicked(View view) {
