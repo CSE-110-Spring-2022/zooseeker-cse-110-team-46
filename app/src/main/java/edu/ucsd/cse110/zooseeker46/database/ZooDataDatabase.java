@@ -50,6 +50,7 @@ public abstract class ZooDataDatabase extends RoomDatabase {
 
     public abstract ExhibitGroupDao exhibitGroupDao();
 
+    public static boolean populated;
 
     //creating/getting singleton
     public synchronized static ZooDataDatabase getSingleton(Context context) {
@@ -94,8 +95,9 @@ public abstract class ZooDataDatabase extends RoomDatabase {
 
     private static void populateDatabase(ZooDataDatabase zb, Map<String, ZooData.VertexInfo> info) {
         //Single thread for singleton
-        Log.d("size of map --- : ", String.valueOf(info.size()));
+        //Log.d("size of map --- : ", String.valueOf(info.size()));
         //checking format and calling constructor accordingly to add object
+        populated = false;
         for (Map.Entry<String, ZooData.VertexInfo> entry : info.entrySet()) {
             ZooData.VertexInfo curr = entry.getValue();
             //if (entry.getValue().kind.equals("exhibit")) {
@@ -110,7 +112,7 @@ public abstract class ZooDataDatabase extends RoomDatabase {
                 ex.addParentid(curr.parent_id);
                 ex.addtags(curr.tags);
                 Exhibit exhibitObj = ex.getExhibit();
-                        //new Exhibit(curr.id, curr.name, curr.parent_id, curr.tags, (Double) curr.latitude, curr.longitude);
+                //new Exhibit(curr.id, curr.name, curr.parent_id, curr.tags, (Double) curr.latitude, curr.longitude);
                 //getSingleton(context).exhibitDao().insert(exhibitObj);
                 zb.exhibitDao().insert(exhibitObj);
             } else if (kind == Kind.GATE) {
@@ -132,6 +134,7 @@ public abstract class ZooDataDatabase extends RoomDatabase {
                 throw new RuntimeException("Unknown kind! What have you done!?");
             }
         }
+        populated = true;
     }
 
     @VisibleForTesting
