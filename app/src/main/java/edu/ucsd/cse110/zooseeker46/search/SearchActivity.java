@@ -106,9 +106,7 @@ public class SearchActivity extends AppCompatActivity {
 
                 resetUI();
                 customAdapter.notifyDataSetChanged();
-                selectadapter.notifyDataSetChanged();
-
-                
+                selectadapter.clearData();
             }
         });
     }

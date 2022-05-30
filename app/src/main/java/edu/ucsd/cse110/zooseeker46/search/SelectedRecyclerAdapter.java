@@ -107,6 +107,11 @@ public class SelectedRecyclerAdapter extends RecyclerView.Adapter<SelectedRecycl
         }
     }
 
+    public void clearData() {
+        items.clear(); // clear list
+        notifyDataSetChanged(); // let your adapter know about the changes and reload view.
+    }
+
     @Override
     public int getItemCount(){
         return items.size();
