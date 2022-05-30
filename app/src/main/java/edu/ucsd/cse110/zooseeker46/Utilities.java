@@ -10,7 +10,7 @@ public class Utilities {
         alertBuilder
                 .setTitle("Alert")
                 .setMessage(message)
-                .setPositiveButton("Replan", (dialog, id) -> {
+                .setPositiveButton("Ok", (dialog, id) -> {
                     dialog.cancel();
                 })
                 .setCancelable(true);

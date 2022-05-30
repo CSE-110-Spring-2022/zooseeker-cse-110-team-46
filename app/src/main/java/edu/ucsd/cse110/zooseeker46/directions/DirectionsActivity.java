@@ -198,10 +198,20 @@ public class DirectionsActivity extends AppCompatActivity {
         return exhibitNamesID;
     }
 
+    public Map<String, ZooData.VertexInfo> getExhibitsVertex(){
+        return adapter.exhibitsVertex;
+    }
+
+    public Graph<String, IdentifiedWeightedEdge> getExhibitsGraph(){
+        return adapter.exhibitsGraph;
+    }
+
+    public GraphPath<String, IdentifiedWeightedEdge> getFinalPath(){
+        return adapter.path;
+    }
+
     public void onMockButtonClicked(View view) {
-        //Intent intent = new Intent(PlanActivity.this, DirectionsActivity.class);
         Intent intent = new Intent(this, MockLocation.class);
-        intent.putExtra("count", counter);
         startActivity(intent);
     }
 }

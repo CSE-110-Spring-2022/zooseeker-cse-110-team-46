@@ -22,20 +22,19 @@ public class MockDirections {
     public Graph<String, IdentifiedWeightedEdge> exhibitsGraph;
     Directions d;
     public Map<String, ZooData.VertexInfo> exhibitsVertex;
-    DirectionsActivity directionsActivity = new DirectionsActivity();
+    private DirectionsActivity directionsActivity;
 
 
 
-    MockDirections(List<GraphPath<String, IdentifiedWeightedEdge>> finalPath, List<String> exhibitNamesID, int counter){
-        this.finalPath = finalPath;
-        this.exhibitNamesID = exhibitNamesID;
-        this.counter = counter;
+    MockDirections(DirectionsActivity directionsActivity){
+        this.directionsActivity = directionsActivity;
+        this.exhibitNamesID = directionsActivity.getExhibitNamesID();
+        this.counter = directionsActivity.getCounter();
     }
 
     public Coord convertFromInput(EditText latInput, EditText longInput){
         double lat = Double.parseDouble(latInput.getText().toString());
         double lng = Double.parseDouble(longInput.getText().toString());
-        int count = directionsActivity.getCounter();
         return new Coord(lat, lng);
     }
 
@@ -55,19 +54,22 @@ public class MockDirections {
         return remainingExhibits;
     }
 
-    public void findNearbyExhibit(Coord newLocation){
+    /*public String findNearbyExhibit(Coord newLocation){
         List<String> remainingExhibits = getRemainingExhibits();
         for (int i = 0; i < remainingExhibits.size(); i++){
             ZooData.VertexInfo info = exhibitsVertex.get(remainingExhibits.get(i));
             if (info.parent_id == null){
                 Coord coord = new Coord(info.lat, info.lng);
+                coord.compareCoord(newLocation, coord)
             }
             else if (info.parent_id != null){
                 ZooData.VertexInfo info_group = exhibitsVertex.get(info.parent_id);
                 Coord coord = new Coord(info_group.lat, info_group.lng);
             }
+
         }
-    }
+        return "";
+    }*/
 
 
 }
