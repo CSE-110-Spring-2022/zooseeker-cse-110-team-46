@@ -12,12 +12,15 @@ import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 ;
 import edu.ucsd.cse110.zooseeker46.R;
 import edu.ucsd.cse110.zooseeker46.SettingsActivity;
 import edu.ucsd.cse110.zooseeker46.ZooData;
 import edu.ucsd.cse110.zooseeker46.ZooExhibits;
+import edu.ucsd.cse110.zooseeker46.directions.Directions;
 import edu.ucsd.cse110.zooseeker46.directions.DirectionsActivity;
 import edu.ucsd.cse110.zooseeker46.locations.Exhibit;
 import edu.ucsd.cse110.zooseeker46.search.ExhibitSelectAdapter;
@@ -36,6 +39,9 @@ public class PlanActivity extends AppCompatActivity {
     private Set<String> selected;
     ZooExhibits zoo;
     ExhibitSelectAdapter exhibitSelectAdapter;
+    Map<String,ZooData.VertexInfo> placesToVisit = new HashMap<>();
+    Directions d;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,14 +73,16 @@ public class PlanActivity extends AppCompatActivity {
         selectedList = new ArrayList<>(selected);
         idList = zoo.getIDList(selectedList);
 
+        Map<String,ZooData.VertexInfo> placesToVisit = new HashMap<>();
 
-
-        //temporary till actual implementation of checking exhibit
-        testExhibitList = new ArrayList<>();
-        testExhibitList.add("elephant_odyssey");
-        testExhibitList.add("gators");
-        testExhibitList.add("arctic_foxes");
-        adapter.setExhibits(idList);
+        //get the hashmap of animals/location
+        for(int i = 0; i < selectedList.size(); i++) {
+            placesToVisit.put(idList.get(i), adapter.exhibitsVertex.get(selectedList.get(i)));
+        }
+        d = new Directions(placesToVisit, adapter.exhibitsGraph);
+        d.exhibitsVertex = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
+        d.finalListOfPaths();
+        adapter.OrderPlan(d.getFinalPath(),d.getExhibitsNamesID());
     }
 
     public void onDirectionsButtonClicked(View view) {

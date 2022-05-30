@@ -1,5 +1,6 @@
 package edu.ucsd.cse110.zooseeker46.plan;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,55 +36,67 @@ public class PlanExhibitsAdapter extends RecyclerView.Adapter<PlanExhibitsAdapte
     public Map<String, ZooData.VertexInfo> exhibitsVertex;
     public Map<String, ZooData.EdgeInfo> exhibitsEdge;
     private List<String> keyExhibits = new ArrayList<>();
-    public Map<String, Integer> exhibitsEntrance = new HashMap<>();
+    public Map<String, Integer> exhibitsDistFromStart = new HashMap<>();
     public Map<String, String> exhibitsStreet = new HashMap<>();
+    List<GraphPath<String, IdentifiedWeightedEdge>> finalPath;
+    List<String> exhibitNamesID;
 
-    public void setExhibits(List<String> newExhibits) {
+    public void OrderPlan(List<GraphPath<String, IdentifiedWeightedEdge>> finalPath,List<String> exhibitNamesID) {
+        this.finalPath = finalPath;
+        this.exhibitNamesID = exhibitNamesID;
         this.keyExhibits.clear();
+        distanceFromStartMap();
 
-        //temp removal
-        for(String name: newExhibits){
-            findDistanceFromEntrance(name);
-        }
         //sorting map source: https://www.baeldung.com/java-hashmap-sort
-        exhibitsEntrance = exhibitsEntrance.entrySet()
+        exhibitsDistFromStart = exhibitsDistFromStart.entrySet()
                 .stream()
                 .sorted(Map.Entry.comparingByValue()).collect(Collectors.toMap(
                         Map.Entry::getKey,
                         Map.Entry::getValue,
                         (oldValue,newValue) -> oldValue, LinkedHashMap::new));
-        System.out.println(exhibitsGraph);
+        Log.d("exhibit from start", "distanceFromStartMap: " + exhibitsDistFromStart.toString());
+        Log.d("exhibit street", "exhibit street: " + exhibitsStreet.toString());
         //exhibits array is now ordered shortest distance from entrance to longest
-        this.keyExhibits = new ArrayList<String>(exhibitsEntrance.keySet());
+        this.keyExhibits = new ArrayList<String>(exhibitsDistFromStart.keySet());
+        Log.d("exhibit keys", keyExhibits.toString());
     }
 
     public List<String> getExhibitsPlan(){
         return keyExhibits;
     }
 
-    public void findDistanceFromEntrance(String end){
-        String start = "entrance_exit_gate";
-        GraphPath<String, IdentifiedWeightedEdge> path;
-        if(exhibitsVertex.get(end).parent_id != null){
-            path = DijkstraShortestPath.findPathBetween
-                    (exhibitsGraph, start, exhibitsVertex.get(end).parent_id);
+    public void distanceFromStartMap(){
+        int initialDist = 0;
+        int i = 0;
+        String street;
+        int indxOfPath;
+        Log.d("elements", exhibitNamesID.toString());
+        while(i < exhibitNamesID.size()){
+            //case of exhibit groups
+            if(exhibitsVertex.get(exhibitNamesID.get(i)).parent_id != null){
+                initialDist = initialDist + (int)finalPath.get(i).getWeight();
+                exhibitsDistFromStart.put(exhibitNamesID.get(i),initialDist);
+                indxOfPath = finalPath.get(i).getEdgeList().size()-1;
+                //if group was already visited
+                if(indxOfPath == -1){
+                    street = exhibitsStreet.get(exhibitNamesID.get(i-1));
+                }
+                //first time visiting group
+                else {
+                    street = exhibitsEdge.get(finalPath.get(i).getEdgeList().get(indxOfPath).getId()).street;
+                }
+                exhibitsStreet.put(exhibitNamesID.get(i), street);
+                i++;
+                continue;
+            }
+            //case of an exhibit
+            initialDist = initialDist + (int)finalPath.get(i).getWeight();
+            exhibitsDistFromStart.put(exhibitNamesID.get(i),initialDist);
+            indxOfPath = finalPath.get(i).getEdgeList().size() - 1;
+            street = exhibitsEdge.get(finalPath.get(i).getEdgeList().get(indxOfPath).getId()).street;
+            exhibitsStreet.put(exhibitNamesID.get(i), street);
+            i++;
         }
-        else {
-            //finds shortest path from entrance to exhibit
-            path = DijkstraShortestPath.findPathBetween
-                    (exhibitsGraph, start, end);
-        }
-        int total = 0;
-        IdentifiedWeightedEdge eL = null;
-        //finds total length of path
-        for (IdentifiedWeightedEdge e : path.getEdgeList()) {
-            total = total + (int)exhibitsGraph.getEdgeWeight(e);
-            eL = e;
-        }
-        //street of exhibit is the last edge in path
-        String street = eL.getId();
-        this.exhibitsStreet.put(end, street);
-        this.exhibitsEntrance.put(end, total);
     }
 
     @NonNull
@@ -99,18 +112,21 @@ public class PlanExhibitsAdapter extends RecyclerView.Adapter<PlanExhibitsAdapte
     @Override
     public void onBindViewHolder(@NonNull PlanExhibitsAdapter.ViewHolder holder, int position) {
         //puts data in the viewHolder
+        String street = exhibitsStreet.get(keyExhibits.get(position));
+        int distance  = exhibitsDistFromStart.get(keyExhibits.get(position));
         TextView nameTextView = holder.getNameTextView();
         TextView streetTextView = holder.getStreetTextView();
         nameTextView.setText(exhibitsVertex.get(keyExhibits.get(position)).name);
         streetTextView.setText
-                (exhibitsEdge.get(exhibitsStreet.get(keyExhibits.get(position))).street + ", " +
-                        exhibitsEntrance.get(keyExhibits.get(position))+ "m");
+                ( street + ", " +
+                        distance + "m");
         //holder.setExhibit(keyExhibits.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return keyExhibits.size();
+        //-1 to remove the entrance_exit_gate
+        return keyExhibits.size()-1;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
