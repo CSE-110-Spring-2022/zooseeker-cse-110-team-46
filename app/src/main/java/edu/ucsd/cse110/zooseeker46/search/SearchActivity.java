@@ -74,9 +74,6 @@ public class SearchActivity extends AppCompatActivity {
 
 
         RecyclerView rvSelectedExhibits = (RecyclerView) findViewById(R.id.selected_rv);
-        Exhibit test = new Exhibit("test1", "test1name", new ArrayList<>());
-        ArrayList<Exhibit> testlist = new ArrayList<>();
-        testlist.add(test);
         selectadapter = new SelectedRecyclerAdapter((ArrayList<Exhibit>) exhibitDao.getSelectedExhibits());
         rvSelectedExhibits.setLayoutManager(new LinearLayoutManager(this));
         rvSelectedExhibits.setAdapter(selectadapter);

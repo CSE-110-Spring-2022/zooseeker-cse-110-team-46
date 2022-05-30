@@ -25,27 +25,16 @@ public class SelectedRecyclerAdapter extends RecyclerView.Adapter<SelectedRecycl
     Context context;
     private OnItemClickListener onItemClickListener;
     public static RecyclerView.Adapter adapter;
-    private ViewHolder holder;
-    private int position;
 
     public SelectedRecyclerAdapter(ArrayList<Exhibit> items) {
         adapter = this;
         this.items = items;
     }
 
-//
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
-//
-//    @Override
-//    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-//        //View v = LayoutInflater.from(parent.getContext()).inflate(R.id.selected_rv, parent, false);
-//        LayoutInflater inflater = (LayoutInflater) context
-//                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        //v.setOnClickListener(this);
-//        return new ViewHolder(v);
-//    }
+
 
     @NonNull
     @Override
@@ -122,21 +111,6 @@ public class SelectedRecyclerAdapter extends RecyclerView.Adapter<SelectedRecycl
     public int getItemCount(){
         return items.size();
     }
-
-
-//
-//    @Override
-//    public void onClick(final View v) {
-//        // Give some time to the ripple to finish the effect
-//        if (onItemClickListener != null) {
-//            new Handler().postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
-//                    onItemClickListener.onItemClick(v, (ViewModel) v.getTag());
-//                }
-//            }, 0);
-//        }
-//    }
 
     protected static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tvAnimal;
