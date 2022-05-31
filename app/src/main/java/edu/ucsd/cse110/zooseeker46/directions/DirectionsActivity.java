@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -26,6 +27,10 @@ import edu.ucsd.cse110.zooseeker46.R;
 import edu.ucsd.cse110.zooseeker46.SettingsStaticClass;
 import edu.ucsd.cse110.zooseeker46.ZooData;
 import edu.ucsd.cse110.zooseeker46.ZooExhibits;
+import edu.ucsd.cse110.zooseeker46.database.StatusDao;
+import edu.ucsd.cse110.zooseeker46.database.ZooDataDatabase;
+import edu.ucsd.cse110.zooseeker46.locations.Exhibit;
+import edu.ucsd.cse110.zooseeker46.locations.Status;
 import edu.ucsd.cse110.zooseeker46.plan.PlanActivity;
 import edu.ucsd.cse110.zooseeker46.search.ExhibitSelectAdapter;
 import edu.ucsd.cse110.zooseeker46.search.SearchActivity;
@@ -39,10 +44,22 @@ public class DirectionsActivity extends AppCompatActivity {
     List<GraphPath<String, IdentifiedWeightedEdge>> finalPath;
     Map<String, ZooData.VertexInfo> vertexForNames;
     List<String> exhibitNamesID;
+    public static String STATE_USER = "user";
+    public static String mUser;
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putString(STATE_USER, mUser);
+        // Always call the superclass so it can save the view hierarchy state
+        super.onSaveInstanceState(savedInstanceState);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        SettingsStaticClass.onDirections = true;
+//        Log.d("Boolean CHANGED for onDirections: ", String.valueOf(SettingsStaticClass.onDirections));
+
         setContentView(R.layout.activity_directions);
         vertexForNames = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
 
@@ -51,14 +68,39 @@ public class DirectionsActivity extends AppCompatActivity {
         Map<String, ZooData.VertexInfo> places = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
 
         //Create an ArrayList with the selected animals' names
-        ExhibitSelectAdapter exhibitSelectAdapter = SearchActivity.getCustomAdapter();
-        Set<String> selected = exhibitSelectAdapter.selectedExhibits;
-        ArrayList<String> selectedList = new ArrayList<>(selected);
+//        ExhibitSelectAdapter exhibitSelectAdapter = SearchActivity.getCustomAdapter();
+//        Set<String> selected = exhibitSelectAdapter.selectedExhibits;
+//        ArrayList<String> selectedList = new ArrayList<>(selected);
 
         Map<String,ZooData.VertexInfo> placesToVisit = new HashMap<>();
 
-        ZooExhibits zoo2 = new ZooExhibits(places);
-        ArrayList<String> idList = zoo2.getIDList(selectedList);
+//        ZooExhibits zoo2 = new ZooExhibits(places);
+//        ArrayList<String> idList = zoo2.getIDList(selectedList);
+
+        // Replaced with database
+        ArrayList<String> selectedList = new ArrayList<>();
+        ArrayList<String> idList = new ArrayList<>();
+
+        ZooDataDatabase zb = ZooDataDatabase.getSingleton(this);
+        StatusDao statusdao = zb.statusDao();
+        Status onDir = new Status();
+        onDir.setOnDirections();
+        statusdao.insert(onDir);
+        // Create object of SharedPreferences.
+        SharedPreferences sharedPref = getPreferences(MODE_PRIVATE);
+        //now get Editor
+        SharedPreferences.Editor editor= sharedPref.edit();
+        //put your value
+        editor.putBoolean("onDir", true);
+        //commits your edits
+        editor.commit();
+        Log.d("Boolean CHANGED for onDirections: ", String.valueOf(true));
+
+        ArrayList<Exhibit> exhibitArrayList = (ArrayList<Exhibit>) zb.exhibitDao().getSelectedExhibits();
+        for(Exhibit curr: exhibitArrayList){
+            selectedList.add(curr.getName());
+            idList.add(curr.getId());
+        }
 
         //get the hashmap of animals/location
         for(int i = 0; i < selectedList.size(); i++) {

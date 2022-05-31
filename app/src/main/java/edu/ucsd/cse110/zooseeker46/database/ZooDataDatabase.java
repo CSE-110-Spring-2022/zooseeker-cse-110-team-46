@@ -26,10 +26,11 @@ import edu.ucsd.cse110.zooseeker46.locations.ExhibitBuilder;
 import edu.ucsd.cse110.zooseeker46.locations.Exhibit_Group;
 import edu.ucsd.cse110.zooseeker46.locations.Gate;
 import edu.ucsd.cse110.zooseeker46.locations.Intersection;
+import edu.ucsd.cse110.zooseeker46.locations.Status;
 import edu.ucsd.cse110.zooseeker46.locations.languageConverterTags;
 
 
-@Database(entities = {Exhibit.class, Gate.class, Intersection.class, Exhibit_Group.class}, version = 1, exportSchema = false)
+@Database(entities = {Exhibit.class, Gate.class, Intersection.class, Exhibit_Group.class, Status.class}, version = 1, exportSchema = false)
 @TypeConverters({languageConverterTags.class})
 public abstract class ZooDataDatabase extends RoomDatabase {
     private static ZooDataDatabase singleton = null;
@@ -50,7 +51,15 @@ public abstract class ZooDataDatabase extends RoomDatabase {
 
     public abstract ExhibitGroupDao exhibitGroupDao();
 
+    public abstract StatusDao statusDao();
+
     public static boolean populated;
+
+    public static boolean onDirections;
+
+    public boolean onDir(){
+        return this.onDirections;
+    }
 
     //creating/getting singleton
     public synchronized static ZooDataDatabase getSingleton(Context context) {
@@ -58,6 +67,7 @@ public abstract class ZooDataDatabase extends RoomDatabase {
             String msg = "Singleton is null!";
             Log.d("! + ", msg);
             singleton = ZooDataDatabase.makeDatabase(context);
+//            onDirections = false;
         }
         return singleton;
     }
