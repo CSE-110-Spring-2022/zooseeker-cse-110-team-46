@@ -6,7 +6,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
@@ -45,7 +44,7 @@ public class DirectionsGroupAdapter extends DirectionsAdapter{
         IdentifiedWeightedEdge pathLayout;
         List<IdentifiedWeightedEdge> edges = path.getEdgeList();
         if(position == this.getItemCount()-1){
-            String exhibitGroup = (exhibitsVertex.get(exhibitsVertex.get(end).parent_id).name);
+            String exhibitGroup = (exhibitsVertex.get(exhibitsVertex.get(end).group_id).name);
             String endExhibit = (exhibitsVertex.get(end)).name;
             DirectionsTextView.setText("Within " +
                     (exhibitGroup + " find " + endExhibit));
@@ -74,7 +73,7 @@ public class DirectionsGroupAdapter extends DirectionsAdapter{
             }
         }
         if(position == path.getLength()-1 && position+1 == path.getLength()){
-            if(startName == exhibitsVertex.get(exhibitsVertex.get(end).parent_id).name){
+            if(startName == exhibitsVertex.get(exhibitsVertex.get(end).group_id).name){
                 String tempName = startName;
                 startName = endName;
                 endName = tempName;

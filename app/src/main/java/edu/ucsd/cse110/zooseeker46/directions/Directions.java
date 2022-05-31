@@ -7,11 +7,13 @@ import org.jgrapht.GraphPath;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import edu.ucsd.cse110.zooseeker46.IdentifiedWeightedEdge;
 import edu.ucsd.cse110.zooseeker46.ZooData;
+import edu.ucsd.cse110.zooseeker46.tracking.TrackingStatic;
 
 /*
     Calculates the route of the trip from selected exhibits
@@ -21,8 +23,9 @@ public class Directions {
     private Map<String, ZooData.VertexInfo> exhibitsToVisit;
     private Graph<String, IdentifiedWeightedEdge> zooGraph;
     public Map<String, ZooData.VertexInfo> exhibitsVertex;
-    private String startID = "entrance_exit_gate";
+    private String startID;
     private List<String> exhibitsNamesID;
+    Map<String, ZooData.VertexInfo> exhibitToVisitWO;
 
     public Directions(Map<String, ZooData.VertexInfo> exhibitsToVisit,
                       Graph<String, IdentifiedWeightedEdge> zooGraph){
@@ -46,8 +49,8 @@ public class Directions {
         String visited = "";
         for (String placeToVisit : exhibitsToVisit.keySet()) {
             if(placeToVisit != begin) {
-                if(exhibitsVertex.get(placeToVisit).parent_id != null){
-                    String groupToVisit = exhibitsVertex.get(placeToVisit).parent_id;
+                if(exhibitsVertex.get(placeToVisit).group_id != null){
+                    String groupToVisit = exhibitsVertex.get(placeToVisit).group_id;
                     newPath = DijkstraShortestPath.findPathBetween(zooGraph, begin, groupToVisit);
                 }
                 else{
@@ -59,6 +62,7 @@ public class Directions {
                 visited = placeToVisit;
             }
         }
+        this.exhibitToVisitWO.put(visited, exhibitsVertex.get(visited));
         exhibitsNamesID.add(visited);
         this.exhibitsToVisit.remove(visited);
         return shortestPathAtoB;
@@ -66,14 +70,17 @@ public class Directions {
 
     public void finalListOfPaths(){
         String begin = startID;
+        this.finalPath = new ArrayList<>();
+        this.exhibitsNamesID = new ArrayList<>();
+        this.exhibitToVisitWO = new HashMap<>();
         while(exhibitsToVisit.size() > 0){
             GraphPath<String, IdentifiedWeightedEdge> toAdd = findNearestNeighbor(begin);
             finalPath.add(toAdd);
             begin = toAdd.getEndVertex();
             Log.d("begin", begin);
         }
-        finalPath.add(DijkstraShortestPath.findPathBetween(zooGraph, begin, startID));
-        this.exhibitsNamesID.add(startID);
+        finalPath.add(DijkstraShortestPath.findPathBetween(zooGraph, begin, "entrance_exit_gate"));
+        this.exhibitsNamesID.add("entrance_exit_gate");
         Log.d("finalPath", finalPath.toString());
     }
 
@@ -93,13 +100,28 @@ public class Directions {
         return finalPath;
     }
 
+    public List<String> getExhibitsNamesID() {
+        return exhibitsNamesID;
+    }
+
+    public Map<String, ZooData.VertexInfo> ExhibitsToMap(List<String> s){
+        List<String> remaining = s;
+        Map<String, ZooData.VertexInfo> map = new HashMap<>();
+        for (int i = 0; i < remaining.size(); i++){
+            ZooData.VertexInfo info = TrackingStatic.places.get(remaining.get(i));
+            map.put(remaining.get(i), info);
+        }
+        return map;
+    }
+
+    public Map<String, ZooData.VertexInfo> getExhibitToVisitWO(){
+       return this.exhibitToVisitWO;
+    }
+
     public Map<String, ZooData.VertexInfo> getExhibitsToVisit(){
         return exhibitsToVisit;
     }
 
-    public List<String> getExhibitsNamesID() {
-        return exhibitsNamesID;
-    }
 
 }
 

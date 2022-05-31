@@ -91,6 +91,7 @@ public class PlanActivity extends AppCompatActivity {
             placesToVisit.put(idList.get(i), adapter.exhibitsVertex.get(selectedList.get(i)));
         }
         d = new Directions(placesToVisit, adapter.exhibitsGraph);
+        d.setStartID("entrance_exit_gate");
         d.exhibitsVertex = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
         d.finalListOfPaths();
         if (selectedList.size() != 0) {

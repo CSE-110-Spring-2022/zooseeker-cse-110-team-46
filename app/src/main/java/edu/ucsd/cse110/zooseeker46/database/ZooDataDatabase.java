@@ -1,7 +1,6 @@
 package edu.ucsd.cse110.zooseeker46.database;
 
 import static edu.ucsd.cse110.zooseeker46.ZooData.VertexInfo.Kind;
-import static edu.ucsd.cse110.zooseeker46.ZooData.VertexInfo.Kind.EXHIBIT;
 
 import android.content.Context;
 import android.util.Log;
@@ -14,13 +13,10 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executors;
 
 import edu.ucsd.cse110.zooseeker46.ZooData;
-import edu.ucsd.cse110.zooseeker46.ZooExhibits;
 import edu.ucsd.cse110.zooseeker46.locations.Exhibit;
 import edu.ucsd.cse110.zooseeker46.locations.ExhibitBuilder;
 import edu.ucsd.cse110.zooseeker46.locations.Exhibit_Group;
@@ -137,7 +133,7 @@ public abstract class ZooDataDatabase extends RoomDatabase {
                 ex.addid(curr.id);
                 ex.addname(curr.name);
                 ex.addCoords(curr.lat, curr.lng);
-                ex.addParentid(curr.parent_id);
+                ex.addParentid(curr.group_id);
                 ex.addtags(curr.tags);
                 Exhibit exhibitObj = ex.getExhibit();
 
