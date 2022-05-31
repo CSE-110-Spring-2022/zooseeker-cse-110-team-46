@@ -26,11 +26,13 @@
         android:id="@+id/mock_btn"
         android:layout_width="158dp"
         android:layout_height="48dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="2dp"
         android:layout_weight="1"
         android:onClick="onMockButtonClicked"
         android:text="Mock Location"
-        tools:layout_editor_absoluteX="237dp"
-        tools:layout_editor_absoluteY="8dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/directions_recycler"
@@ -66,7 +68,18 @@
         android:onClick="onPrevButtonClicked"
         android:text="Prev"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/settings_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="4dp"
+        android:onClick="onSettingsButtonClicked"
+        android:text="Settings"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/endText"
@@ -76,11 +89,10 @@
         android:textAlignment="center"
         android:textSize="35sp"
         android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

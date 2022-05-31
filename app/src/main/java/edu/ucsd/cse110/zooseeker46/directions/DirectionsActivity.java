@@ -24,12 +24,17 @@ import java.util.Set;
 import edu.ucsd.cse110.zooseeker46.IdentifiedWeightedEdge;
 import edu.ucsd.cse110.zooseeker46.MockLocation;
 import edu.ucsd.cse110.zooseeker46.R;
+import edu.ucsd.cse110.zooseeker46.SettingsStaticClass;
 import edu.ucsd.cse110.zooseeker46.ZooData;
 import edu.ucsd.cse110.zooseeker46.ZooExhibits;
 import edu.ucsd.cse110.zooseeker46.plan.PlanActivity;
 import edu.ucsd.cse110.zooseeker46.search.ExhibitSelectAdapter;
 import edu.ucsd.cse110.zooseeker46.search.SearchActivity;
+
 import edu.ucsd.cse110.zooseeker46.tracking.TrackingStatic;
+
+import edu.ucsd.cse110.zooseeker46.SettingsActivity;
+
 
 public class DirectionsActivity extends AppCompatActivity {
 
@@ -102,12 +107,33 @@ public class DirectionsActivity extends AppCompatActivity {
         adapter.setEnd(exhibitNamesID.get(counter));
         adapter.setDirectionsType(new DetailedDirections());
 
+        if(SettingsStaticClass.detailed)
+            adapter.directionsType = new DetailedDirections();
+        else
+            adapter.directionsType = new SimpleDirections();
+
         adapter.setPath(finalPath.get(counter));
         recyclerView.setAdapter(adapter);
 
         //Current animal text
         TextView animalText = findViewById(R.id.animalView);
         animalText.setText(vertexForNames.get(exhibitNamesID.get(counter)).name);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if(SettingsStaticClass.detailed)
+            adapter.directionsType = new DetailedDirections();
+        else
+            adapter.directionsType = new SimpleDirections();
+
+        recyclerView = findViewById(R.id.directions_recycler);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        System.out.println(finalPath);
+        adapter.setPath(finalPath.get(counter));
+        recyclerView.setAdapter(adapter);
     }
 
     public void onNextButtonClicked(View view) {
@@ -186,6 +212,11 @@ public class DirectionsActivity extends AppCompatActivity {
 
     }
 
+
+    public void onSettingsButtonClicked(View view) {
+        Intent intent = new Intent(DirectionsActivity.this, SettingsActivity.class);
+        startActivity(intent);
+    }
     public void setAdapter(){
         //set adapter
         if(vertexForNames.get(exhibitNamesID.get(counter)).parent_id != null ){

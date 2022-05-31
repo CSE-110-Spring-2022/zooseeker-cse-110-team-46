@@ -11,11 +11,14 @@ import java.util.List;
 public class Exhibit_Group implements Location{
     @NonNull
     public String name;
+
+    @PrimaryKey(autoGenerate = false)
+    @NonNull
     public String id;
     //public tags tags;
 
-    @PrimaryKey(autoGenerate = true)
-    public long long_id;
+    //@PrimaryKey(autoGenerate = true)
+    //public long long_id;
 
     private double latitude;
     private double longitude;

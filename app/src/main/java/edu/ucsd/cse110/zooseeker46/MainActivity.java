@@ -12,8 +12,13 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.view.View;
+
 
 import java.util.function.Consumer;
+
+
+import edu.ucsd.cse110.zooseeker46.database.ZooDataDatabase;
 
 import edu.ucsd.cse110.zooseeker46.search.SearchActivity;
 import edu.ucsd.cse110.zooseeker46.tracking.Coord;
@@ -37,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         useLocationService = getIntent().getBooleanExtra(EXTRA_LISTEN_TO_GPS, true);
 
         // Set up the model.
@@ -56,9 +62,16 @@ public class MainActivity extends AppCompatActivity {
             model.addLocationProviderSource(locationManager, provider);
         }
 
+
+        SettingsStaticClass.detailed = false;
+        // Uncomment for debugging:
+        ZooDataDatabase.setShouldForceRepopulate();
+
+
         Intent intent = new Intent(this, SearchActivity.class);
         startActivity(intent);
     }
+
 
     @SuppressLint("MissingPermission")
     private void setupLocationListener(Consumer<Coord> handleNewCoords){
@@ -74,6 +87,12 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         locationManager.requestLocationUpdates(provider, 0, 0f, locationListener);
+    }
+
+
+    public void onSettingsButtonClicked(View view) {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
     }
 
 }

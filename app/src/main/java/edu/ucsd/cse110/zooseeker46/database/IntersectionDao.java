@@ -16,8 +16,8 @@ public interface IntersectionDao {
     @Insert
     long insert(Intersection interItem);
 
-    @Query("SELECT * FROM `Intersection_items` WHERE `long_id`=:num_id")
-    Intersection get(long num_id);
+    @Query("SELECT * FROM `Intersection_items` WHERE `id`=:num_id")
+    Intersection get(String num_id);
 
     @Query("SELECT * FROM `Intersection_items`")
     List<Intersection> getAll();

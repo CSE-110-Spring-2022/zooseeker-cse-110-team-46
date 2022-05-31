@@ -1,6 +1,7 @@
 package edu.ucsd.cse110.zooseeker46.locations;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -10,23 +11,40 @@ import java.util.List;
 public class Intersection implements Location{
     @NonNull
     public String name;
+    //public tags tags;
+
+    @PrimaryKey(autoGenerate = false)
+    @NonNull
     public String id;
-    public tags tags;
 
-    @PrimaryKey(autoGenerate = true)
-    public long long_id;
+    //@PrimaryKey(autoGenerate = true)
+    //public long long_id;
 
-    private double latitude;
-    private double longitude;
+    @Nullable
+    private Double latitude;
 
-    public Intersection(@NonNull String id, String name, List<String> tags){
+    @Nullable
+    private Double longitude;
+
+    public Intersection(@NonNull String id, String name){
         this.name = name;
         this.id = id;
-        this.tags = new tags(tags);
+        //this.tags = new tags(tags);
+        this.latitude = null;
+        this.longitude= null;
     }
 
     public Intersection() {
 
+    }
+
+
+    public Intersection(@NonNull String id, String name, List<String> tags, Double lat, Double lng){
+        this.name = name;
+        this.id = id;
+        //this.tags = new tags(tags);
+        this.latitude = lat;
+        this.longitude = lng;
     }
 
     @Override
@@ -49,27 +67,27 @@ public class Intersection implements Location{
         this.id = ID;
     }
 
-    public List<String> getTags() {
-        return tags.getTags();
-    }
+//    public List<String> getTags() {
+//        return tags.getTags();
+//    }
+//
+//    public void setTags(List<String> tags) {
+//        this.tags = new tags(tags);
+//    }
 
-    public void setTags(List<String> tags) {
-        this.tags = new tags(tags);
-    }
-
-    public double getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(double latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
-    public double getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(double longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 }
