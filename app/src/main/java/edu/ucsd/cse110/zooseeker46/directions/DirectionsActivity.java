@@ -58,6 +58,7 @@ public class DirectionsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 //        SettingsStaticClass.onDirections = true;
 //        Log.d("Boolean CHANGED for onDirections: ", String.valueOf(SettingsStaticClass.onDirections));
 
@@ -87,15 +88,7 @@ public class DirectionsActivity extends AppCompatActivity {
         Status onDir = new Status();
         onDir.setOnDirections();
         statusdao.insert(onDir);
-        // Create object of SharedPreferences.
-        SharedPreferences sharedPref = this.getSharedPreferences("onDirections", MODE_PRIVATE);
-        //now get Editor
-        SharedPreferences.Editor editor= sharedPref.edit();
-        //put your value
-        editor.putBoolean("onDir", true);
-        //commits your edits
-        editor.commit();
-        Log.d("Boolean CHANGED for onDirections: ", String.valueOf(true));
+
 
         ArrayList<Exhibit> exhibitArrayList = (ArrayList<Exhibit>) zb.exhibitDao().getSelectedExhibits();
         for(Exhibit curr: exhibitArrayList){
@@ -146,6 +139,52 @@ public class DirectionsActivity extends AppCompatActivity {
         //Current animal text
         TextView animalText = findViewById(R.id.animalView);
         animalText.setText(vertexForNames.get(exhibitNamesID.get(counter)).name);
+
+        Log.d("On Create for DirectionsActivity", vertexForNames.get(exhibitNamesID.get(counter)).name);
+
+        SharedPreferences sharedPrefCheckDirActivity = this.getSharedPreferences("onDirections", MODE_PRIVATE);
+        boolean activatedDirectionsPrev = sharedPrefCheckDirActivity.getBoolean("onDir", false);
+
+
+        SharedPreferences sharedPref3 = this.getSharedPreferences("onExhibitDir", MODE_PRIVATE);
+        String onExhibitPrevious = sharedPref3.getString("onExhibit", "");
+
+        // If we already had the directions open at a previous point
+        if(activatedDirectionsPrev && !onExhibitPrevious.equals("")){
+            Log.d("In activatedDirectionsPrev, previous was: ", onExhibitPrevious);
+            TextView animalTextcurr = findViewById(R.id.animalView);
+            Button nextButton = findViewById((R.id.next_btn));
+            TextView endText = findViewById(R.id.endText);
+            String endString = endText.getText().toString();
+//            while(!animalTextcurr.equals(onExhibitPrevious) || !endString.equals(onExhibitPrevious)){
+//                nextButton.performClick();
+//                animalTextcurr = findViewById(R.id.animalView);
+//                endText = findViewById(R.id.endText);
+//            }
+        }
+        else {
+
+            // First instance of the directions being called
+            // Create object of SharedPreferences.
+            SharedPreferences sharedPrefActivity = this.getSharedPreferences("onDirections", MODE_PRIVATE);
+            //now get Editor
+            SharedPreferences.Editor editor= sharedPrefActivity.edit();
+            //put your value
+            editor.putBoolean("onDir", true);
+            //commits your edits
+            editor.commit();
+            Log.d("Boolean CHANGED for onDirections: ", String.valueOf(true));
+
+            // Create object of SharedPreferences.
+            SharedPreferences sharedPrefExhibitOn = this.getSharedPreferences("onExhibitDir", MODE_PRIVATE);
+            //now get Editor
+            SharedPreferences.Editor editor2 = sharedPrefExhibitOn.edit();
+            //put your value
+            editor2.putString("onExhibit", vertexForNames.get(exhibitNamesID.get(counter)).name);
+            //commits your edits
+            editor2.commit();
+        }
+
     }
 
     @Override
@@ -165,12 +204,14 @@ public class DirectionsActivity extends AppCompatActivity {
     }
 
     public void onNextButtonClicked(View view) {
+        String currPage = "";
 
         //update the textViews if we're still in the array
         if(counter < finalPath.size() - 1){
 
             //load animal text
             TextView animalText = findViewById(R.id.animalView);
+            Log.d("Next button clicked:", vertexForNames.get(exhibitNamesID.get(counter)).name);
 
             //update counter and the text on screen
             counter++;
@@ -178,6 +219,7 @@ public class DirectionsActivity extends AppCompatActivity {
             animalText.setText(vertexForNames.get(exhibitNamesID.get(counter)).name);;
             adapter.setPath(finalPath.get(counter));
             recyclerView.setAdapter(adapter);
+            currPage = vertexForNames.get(exhibitNamesID.get(counter)).name;
         }
 
         //show end text if we've reached the end
@@ -196,12 +238,23 @@ public class DirectionsActivity extends AppCompatActivity {
             nextButton.setVisibility(View.INVISIBLE);
             animalText.setVisibility(View.INVISIBLE);
             recyclerView.setVisibility(View.INVISIBLE);
+            currPage = endText.getText().toString();
         }
+
+        Log.d("NEXT BTN: onExhibit var changed: ", currPage);
+        // Create object of SharedPreferences.
+        SharedPreferences sharedPrefExhibitOn = this.getSharedPreferences("onExhibitDir", MODE_PRIVATE);
+        //now get Editor
+        SharedPreferences.Editor editor2 = sharedPrefExhibitOn.edit();
+        //put your value
+        editor2.putString("onExhibit", currPage);
+        //commits your edits
+        editor2.commit();
 
     }
 
     public void onPrevButtonClicked(View view) {
-
+        String currPage = "";
         //show end text if we've reached the end
         if(counter == finalPath.size()) {
 
@@ -217,6 +270,8 @@ public class DirectionsActivity extends AppCompatActivity {
             nextButton.setVisibility(View.VISIBLE);
             animalText.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.VISIBLE);
+
+            currPage = endText.getText().toString();
         }
 
         //update the textViews if we're still in the array
@@ -230,9 +285,21 @@ public class DirectionsActivity extends AppCompatActivity {
             setAdapter();
             animalText.setText(vertexForNames.get(exhibitNamesID.get(counter)).name);
 
+            currPage = vertexForNames.get(exhibitNamesID.get(counter)).name;
+
             adapter.setPath(finalPath.get(counter));
             recyclerView.setAdapter(adapter);
         }
+
+        Log.d("PREV BTN: onExhibit var changed: ", currPage);
+        // Create object of SharedPreferences.
+        SharedPreferences sharedPrefExhibitOn = this.getSharedPreferences("onExhibitDir", MODE_PRIVATE);
+        //now get Editor
+        SharedPreferences.Editor editor2 = sharedPrefExhibitOn.edit();
+        //put your value
+        editor2.putString("onExhibit", currPage);
+        //commits your edits
+        editor2.commit();
 
     }
 

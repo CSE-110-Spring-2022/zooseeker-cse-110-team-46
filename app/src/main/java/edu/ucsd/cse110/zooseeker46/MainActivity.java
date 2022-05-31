@@ -40,7 +40,11 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPref = this.getSharedPreferences("onDirections", MODE_PRIVATE);
         boolean onDirections = sharedPref.getBoolean("onDir", false);
         Log.d("In Main, Boolean for onDirections: ", String.valueOf(onDirections));
-        if(onDirections){
+
+        SharedPreferences sharedPref3 = this.getSharedPreferences("onExhibitDir", MODE_PRIVATE);
+        String onExhibitPrevious = sharedPref3.getString("onExhibit", "");
+
+        if(onDirections && !onExhibitPrevious.equals("")){
             Intent intent = new Intent(MainActivity.this, DirectionsActivity.class);
             startActivity(intent);
         }
