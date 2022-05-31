@@ -333,19 +333,6 @@ public class DirectionsActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void onBackButtonClicked(View view) {
-        SharedPreferences sharedPrefActivity = this.getSharedPreferences("onDirections", MODE_PRIVATE);
-        //now get Editor
-        SharedPreferences.Editor editor= sharedPrefActivity.edit();
-        //put your value
-        editor.putBoolean("onDir", false);
-        //commits your edits
-        editor.commit();
-        Intent intent = new Intent(this, SearchActivity.class);
-        startActivity(intent);
-        finish();
-        overridePendingTransition(0,0);
-    }
 
     public void setAdapter(){
         //set adapter
