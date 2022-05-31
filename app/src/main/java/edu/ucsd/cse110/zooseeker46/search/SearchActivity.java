@@ -103,7 +103,7 @@ public class SearchActivity extends AppCompatActivity {
             public void onClick(View v) {
                 System.out.println("being called");
                 customAdapter.forceRepopulate();
-
+                //zb.resetSelected();
                 resetUI();
                 customAdapter.notifyDataSetChanged();
                 selectadapter.clearData();
@@ -143,11 +143,10 @@ public class SearchActivity extends AppCompatActivity {
 
     public void resetUI() {
         TextView exhibitCount = findViewById(R.id.selected_exhibit_count);
-        exhibitCount.setText("0");
-
+        exhibitCount.setText(String.valueOf(zb.exhibitDao().getSelectedExhibits().size()));
         CheckBox cb;
 
-        for(int i=0; i<listView.getChildCount();i++)
+        for(int i=0; i<listView.getCount();i++)
         {
             //cb = (CheckBox)listView.getChildAt(i).findViewById(R.id.cb);
             //cb.setChecked(false);

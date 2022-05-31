@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import edu.ucsd.cse110.zooseeker46.R;
@@ -60,7 +61,7 @@ public class PlanActivity extends AppCompatActivity {
         adapter.exhibitsGraph = ZooData.loadZooGraphJSON(this,"sample_zoo_graph.json");
         adapter.exhibitsEdge = ZooData.loadEdgeInfoJSON(this, "sample_edge_info.json");
         adapter.exhibitsVertex = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
-        //testing
+
         Log.d("graph", adapter.exhibitsGraph.toString());
 
 
@@ -69,18 +70,20 @@ public class PlanActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         zoo = new ZooExhibits(adapter.exhibitsVertex);
-        exhibitArrayList = zoo.getExhibits();
+        ZooDataDatabase zb = ZooDataDatabase.getSingleton(this.context);
+        exhibitArrayList = (ArrayList<Exhibit>) zb.exhibitDao().getAll();
+        //exhibitArrayList = zoo.getExhibits();
         exhibitSelectAdapter = SearchActivity.getCustomAdapter();
-        selected = exhibitSelectAdapter.selectedExhibits;
-        selectedList = new ArrayList<>(selected);
-//        this.zb = ZooDataDatabase.getSingleton(context);
-//        exhibitDao = zb.exhibitDao();
-//        for(Exhibit curr: exhibitDao.getSelectedExhibits()){
-//            selectedList.add(curr.getName());
-//        }
-//        selectedList = exhibitDao.getSelectedExhibits();
-        idList = zoo.getIDList(selectedList);
-
+//        selected = exhibitSelectAdapter.selectedExhibits;
+        selectedList = new ArrayList<>();
+        List<Exhibit> selectedExhibits;
+        selectedExhibits = zb.exhibitDao().getSelectedExhibits();
+        idList = new ArrayList<>();
+        //idList = zoo.getIDList(selectedList);
+        for (Exhibit curr : selectedExhibits) {
+            selectedList.add(curr.getName());
+            idList.add(curr.getId());
+        }
         Map<String,ZooData.VertexInfo> placesToVisit = new HashMap<>();
 
         //get the hashmap of animals/location
@@ -90,7 +93,10 @@ public class PlanActivity extends AppCompatActivity {
         d = new Directions(placesToVisit, adapter.exhibitsGraph);
         d.exhibitsVertex = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
         d.finalListOfPaths();
-        adapter.orderPlan(d.getFinalPath(),d.getExhibitsNamesID());
+        if (selectedList.size() != 0) {
+            adapter.orderPlan(d.getFinalPath(), d.getExhibitsNamesID());
+        }
+
     }
 
     public void onDirectionsButtonClicked(View view) {

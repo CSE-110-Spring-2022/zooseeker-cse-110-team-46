@@ -234,6 +234,8 @@ public class ExhibitSelectAdapter extends BaseAdapter implements Filterable {
     }
 
     public void forceRepopulate(){
-        zb = zb.resetSingleton(context);
+
+        //zb = zb.resetSingleton(context);
+        zb = zb.resetSelected();
     }
 }

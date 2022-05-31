@@ -62,6 +62,15 @@ public abstract class ZooDataDatabase extends RoomDatabase {
         return singleton;
     }
 
+    public ZooDataDatabase resetSelected() {
+        ExhibitDao exhibitDao = this.exhibitDao();
+        List<Exhibit> selected = this.exhibitDao().getSelectedExhibits();
+        for(Exhibit curr: selected){
+            curr.setSelected(false);
+            exhibitDao.update(curr);
+        }
+        return this;
+    }
     public ZooDataDatabase resetSingleton(Context context){
         Executors.newSingleThreadExecutor().execute(() -> {
             ZooDataDatabase zb = ZooDataDatabase.getSingleton(context);

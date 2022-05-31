@@ -34,20 +34,20 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public class Worker implements Runnable {
-        private List<String> outputScraper;
-        private CountDownLatch countDownLatch;
+//    public class Worker implements Runnable {
+//        private List<String> outputScraper;
+//        private CountDownLatch countDownLatch;
+//
+//        public Worker(List<String> outputScraper, CountDownLatch countDownLatch) {
+//            this.outputScraper = outputScraper;
+//            this.countDownLatch = countDownLatch;
+//        }
 
-        public Worker(List<String> outputScraper, CountDownLatch countDownLatch) {
-            this.outputScraper = outputScraper;
-            this.countDownLatch = countDownLatch;
-        }
-
-        @Override
+        //@Override
         public void run() {
             ZooDataDatabase.setShouldForceRepopulate();
-            outputScraper.add("Counted down");
-            countDownLatch.countDown();
+//            outputScraper.add("Counted down");
+//            countDownLatch.countDown();
         }
-    }
+    //}
 }
