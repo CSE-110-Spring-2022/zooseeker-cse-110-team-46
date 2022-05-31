@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        /*
         useLocationService = getIntent().getBooleanExtra(EXTRA_LISTEN_TO_GPS, true);
 
         // Set up the model.
@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
             LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
             String provider = LocationManager.GPS_PROVIDER;
             model.addLocationProviderSource(locationManager, provider);
-        }
+        }*/
 
 
         SettingsStaticClass.detailed = false;

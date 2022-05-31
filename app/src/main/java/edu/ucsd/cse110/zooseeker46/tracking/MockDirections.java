@@ -12,7 +12,6 @@ import java.util.Map;
 import edu.ucsd.cse110.zooseeker46.IdentifiedWeightedEdge;
 import edu.ucsd.cse110.zooseeker46.ZooData;
 import edu.ucsd.cse110.zooseeker46.directions.Directions;
-import edu.ucsd.cse110.zooseeker46.directions.DirectionsActivity;
 
 public class MockDirections {
 
@@ -75,10 +74,6 @@ public class MockDirections {
         return exhibitsGraph;
     }
 
-    public Directions getD() {
-        return d;
-    }
-
     public Map<String, ZooData.VertexInfo> getExhibitsVertex() {
         return exhibitsVertex;
     }
@@ -88,19 +83,29 @@ public class MockDirections {
         for (int i = counter; i < exhibitNamesID.size(); i++){
             remainingExhibits.add(exhibitNamesID.get(i));
         }
+        TrackingStatic.remainingExhibits = remainingExhibits;
         return remainingExhibits;
+    }
+
+    public List<String> getVisitedExhibits(){
+        List<String> visitedExhibits = new ArrayList<>();
+        for (int i = 0; i < counter; i++){
+            visitedExhibits.add(exhibitNamesID.get(i));
+        }
+        TrackingStatic.visitedExhibits = visitedExhibits;
+        return visitedExhibits;
     }
 
     public Coord locationOfExhibit(List<String> idList, int count){
         String currExhibit = idList.get(count);
         ZooData.VertexInfo info = exhibitsVertex.get(currExhibit);
 
-        if (info.parent_id == null){
+        if (info.group_id == null){
             Coord coord = new Coord(info.lat, info.lng);
             return coord;
         }
-        else if (info.parent_id != null){
-            ZooData.VertexInfo info_group = exhibitsVertex.get(info.parent_id);
+        else if (info.group_id != null){
+            ZooData.VertexInfo info_group = exhibitsVertex.get(info.group_id);
             Coord coord = new Coord(info_group.lat, info_group.lng);
             return coord;
         }

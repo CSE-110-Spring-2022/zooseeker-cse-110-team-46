@@ -15,5 +15,7 @@ public class TrackingStatic {
     public static List<GraphPath<String, IdentifiedWeightedEdge>> finalPath;
     public static Graph<String, IdentifiedWeightedEdge> zoo;
     public static Map<String, ZooData.VertexInfo> places;
+    public static List<String> remainingExhibits;
+    public static List<String> visitedExhibits;
 
 }

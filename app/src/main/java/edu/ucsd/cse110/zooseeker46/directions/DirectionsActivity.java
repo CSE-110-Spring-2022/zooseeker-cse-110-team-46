@@ -27,7 +27,6 @@ import edu.ucsd.cse110.zooseeker46.R;
 import edu.ucsd.cse110.zooseeker46.SettingsStaticClass;
 import edu.ucsd.cse110.zooseeker46.ZooData;
 import edu.ucsd.cse110.zooseeker46.ZooExhibits;
-import edu.ucsd.cse110.zooseeker46.plan.PlanActivity;
 import edu.ucsd.cse110.zooseeker46.search.ExhibitSelectAdapter;
 import edu.ucsd.cse110.zooseeker46.search.SearchActivity;
 
@@ -81,6 +80,7 @@ public class DirectionsActivity extends AppCompatActivity {
 
         //Find shortest path with Directions object
         Directions d = new Directions(placesToVisit, zoo);
+        d.setStartID("entrance_exit_gate");
         d.exhibitsVertex = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
         d.finalListOfPaths();
         finalPath = d.getFinalPath();
@@ -94,7 +94,7 @@ public class DirectionsActivity extends AppCompatActivity {
         Log.d("Final Path", finalPath.toString());
 
         //set adapter
-        if(vertexForNames.get(exhibitNamesID.get(counter)).parent_id != null ){
+        if(vertexForNames.get(exhibitNamesID.get(counter)).group_id != null ){
             adapter = new DirectionsGroupAdapter();
         }
         else{
@@ -108,9 +108,9 @@ public class DirectionsActivity extends AppCompatActivity {
         adapter.setDirectionsType(new DetailedDirections());
 
         if(SettingsStaticClass.detailed)
-            adapter.directionsType = new DetailedDirections();
+            adapter.setDirectionsType(new DetailedDirections());
         else
-            adapter.directionsType = new SimpleDirections();
+            adapter.setDirectionsType(new SimpleDirections());
 
         adapter.setPath(finalPath.get(counter));
         recyclerView.setAdapter(adapter);
@@ -125,12 +125,14 @@ public class DirectionsActivity extends AppCompatActivity {
         super.onResume();
 
         if(SettingsStaticClass.detailed)
-            adapter.directionsType = new DetailedDirections();
+            adapter.setDirectionsType(new DetailedDirections());
         else
-            adapter.directionsType = new SimpleDirections();
+            adapter.setDirectionsType(new SimpleDirections());
 
         recyclerView = findViewById(R.id.directions_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        finalPath = TrackingStatic.finalPath;
+        exhibitNamesID = TrackingStatic.exhibitNamesIDs;
         System.out.println(finalPath);
         adapter.setPath(finalPath.get(counter));
         recyclerView.setAdapter(adapter);
@@ -150,7 +152,9 @@ public class DirectionsActivity extends AppCompatActivity {
             setAdapter();
             animalText.setText(vertexForNames.get(exhibitNamesID.get(counter)).name);;
             adapter.setPath(finalPath.get(counter));
+
             recyclerView.setAdapter(adapter);
+
         }
 
         //show end text if we've reached the end
@@ -219,7 +223,7 @@ public class DirectionsActivity extends AppCompatActivity {
     }
     public void setAdapter(){
         //set adapter
-        if(vertexForNames.get(exhibitNamesID.get(counter)).parent_id != null ){
+        if(vertexForNames.get(exhibitNamesID.get(counter)).group_id != null ){
             adapter = new DirectionsGroupAdapter();
         }
         else{
@@ -230,7 +234,11 @@ public class DirectionsActivity extends AppCompatActivity {
         adapter.setExhibitsEdge(ZooData.loadEdgeInfoJSON(this, "sample_edge_info.json"));
         adapter.setExhibitsVertex(ZooData.loadVertexInfoJSON(this, "sample_node_info.json"));
         adapter.setEnd(exhibitNamesID.get(counter));
-        adapter.setDirectionsType(new DetailedDirections());
+        //adapter.setDirectionsType(new DetailedDirections());
+        if(SettingsStaticClass.detailed)
+            adapter.setDirectionsType(new DetailedDirections());
+        else
+            adapter.setDirectionsType(new SimpleDirections());
 
         recyclerView.setAdapter(adapter);
     }

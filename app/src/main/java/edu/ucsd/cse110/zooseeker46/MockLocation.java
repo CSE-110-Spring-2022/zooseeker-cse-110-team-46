@@ -50,9 +50,4 @@ public class MockLocation extends AppCompatActivity {
     }
 
 
-
-    public Coord getCurrLoc(){
-        return currLoc;
-    }
-
 }

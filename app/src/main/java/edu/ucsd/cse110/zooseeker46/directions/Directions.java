@@ -21,7 +21,7 @@ public class Directions {
     private Map<String, ZooData.VertexInfo> exhibitsToVisit;
     private Graph<String, IdentifiedWeightedEdge> zooGraph;
     public Map<String, ZooData.VertexInfo> exhibitsVertex;
-    private String startID = "entrance_exit_gate";
+    private String startID;
     private List<String> exhibitsNamesID;
 
     public Directions(Map<String, ZooData.VertexInfo> exhibitsToVisit,
@@ -46,8 +46,8 @@ public class Directions {
         String visited = "";
         for (String placeToVisit : exhibitsToVisit.keySet()) {
             if(placeToVisit != begin) {
-                if(exhibitsVertex.get(placeToVisit).parent_id != null){
-                    String groupToVisit = exhibitsVertex.get(placeToVisit).parent_id;
+                if(exhibitsVertex.get(placeToVisit).group_id != null){
+                    String groupToVisit = exhibitsVertex.get(placeToVisit).group_id;
                     newPath = DijkstraShortestPath.findPathBetween(zooGraph, begin, groupToVisit);
                 }
                 else{
