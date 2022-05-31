@@ -153,14 +153,22 @@ public class DirectionsActivity extends AppCompatActivity {
         if(activatedDirectionsPrev && !onExhibitPrevious.equals("")){
             Log.d("In activatedDirectionsPrev, previous was: ", onExhibitPrevious);
             TextView animalTextcurr = findViewById(R.id.animalView);
+            String animalCurr = animalTextcurr.getText().toString();
+
             Button nextButton = findViewById((R.id.next_btn));
+
             TextView endText = findViewById(R.id.endText);
             String endString = endText.getText().toString();
-//            while(!animalTextcurr.equals(onExhibitPrevious) || !endString.equals(onExhibitPrevious)){
-//                nextButton.performClick();
-//                animalTextcurr = findViewById(R.id.animalView);
-//                endText = findViewById(R.id.endText);
-//            }
+
+            while(!animalCurr.equals(onExhibitPrevious) || !endString.equals(onExhibitPrevious)){
+                nextButton.performClick();
+                animalTextcurr = findViewById(R.id.animalView);
+                animalCurr = animalTextcurr.getText().toString();
+                endText = (findViewById(R.id.endText));
+                endString = endText.getText().toString();
+                Log.d("animalTextCurr: ", animalCurr);
+                Log.d("endString: ", endString);
+            }
         }
         else {
 
@@ -211,7 +219,6 @@ public class DirectionsActivity extends AppCompatActivity {
 
             //load animal text
             TextView animalText = findViewById(R.id.animalView);
-            Log.d("Next button clicked:", vertexForNames.get(exhibitNamesID.get(counter)).name);
 
             //update counter and the text on screen
             counter++;
@@ -219,6 +226,7 @@ public class DirectionsActivity extends AppCompatActivity {
             animalText.setText(vertexForNames.get(exhibitNamesID.get(counter)).name);;
             adapter.setPath(finalPath.get(counter));
             recyclerView.setAdapter(adapter);
+
             currPage = vertexForNames.get(exhibitNamesID.get(counter)).name;
         }
 
@@ -308,6 +316,21 @@ public class DirectionsActivity extends AppCompatActivity {
         Intent intent = new Intent(DirectionsActivity.this, SettingsActivity.class);
         startActivity(intent);
     }
+
+    public void onBackButtonClicked(View view) {
+        SharedPreferences sharedPrefActivity = this.getSharedPreferences("onDirections", MODE_PRIVATE);
+        //now get Editor
+        SharedPreferences.Editor editor= sharedPrefActivity.edit();
+        //put your value
+        editor.putBoolean("onDir", false);
+        //commits your edits
+        editor.commit();
+        Intent intent = new Intent(this, SearchActivity.class);
+        startActivity(intent);
+        finish();
+        overridePendingTransition(0,0);
+    }
+
     public void setAdapter(){
         //set adapter
         if(vertexForNames.get(exhibitNamesID.get(counter)).parent_id != null ){

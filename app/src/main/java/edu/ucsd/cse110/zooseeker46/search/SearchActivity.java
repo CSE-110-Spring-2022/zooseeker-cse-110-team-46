@@ -101,7 +101,7 @@ public class SearchActivity extends AppCompatActivity {
         clearbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("being called");
+                //System.out.println("being called");
                 customAdapter.forceRepopulate();
                 //zb.resetSelected();
                 resetUI();
