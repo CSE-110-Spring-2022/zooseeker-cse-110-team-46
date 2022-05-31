@@ -8,6 +8,7 @@ import java.util.Map;
 
 import edu.ucsd.cse110.zooseeker46.IdentifiedWeightedEdge;
 import edu.ucsd.cse110.zooseeker46.ZooData;
+import edu.ucsd.cse110.zooseeker46.visitor;
 
 public class TrackingStatic {
     public static int counter;
@@ -17,5 +18,6 @@ public class TrackingStatic {
     public static Map<String, ZooData.VertexInfo> places;
     public static List<String> remainingExhibits;
     public static List<String> visitedExhibits;
+    public static visitor visitor;
 
 }

@@ -5,7 +5,9 @@ import android.location.Location;
 import androidx.annotation.NonNull;
 
 
-import com.google.common.base.Objects;
+//import com.google.common.base.Objects;
+
+import java.util.Objects;
 
 public class Coord {
     public static final double DEG_LAT_IN_FT = 363843.57;
@@ -34,11 +36,13 @@ public class Coord {
         Coord coord = (Coord) o;
         return Double.compare(coord.lat, lat) == 0 && Double.compare(coord.lng, lng) == 0;
     }
-
+/*
     @Override
     public int hashCode() {
         return Objects.hashCode(lat, lng);
     }
+
+ */
 
     @NonNull
     @Override

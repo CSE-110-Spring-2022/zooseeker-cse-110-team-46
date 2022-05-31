@@ -1,19 +1,26 @@
 package edu.ucsd.cse110.zooseeker46.tracking;
 
+import android.app.Activity;
 import android.widget.EditText;
 
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 import edu.ucsd.cse110.zooseeker46.IdentifiedWeightedEdge;
 import edu.ucsd.cse110.zooseeker46.ZooData;
+import edu.ucsd.cse110.zooseeker46.database.ExhibitDao;
+import edu.ucsd.cse110.zooseeker46.database.ZooDataDatabase;
 import edu.ucsd.cse110.zooseeker46.directions.Directions;
+import edu.ucsd.cse110.zooseeker46.locations.Exhibit;
 
 public class MockDirections {
+
+
 
     private List<GraphPath<String, IdentifiedWeightedEdge>> finalPath;
     private List<String> exhibitNamesID;
@@ -115,6 +122,7 @@ public class MockDirections {
 
     public boolean checkOffRoute(Coord newLocation){
         List<String> remainingExhibits = getRemainingExhibits();
+        getVisitedExhibits();
         Coord original = locationOfExhibit(remainingExhibits, 0);
         double shortestWeight = original.compareCoord(original, newLocation);
         for (int i = 0; i < remainingExhibits.size(); i++){
@@ -126,6 +134,27 @@ public class MockDirections {
             }
         }
         return false;
+    }
+
+    public ZooData.VertexInfo closestNode(Coord newLocation){
+        Collection<ZooData.VertexInfo> values =TrackingStatic.places.values();
+        // Creating an ArrayList of values
+        ArrayList<ZooData.VertexInfo> allExhibits
+                = new ArrayList<>(values);
+        getVisitedExhibits();
+        Coord nearestExhibitCoord = new Coord(allExhibits.get(0).lat, allExhibits.get(0).lng);
+        ZooData.VertexInfo nearestExhibit = allExhibits.get(0);
+        double shortestWeight = nearestExhibitCoord.compareCoord(nearestExhibitCoord, newLocation);
+        for (int i = 0; i < allExhibits.size(); i++){
+            Coord nextExhibit = new Coord(allExhibits.get(i).lat, allExhibits.get(i).lng);
+            double checkOff = nextExhibit.compareCoord(nextExhibit, newLocation);
+            if (checkOff < shortestWeight){
+                shortestWeight = checkOff;
+                nearestExhibitCoord = nextExhibit;
+                nearestExhibit = allExhibits.get(i);
+            }
+        }
+        return nearestExhibit;
     }
 
 

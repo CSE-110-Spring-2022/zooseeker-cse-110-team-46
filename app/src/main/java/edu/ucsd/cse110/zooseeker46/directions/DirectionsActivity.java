@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
+import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,14 +26,18 @@ import edu.ucsd.cse110.zooseeker46.IdentifiedWeightedEdge;
 import edu.ucsd.cse110.zooseeker46.MockLocation;
 import edu.ucsd.cse110.zooseeker46.R;
 import edu.ucsd.cse110.zooseeker46.SettingsStaticClass;
+import edu.ucsd.cse110.zooseeker46.Utilities;
 import edu.ucsd.cse110.zooseeker46.ZooData;
 import edu.ucsd.cse110.zooseeker46.ZooExhibits;
 import edu.ucsd.cse110.zooseeker46.search.ExhibitSelectAdapter;
 import edu.ucsd.cse110.zooseeker46.search.SearchActivity;
 
+import edu.ucsd.cse110.zooseeker46.tracking.Coord;
+import edu.ucsd.cse110.zooseeker46.tracking.MockDirections;
 import edu.ucsd.cse110.zooseeker46.tracking.TrackingStatic;
 
 import edu.ucsd.cse110.zooseeker46.SettingsActivity;
+import edu.ucsd.cse110.zooseeker46.visitor;
 
 
 public class DirectionsActivity extends AppCompatActivity {
@@ -48,6 +53,14 @@ public class DirectionsActivity extends AppCompatActivity {
     List<GraphPath<String, IdentifiedWeightedEdge>> finalPath;
     Map<String, ZooData.VertexInfo> vertexForNames;
     List<String> exhibitNamesID;
+    int numPlaces;
+
+    visitor visitor;
+    List<String> visitedExhibits;
+    List<String> remainingExhibits;
+    Map<String,ZooData.VertexInfo> nextExhibits;
+    Map<String,ZooData.VertexInfo> prevExhibits;
+    Directions d;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,16 +90,28 @@ public class DirectionsActivity extends AppCompatActivity {
             placesToVisit.put(idList.get(i), places.get(selectedList.get(i)));
         }
         //placesToVisit.put("entrance_exit_gate", places.get("entrance_exit_gate"));
-
+        visitor = new visitor();
+        visitor.setCurrentNode(places.get("entrance_exit_gate"));
+        TrackingStatic.visitor = visitor;
         //Find shortest path with Directions object
-        Directions d = new Directions(placesToVisit, zoo);
+        d = new Directions(placesToVisit, zoo);
         d.setStartID("entrance_exit_gate");
         d.exhibitsVertex = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
         d.finalListOfPaths();
         finalPath = d.getFinalPath();
         exhibitNamesID = d.getExhibitsNamesID();
+        numPlaces= exhibitNamesID.size();
+        Log.d("numPlaces", "onCreate: " + numPlaces);
         TrackingStatic.exhibitNamesIDs = exhibitNamesID;
         TrackingStatic.finalPath = finalPath;
+
+        visitedExhibits = new ArrayList<>();
+        remainingExhibits = new ArrayList<>();
+        remainingExhibits.addAll(d.getExhibitToVisitWO().keySet());
+        TrackingStatic.visitedExhibits = visitedExhibits;
+        TrackingStatic.remainingExhibits = remainingExhibits;
+
+        //remainingExhibits.remove(remainingExhibits.size()-1);
 
         //recycler view
         recyclerView = findViewById(R.id.directions_recycler);
@@ -131,34 +156,68 @@ public class DirectionsActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.directions_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        visitor = TrackingStatic.visitor;
         finalPath = TrackingStatic.finalPath;
         exhibitNamesID = TrackingStatic.exhibitNamesIDs;
         System.out.println(finalPath);
-        adapter.setPath(finalPath.get(counter));
+        adapter.setPath(DijkstraShortestPath.findPathBetween(TrackingStatic.zoo, visitor.getCurrentNode().id, exhibitNamesID.get(counter)));
         recyclerView.setAdapter(adapter);
     }
 
     public void onNextButtonClicked(View view) {
 
         //update the textViews if we're still in the array
-        if(counter < finalPath.size() - 1){
+        if(counter < numPlaces-1){
 
             //load animal text
             TextView animalText = findViewById(R.id.animalView);
+            nextExhibits = d.ExhibitsToMap(TrackingStatic.remainingExhibits);
+            nextExhibits.remove(exhibitNamesID.get(counter));
+
 
             //update counter and the text on screen
             counter++;
             TrackingStatic.counter = counter;
+            /*
+            d.setStartID(visitor.getCurrentNode().id);
+            nextExhibits.remove("entrance_exit_gate");
+            d.setExhibitsToVisit(nextExhibits);
+            d.finalListOfPaths();
+            this.finalPath = d.getFinalPath();
+            TrackingStatic.finalPath = finalPath;
+             */
+
             setAdapter();
-            animalText.setText(vertexForNames.get(exhibitNamesID.get(counter)).name);;
-            adapter.setPath(finalPath.get(counter));
-
+            animalText.setText(vertexForNames.get(exhibitNamesID.get(counter)).name);
+            //your moving through already visited
+            if(counter < visitedExhibits.size()){
+                adapter.setPath(DijkstraShortestPath.findPathBetween(TrackingStatic.zoo, visitor.getCurrentNode().id, visitedExhibits
+                        .get(counter)));
+            }
+            //your moving through not visited yet
+            else {
+                this.remainingExhibits = new ArrayList<>();
+                this.remainingExhibits.addAll(nextExhibits.keySet());
+                if(visitedExhibits.size() != counter) {
+                    this.visitedExhibits.add(exhibitNamesID.get(counter-1));
+                }
+                TrackingStatic.remainingExhibits = remainingExhibits;
+                TrackingStatic.visitedExhibits = visitedExhibits;
+                Log.d("visited/remaining", "onNextButtonClicked: visitied:"+visitedExhibits +" remaining:"+remainingExhibits);
+                //your going back to gate
+                    if(counter == numPlaces-1) {
+                        adapter.setPath(DijkstraShortestPath.findPathBetween(TrackingStatic.zoo, visitor.getCurrentNode().id, "entrance_exit_gate"));
+                    }
+                    else {
+                        adapter.setPath(DijkstraShortestPath.findPathBetween(TrackingStatic.zoo, visitor.getCurrentNode().id, remainingExhibits
+                                .get(0)));
+                    }
+            }
             recyclerView.setAdapter(adapter);
-
         }
 
         //show end text if we've reached the end
-        else if(counter == finalPath.size() - 1) {
+        else if(counter == numPlaces-1) {
 
             TextView endText = findViewById(R.id.endText);
             Button nextButton = findViewById((R.id.next_btn));
@@ -175,13 +234,13 @@ public class DirectionsActivity extends AppCompatActivity {
             animalText.setVisibility(View.INVISIBLE);
             recyclerView.setVisibility(View.INVISIBLE);
         }
-
+        Log.d ("count", String.valueOf(counter));
     }
 
     public void onPrevButtonClicked(View view) {
 
         //show end text if we've reached the end
-        if(counter == finalPath.size()) {
+        if(counter == numPlaces) {
 
             TextView endText = findViewById(R.id.endText);
             Button nextButton = findViewById((R.id.next_btn));
@@ -204,16 +263,24 @@ public class DirectionsActivity extends AppCompatActivity {
             //load textViews
             TextView animalText = findViewById(R.id.animalView);
 
+            d.setStartID(visitor.getCurrentNode().id);
+            prevExhibits = d.ExhibitsToMap(TrackingStatic.visitedExhibits);
+            Log.d("prev", "onPrevButtonClicked: " + visitedExhibits.toString());
+            /*d.setExhibitsToVisit(prevExhibits);
+            d.finalListOfPaths();
+            finalPath = d.getFinalPath();
+             */
+
             //update counter and the text on screen
             counter--;
             TrackingStatic.counter = counter;
             setAdapter();
-            animalText.setText(vertexForNames.get(exhibitNamesID.get(counter)).name);
+            animalText.setText(vertexForNames.get(visitedExhibits.get(counter)).name);
 
-            adapter.setPath(finalPath.get(counter));
+            adapter.setPath(DijkstraShortestPath.findPathBetween(TrackingStatic.zoo, visitor.getCurrentNode().id, visitedExhibits.get(counter)));
             recyclerView.setAdapter(adapter);
         }
-
+        Log.d ("count", String.valueOf(counter));
     }
 
 
@@ -233,7 +300,7 @@ public class DirectionsActivity extends AppCompatActivity {
         adapter.setExhibitsGraph(ZooData.loadZooGraphJSON(this,"sample_zoo_graph.json"));
         adapter.setExhibitsEdge(ZooData.loadEdgeInfoJSON(this, "sample_edge_info.json"));
         adapter.setExhibitsVertex(ZooData.loadVertexInfoJSON(this, "sample_node_info.json"));
-        adapter.setEnd(exhibitNamesID.get(counter));
+        adapter.setEnd(d.getExhibitsNamesID().get(0));
         //adapter.setDirectionsType(new DetailedDirections());
         if(SettingsStaticClass.detailed)
             adapter.setDirectionsType(new DetailedDirections());

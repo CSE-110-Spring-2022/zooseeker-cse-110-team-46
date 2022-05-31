@@ -16,6 +16,7 @@ public class MockLocation extends AppCompatActivity {
     EditText lat;
     EditText lng;
     Coord currLoc;
+    visitor visitor;
     MockDirections mockDirections = new MockDirections();
 
 
@@ -29,6 +30,7 @@ public class MockLocation extends AppCompatActivity {
         mockDirections.setExhibitsGraphTracking(TrackingStatic.zoo);
         mockDirections.setFinalPath(TrackingStatic.finalPath);
         mockDirections.setExhibitsVertexTracking(TrackingStatic.places);
+        this.visitor = new visitor();
     }
 
     public void onDoneButtonClicked(View view) {
@@ -36,13 +38,19 @@ public class MockLocation extends AppCompatActivity {
         lng = (EditText) this.findViewById(R.id.longInput);
 
         Coord coord = mockDirections.convertFromInput(lat, lng);
+
+        this.visitor.setCurrentNode(mockDirections.closestNode(coord));
+        TrackingStatic.visitor = visitor;
+
         Coord currExhibit = mockDirections.locationOfExhibit(mockDirections.getExhibitNamesID(), mockDirections.getCounter());
         double latitude = Double.parseDouble(lat.getText().toString());
         boolean offRoute = mockDirections.checkOffRoute(coord);
         if (offRoute == true){
             Utilities.showAlert(this, "Offtrack");
         }
-
+        else{
+            finish();
+        }
     }
 
     public void onCancelButtonClicked(View view) {

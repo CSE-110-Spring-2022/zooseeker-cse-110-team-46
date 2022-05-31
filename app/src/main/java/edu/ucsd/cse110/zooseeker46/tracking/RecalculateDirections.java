@@ -25,15 +25,27 @@ public class RecalculateDirections {
         }
         return map;
     }
+    ArrayList<String> remainingNoGate = new ArrayList<String>(TrackingStatic.remainingExhibits);
 
     Directions directions = new Directions(newMap(TrackingStatic.remainingExhibits), TrackingStatic.zoo);
 
     public List<GraphPath<String, IdentifiedWeightedEdge>> newFinalPath(){
+        remainingNoGate.remove(TrackingStatic.remainingExhibits.size()-1);
+        if(TrackingStatic.counter == 0){
+            this.startID = "entrance_exit_gate";
+        }
+        else{
+            this.startID = TrackingStatic.exhibitNamesIDs.get(TrackingStatic.counter-1);
+            if(TrackingStatic.places.get(startID).group_id != null){
+                this.startID = TrackingStatic.places.get(startID).group_id;
+            }
+        }
         directions.setStartID(startID);
-       directions.finalListOfPaths();
-       newOrderList = directions.getExhibitsNamesID();
-       TrackingStatic.remainingExhibits = newOrderList;
-       return directions.getFinalPath();
+        directions.exhibitsVertex = TrackingStatic.places;
+        directions.finalListOfPaths();
+        newOrderList = directions.getExhibitsNamesID();
+        TrackingStatic.remainingExhibits = newOrderList;
+        return directions.getFinalPath();
     }
 
     public List<GraphPath<String, IdentifiedWeightedEdge>> originalHalfPath(){
