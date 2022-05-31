@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,6 +27,8 @@ import edu.ucsd.cse110.zooseeker46.R;
 import edu.ucsd.cse110.zooseeker46.SettingsStaticClass;
 import edu.ucsd.cse110.zooseeker46.ZooData;
 import edu.ucsd.cse110.zooseeker46.ZooExhibits;
+import edu.ucsd.cse110.zooseeker46.database.ZooDataDatabase;
+import edu.ucsd.cse110.zooseeker46.locations.Exhibit;
 import edu.ucsd.cse110.zooseeker46.plan.PlanActivity;
 import edu.ucsd.cse110.zooseeker46.search.ExhibitSelectAdapter;
 import edu.ucsd.cse110.zooseeker46.search.SearchActivity;
@@ -39,6 +42,7 @@ public class DirectionsActivity extends AppCompatActivity {
     List<GraphPath<String, IdentifiedWeightedEdge>> finalPath;
     Map<String, ZooData.VertexInfo> vertexForNames;
     List<String> exhibitNamesID;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,16 +56,31 @@ public class DirectionsActivity extends AppCompatActivity {
 
         //Create an ArrayList with the selected animals' names
         ExhibitSelectAdapter exhibitSelectAdapter = SearchActivity.getCustomAdapter();
-        Set<String> selected = exhibitSelectAdapter.selectedExhibits;
-        ArrayList<String> selectedList = new ArrayList<>(selected);
+        // Set<String> selected = exhibitSelectAdapter.selectedExhibits;
+        //ArrayList<String> selectedList = new ArrayList<>(selected);
 
-        Map<String,ZooData.VertexInfo> placesToVisit = new HashMap<>();
+        Map<String, ZooData.VertexInfo> placesToVisit = new HashMap<>();
 
-        ZooExhibits zoo2 = new ZooExhibits(places);
-        ArrayList<String> idList = zoo2.getIDList(selectedList);
+//        ZooExhibits zoo2 = new ZooExhibits(places);
+//        ArrayList<String> idList = zoo2.getIDList(selectedList);
 
         //get the hashmap of animals/location
-        for(int i = 0; i < selectedList.size(); i++) {
+
+        ZooDataDatabase zb = ZooDataDatabase.getSingleton(this.context);
+        ArrayList<Exhibit> exhibitArrayList = (ArrayList<Exhibit>) zb.exhibitDao().getAll();
+        //exhibitArrayList = zoo.getExhibits();
+//        selected = exhibitSelectAdapter.selectedExhibits;
+        ArrayList<String> selectedList = new ArrayList<>();
+        List<Exhibit> selectedExhibits;
+        selectedExhibits = zb.exhibitDao().getSelectedExhibits();
+        ArrayList<String> idList = new ArrayList<>();
+        //idList = zoo.getIDList(selectedList);
+        for (Exhibit curr : selectedExhibits) {
+            selectedList.add(curr.getName());
+            idList.add(curr.getId());
+        }
+
+        for (int i = 0; i < selectedList.size(); i++) {
             placesToVisit.put(idList.get(i), places.get(selectedList.get(i)));
         }
         //placesToVisit.put("entrance_exit_gate", places.get("entrance_exit_gate"));
@@ -79,20 +98,19 @@ public class DirectionsActivity extends AppCompatActivity {
         Log.d("Final Path", finalPath.toString());
 
         //set adapter
-        if(vertexForNames.get(exhibitNamesID.get(counter)).parent_id != null ){
+        if (vertexForNames.get(exhibitNamesID.get(counter)).parent_id != null) {
             adapter = new DirectionsGroupAdapter();
-        }
-        else{
+        } else {
             adapter = new DirectionsAdapter();
         }
 
-        adapter.setExhibitsGraph(ZooData.loadZooGraphJSON(this,"sample_zoo_graph.json"));
+        adapter.setExhibitsGraph(ZooData.loadZooGraphJSON(this, "sample_zoo_graph.json"));
         adapter.setExhibitsEdge(ZooData.loadEdgeInfoJSON(this, "sample_edge_info.json"));
         adapter.setExhibitsVertex(ZooData.loadVertexInfoJSON(this, "sample_node_info.json"));
         adapter.setEnd(exhibitNamesID.get(counter));
         adapter.setDirectionsType(new DetailedDirections());
 
-        if(SettingsStaticClass.detailed)
+        if (SettingsStaticClass.detailed)
             adapter.directionsType = new DetailedDirections();
         else
             adapter.directionsType = new SimpleDirections();
@@ -109,7 +127,7 @@ public class DirectionsActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        if(SettingsStaticClass.detailed)
+        if (SettingsStaticClass.detailed)
             adapter.directionsType = new DetailedDirections();
         else
             adapter.directionsType = new SimpleDirections();
@@ -124,7 +142,7 @@ public class DirectionsActivity extends AppCompatActivity {
     public void onNextButtonClicked(View view) {
 
         //update the textViews if we're still in the array
-        if(counter < finalPath.size() - 1){
+        if (counter < finalPath.size() - 1) {
 
             //load animal text
             TextView animalText = findViewById(R.id.animalView);
@@ -132,13 +150,14 @@ public class DirectionsActivity extends AppCompatActivity {
             //update counter and the text on screen
             counter++;
             setAdapter();
-            animalText.setText(vertexForNames.get(exhibitNamesID.get(counter)).name);;
+            animalText.setText(vertexForNames.get(exhibitNamesID.get(counter)).name);
+            ;
             adapter.setPath(finalPath.get(counter));
             recyclerView.setAdapter(adapter);
         }
 
         //show end text if we've reached the end
-        else if(counter == finalPath.size() - 1) {
+        else if (counter == finalPath.size() - 1) {
 
             TextView endText = findViewById(R.id.endText);
             Button nextButton = findViewById((R.id.next_btn));
@@ -160,7 +179,7 @@ public class DirectionsActivity extends AppCompatActivity {
     public void onPrevButtonClicked(View view) {
 
         //show end text if we've reached the end
-        if(counter == finalPath.size()) {
+        if (counter == finalPath.size()) {
 
             TextView endText = findViewById(R.id.endText);
             Button nextButton = findViewById((R.id.next_btn));
@@ -177,7 +196,7 @@ public class DirectionsActivity extends AppCompatActivity {
         }
 
         //update the textViews if we're still in the array
-        else if(counter > 0){
+        else if (counter > 0) {
 
             //load textViews
             TextView animalText = findViewById(R.id.animalView);
@@ -198,21 +217,38 @@ public class DirectionsActivity extends AppCompatActivity {
         Intent intent = new Intent(DirectionsActivity.this, SettingsActivity.class);
         startActivity(intent);
     }
-    public void setAdapter(){
+
+    public void setAdapter() {
         //set adapter
-        if(vertexForNames.get(exhibitNamesID.get(counter)).parent_id != null ){
+        if (vertexForNames.get(exhibitNamesID.get(counter)).parent_id != null) {
             adapter = new DirectionsGroupAdapter();
-        }
-        else{
+        } else {
             adapter = new DirectionsAdapter();
         }
 
-        adapter.setExhibitsGraph(ZooData.loadZooGraphJSON(this,"sample_zoo_graph.json"));
+        adapter.setExhibitsGraph(ZooData.loadZooGraphJSON(this, "sample_zoo_graph.json"));
         adapter.setExhibitsEdge(ZooData.loadEdgeInfoJSON(this, "sample_edge_info.json"));
         adapter.setExhibitsVertex(ZooData.loadVertexInfoJSON(this, "sample_node_info.json"));
         adapter.setEnd(exhibitNamesID.get(counter));
         adapter.setDirectionsType(new DetailedDirections());
-
         recyclerView.setAdapter(adapter);
     }
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        // Save UI state changes to the savedInstanceState.
+        // This bundle will be passed to onCreate if the process is
+        // killed and restarted.
+        savedInstanceState.putStringArrayList("full", adapter.fullDir);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        // Restore UI state from the savedInstanceState.
+        // This bundle has also been passed to onCreate.
+        ArrayList<String> fullDir = savedInstanceState.getStringArrayList("full");
+
+    }
+
 }

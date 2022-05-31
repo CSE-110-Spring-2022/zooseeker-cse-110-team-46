@@ -28,6 +28,8 @@ public class DirectionsAdapter extends RecyclerView.Adapter<DirectionsAdapter.Vi
     public Map<String, ZooData.EdgeInfo> exhibitsEdge;
     public DirectionTypeInterface directionsType;
     public String end;
+    public String singlePath;
+    public ArrayList<String> fullDir = new ArrayList<>();
 
     public void setPath(GraphPath<String, IdentifiedWeightedEdge> path){
         this.path = path;
@@ -77,7 +79,10 @@ public class DirectionsAdapter extends RecyclerView.Adapter<DirectionsAdapter.Vi
             }
         }
         int length = directionsType.getLength(exhibitsGraph, pathLayout);
+        //need to figure out which dir to use, curr or saved
         DirectionsTextView.setText(directionsType.pathFormat(startName, endName, streetName, length));
+
+        fullDir.add(directionsType.pathFormat(startName, endName, streetName, length));
     }
 
     @Override
