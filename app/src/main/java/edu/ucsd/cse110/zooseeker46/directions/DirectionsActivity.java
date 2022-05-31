@@ -241,6 +241,14 @@ public class DirectionsActivity extends AppCompatActivity {
         Intent intent = new Intent(DirectionsActivity.this, SettingsActivity.class);
         startActivity(intent);
     }
+
+    public void onBackButtonClicked(View view) {
+        Intent intent = new Intent(this, SearchActivity.class);
+        startActivity(intent);
+        finish();
+        overridePendingTransition(0,0);
+    }
+
     public void setAdapter(){
         //set adapter
         if(vertexForNames.get(exhibitNamesID.get(counter)).parent_id != null ){

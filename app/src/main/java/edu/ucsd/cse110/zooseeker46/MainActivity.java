@@ -24,18 +24,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        String a = "a]";
-        Log.d("Started onCreate for MainActivity", a);
-
+        //String a = "a]";
+        //Log.d("Started onCreate for MainActivity", a);
         SettingsStaticClass.detailed = false;
-
 
         // Uncomment for debugging:
         //ZooDataDatabase.setShouldForceRepopulate();
-
         ZooDataDatabase zb = ZooDataDatabase.getSingleton(this);
         StatusDao statusdao = zb.statusDao();
+        setContentView(R.layout.activity_main);
 
         SharedPreferences sharedPref = this.getSharedPreferences("onDirections", MODE_PRIVATE);
         boolean onDirections = sharedPref.getBoolean("onDir", false);
