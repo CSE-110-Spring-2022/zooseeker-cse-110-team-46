@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         ZooDataDatabase zb = ZooDataDatabase.getSingleton(this);
         StatusDao statusdao = zb.statusDao();
 
-        SharedPreferences sharedPref = getPreferences(MODE_PRIVATE);
+        SharedPreferences sharedPref = this.getSharedPreferences("onDirections", MODE_PRIVATE);
         boolean onDirections = sharedPref.getBoolean("onDir", false);
         Log.d("In Main, Boolean for onDirections: ", String.valueOf(onDirections));
         if(onDirections){

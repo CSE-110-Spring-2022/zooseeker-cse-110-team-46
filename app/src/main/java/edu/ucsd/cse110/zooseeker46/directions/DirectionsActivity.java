@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -87,7 +88,7 @@ public class DirectionsActivity extends AppCompatActivity {
         onDir.setOnDirections();
         statusdao.insert(onDir);
         // Create object of SharedPreferences.
-        SharedPreferences sharedPref = getPreferences(MODE_PRIVATE);
+        SharedPreferences sharedPref = this.getSharedPreferences("onDirections", MODE_PRIVATE);
         //now get Editor
         SharedPreferences.Editor editor= sharedPref.edit();
         //put your value
