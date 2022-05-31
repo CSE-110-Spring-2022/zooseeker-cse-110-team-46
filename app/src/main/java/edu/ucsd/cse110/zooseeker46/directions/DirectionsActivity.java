@@ -148,6 +148,8 @@ public class DirectionsActivity extends AppCompatActivity {
 
         SharedPreferences sharedPref3 = this.getSharedPreferences("onExhibitDir", MODE_PRIVATE);
         String onExhibitPrevious = sharedPref3.getString("onExhibit", "");
+        SharedPreferences sharedPrefActivity = this.getSharedPreferences("onDirections", MODE_PRIVATE);
+        int tempCount = sharedPrefActivity.getInt("counter", 0);
 
         // If we already had the directions open at a previous point
         if(activatedDirectionsPrev && !onExhibitPrevious.equals("")){
@@ -160,7 +162,8 @@ public class DirectionsActivity extends AppCompatActivity {
             TextView endText = findViewById(R.id.endText);
             String endString = endText.getText().toString();
 
-            while(!animalCurr.equals(onExhibitPrevious) || !endString.equals(onExhibitPrevious)){
+            //while(!animalCurr.equals(onExhibitPrevious) || !endString.equals(onExhibitPrevious)){
+            for (int i = 0; i != tempCount; i++ ) {
                 nextButton.performClick();
                 animalTextcurr = findViewById(R.id.animalView);
                 animalCurr = animalTextcurr.getText().toString();
@@ -173,9 +176,7 @@ public class DirectionsActivity extends AppCompatActivity {
         else {
 
             // First instance of the directions being called
-            // Create object of SharedPreferences.
-            SharedPreferences sharedPrefActivity = this.getSharedPreferences("onDirections", MODE_PRIVATE);
-            //now get Editor
+
             SharedPreferences.Editor editor= sharedPrefActivity.edit();
             //put your value
             editor.putBoolean("onDir", true);
@@ -259,6 +260,13 @@ public class DirectionsActivity extends AppCompatActivity {
         //commits your edits
         editor2.commit();
 
+        SharedPreferences sharedPrefActivity = this.getSharedPreferences("onDirections", MODE_PRIVATE);
+        //now get Editor
+        SharedPreferences.Editor editor= sharedPrefActivity.edit();
+        editor.putInt("counter", counter);
+        //commits your edits
+        editor.commit();
+
     }
 
     public void onPrevButtonClicked(View view) {
@@ -308,6 +316,13 @@ public class DirectionsActivity extends AppCompatActivity {
         editor2.putString("onExhibit", currPage);
         //commits your edits
         editor2.commit();
+
+        SharedPreferences sharedPrefActivity = this.getSharedPreferences("onDirections", MODE_PRIVATE);
+        //now get Editor
+        SharedPreferences.Editor editor= sharedPrefActivity.edit();
+        editor.putInt("counter", counter);
+        //commits your edits
+        editor.commit();
 
     }
 
