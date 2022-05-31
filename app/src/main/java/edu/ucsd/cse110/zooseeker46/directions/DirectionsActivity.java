@@ -214,7 +214,9 @@ public class DirectionsActivity extends AppCompatActivity {
 
     public void onNextButtonClicked(View view) {
         String currPage = "";
-
+        SharedPreferences sharedPrefActivity = this.getSharedPreferences("onDirections", MODE_PRIVATE);
+        //now get Editor
+        SharedPreferences.Editor editor= sharedPrefActivity.edit();
         //update the textViews if we're still in the array
         if(counter < finalPath.size() - 1){
 
@@ -248,6 +250,7 @@ public class DirectionsActivity extends AppCompatActivity {
             animalText.setVisibility(View.INVISIBLE);
             recyclerView.setVisibility(View.INVISIBLE);
             currPage = endText.getText().toString();
+            editor.putBoolean("onDir", false);
         }
 
         Log.d("NEXT BTN: onExhibit var changed: ", currPage);
@@ -260,9 +263,7 @@ public class DirectionsActivity extends AppCompatActivity {
         //commits your edits
         editor2.commit();
 
-        SharedPreferences sharedPrefActivity = this.getSharedPreferences("onDirections", MODE_PRIVATE);
-        //now get Editor
-        SharedPreferences.Editor editor= sharedPrefActivity.edit();
+
         editor.putInt("counter", counter);
         //commits your edits
         editor.commit();
