@@ -67,13 +67,12 @@ public class SettingsActivity extends AppCompatActivity {
         SharedPreferences.Editor editor= sharedPrefActivity.edit();
         //put your value
         editor.putBoolean("onDir", false);
+        editor.putBoolean("startover", true);
         //commits your edits
         editor.commit();
         Intent intent = new Intent(this, SearchActivity.class);
         startActivity(intent);
         finish();
         overridePendingTransition(0,0);
-        Button clearbtn = (Button) findViewById(R.id.clear_btn);
-        clearbtn.performClick();
     }
 }

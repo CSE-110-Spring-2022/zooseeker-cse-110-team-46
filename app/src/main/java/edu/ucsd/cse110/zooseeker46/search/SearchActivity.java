@@ -5,6 +5,7 @@ import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -59,6 +60,14 @@ public class SearchActivity extends AppCompatActivity {
         //Two lines for accessing db
         zb= ZooDataDatabase.getSingleton(this);
         ExhibitDao exhibitDao = zb.exhibitDao();
+
+        SharedPreferences sharedPrefActivity = this.getSharedPreferences("onDirections", MODE_PRIVATE);
+        boolean startOver = sharedPrefActivity.getBoolean("startover", false);
+
+        if(startOver) {
+            Button clearbtn = (Button) findViewById(R.id.clear_btn);
+            clearbtn.performClick();
+        }
 
         List<Exhibit> allexhibits = exhibitDao.getAll();
         int size = allexhibits.size();
