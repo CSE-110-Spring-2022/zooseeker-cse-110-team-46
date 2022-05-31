@@ -10,10 +10,12 @@ public class Utilities {
         alertBuilder
                 .setTitle("Alert")
                 .setMessage(message)
-                .setPositiveButton("Ok", (dialog, id) -> {
+                .setPositiveButton("Replan", (dialog, id) -> {
                     dialog.cancel();
                 })
-                .setCancelable(true);
+                .setNegativeButton("Cancel", (dialog, which) -> {
+                    dialog.cancel();
+                });
 
         AlertDialog alertDialog = alertBuilder.create();
         alertDialog.show();

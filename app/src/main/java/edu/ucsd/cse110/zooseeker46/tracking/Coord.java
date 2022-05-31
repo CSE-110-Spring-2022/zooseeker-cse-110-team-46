@@ -8,6 +8,9 @@ import androidx.annotation.NonNull;
 import com.google.common.base.Objects;
 
 public class Coord {
+    public static final double DEG_LAT_IN_FT = 363843.57;
+    public static final double DEG_LNG_IN_FT = 307515.50;
+    public static final int BASE = 100;
     public Coord(double lat, double lng) {
         this.lat = lat;
         this.lng = lng;
@@ -43,12 +46,17 @@ public class Coord {
         return String.format("Coord{lat=%s, lng=%s}", lat, lng);
     }
 
-    public boolean compareCoord(Coord c1, Coord c2){
-        double lat = c1.lat - c2.lat;
-        double lng = c1.lng - c2.lng;
-        if (lat > 0.001 || lng > 0.001){
-            return true;
-        }
-        return false;
+    public double compareCoord(Coord c1, Coord c2){
+        double latFt1 = c1.lat * DEG_LAT_IN_FT;
+        double lngFt1 = c1.lng * DEG_LNG_IN_FT;
+        double latFt2 = c2.lat * DEG_LAT_IN_FT;
+        double lngFt2 = c2.lng * DEG_LNG_IN_FT;
+
+        double lat1 = Math.abs(latFt1 - latFt2);
+        double lng1 = Math.abs(lngFt1 - lngFt2);
+
+        double weight = Math.sqrt(Math.pow(lat1, 2) + Math.pow(lng1, 2));
+        double weightFinal = Math.ceil(weight/BASE) * BASE;
+        return weightFinal;
     }
 }

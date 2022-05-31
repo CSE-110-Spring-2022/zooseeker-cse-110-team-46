@@ -114,6 +114,14 @@ public class DirectionsAdapter extends RecyclerView.Adapter<DirectionsAdapter.Vi
         this.directionsType = directionsType;
     }
 
+    public GraphPath<String, IdentifiedWeightedEdge> getPath() {
+        return path;
+    }
+
+    public Map<String, ZooData.VertexInfo> getExhibitsVertex() {
+        return exhibitsVertex;
+    }
+
     public void setEnd(String end) {
         this.end = end;
     }

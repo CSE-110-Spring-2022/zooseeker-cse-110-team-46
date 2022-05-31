@@ -93,13 +93,13 @@ public class Directions {
         return finalPath;
     }
 
+    public List<String> getExhibitsNamesID() {
+        return exhibitsNamesID;
+    }
     public Map<String, ZooData.VertexInfo> getExhibitsToVisit(){
         return exhibitsToVisit;
     }
 
-    public List<String> getExhibitsNamesID() {
-        return exhibitsNamesID;
-    }
 
 }
 

@@ -29,6 +29,7 @@ import edu.ucsd.cse110.zooseeker46.ZooExhibits;
 import edu.ucsd.cse110.zooseeker46.plan.PlanActivity;
 import edu.ucsd.cse110.zooseeker46.search.ExhibitSelectAdapter;
 import edu.ucsd.cse110.zooseeker46.search.SearchActivity;
+import edu.ucsd.cse110.zooseeker46.tracking.TrackingStatic;
 
 public class DirectionsActivity extends AppCompatActivity {
 
@@ -54,6 +55,9 @@ public class DirectionsActivity extends AppCompatActivity {
         Graph<String, IdentifiedWeightedEdge> zoo = ZooData.loadZooGraphJSON(this, "sample_zoo_graph.json");
         Map<String, ZooData.VertexInfo> places = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
 
+        TrackingStatic.zoo = zoo;
+        TrackingStatic.places = places;
+
         //Create an ArrayList with the selected animals' names
         ExhibitSelectAdapter exhibitSelectAdapter = SearchActivity.getCustomAdapter();
         Set<String> selected = exhibitSelectAdapter.selectedExhibits;
@@ -76,6 +80,8 @@ public class DirectionsActivity extends AppCompatActivity {
         d.finalListOfPaths();
         finalPath = d.getFinalPath();
         exhibitNamesID = d.getExhibitsNamesID();
+        TrackingStatic.exhibitNamesIDs = exhibitNamesID;
+        TrackingStatic.finalPath = finalPath;
 
         //recycler view
         recyclerView = findViewById(R.id.directions_recycler);
@@ -114,6 +120,7 @@ public class DirectionsActivity extends AppCompatActivity {
 
             //update counter and the text on screen
             counter++;
+            TrackingStatic.counter = counter;
             setAdapter();
             animalText.setText(vertexForNames.get(exhibitNamesID.get(counter)).name);;
             adapter.setPath(finalPath.get(counter));
@@ -130,6 +137,7 @@ public class DirectionsActivity extends AppCompatActivity {
 
             //update counter
             counter++;
+            TrackingStatic.counter = counter;
 
             //Update visibilities
             endText.setVisibility(View.VISIBLE);
@@ -152,6 +160,7 @@ public class DirectionsActivity extends AppCompatActivity {
 
             //update counter
             counter--;
+            TrackingStatic.counter = counter;
             //Update visibilities
             endText.setVisibility(View.INVISIBLE);
             nextButton.setVisibility(View.VISIBLE);
@@ -167,6 +176,7 @@ public class DirectionsActivity extends AppCompatActivity {
 
             //update counter and the text on screen
             counter--;
+            TrackingStatic.counter = counter;
             setAdapter();
             animalText.setText(vertexForNames.get(exhibitNamesID.get(counter)).name);
 
@@ -196,18 +206,6 @@ public class DirectionsActivity extends AppCompatActivity {
 
     public List<String> getExhibitNamesID() {
         return exhibitNamesID;
-    }
-
-    public Map<String, ZooData.VertexInfo> getExhibitsVertex(){
-        return adapter.exhibitsVertex;
-    }
-
-    public Graph<String, IdentifiedWeightedEdge> getExhibitsGraph(){
-        return adapter.exhibitsGraph;
-    }
-
-    public GraphPath<String, IdentifiedWeightedEdge> getFinalPath(){
-        return adapter.path;
     }
 
     public void onMockButtonClicked(View view) {

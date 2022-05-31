@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         // Set up the model.
         model = new ViewModelProvider(this).get(LocationModel.class);
 
+
         if (useLocationService) {
             setupLocationListener(model::mockLocation);
         }
