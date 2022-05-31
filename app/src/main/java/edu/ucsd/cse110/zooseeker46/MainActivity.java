@@ -11,15 +11,17 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-
-
 import java.util.function.Consumer;
-
-
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import edu.ucsd.cse110.zooseeker46.database.StatusDao;
 import edu.ucsd.cse110.zooseeker46.database.ZooDataDatabase;
-
+import edu.ucsd.cse110.zooseeker46.directions.DirectionsActivity;
+import edu.ucsd.cse110.zooseeker46.plan.PlanActivity;
 import edu.ucsd.cse110.zooseeker46.search.SearchActivity;
 import edu.ucsd.cse110.zooseeker46.tracking.Coord;
 import edu.ucsd.cse110.zooseeker46.tracking.LocationModel;
@@ -40,36 +42,33 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //String a = "a]";
+        //Log.d("Started onCreate for MainActivity", a);
+        SettingsStaticClass.detailed = false;
+
+        // Uncomment for debugging:
+        //ZooDataDatabase.setShouldForceRepopulate();
+        ZooDataDatabase zb = ZooDataDatabase.getSingleton(this);
+        StatusDao statusdao = zb.statusDao();
         setContentView(R.layout.activity_main);
 
-        /*
-        useLocationService = getIntent().getBooleanExtra(EXTRA_LISTEN_TO_GPS, true);
 
-        // Set up the model.
-        model = new ViewModelProvider(this).get(LocationModel.class);
+        SharedPreferences sharedPref = this.getSharedPreferences("onDirections", MODE_PRIVATE);
+        boolean onDirections = sharedPref.getBoolean("onDir", false);
+        Log.d("In Main, Boolean for onDirections: ", String.valueOf(onDirections));
+
+        SharedPreferences sharedPref3 = this.getSharedPreferences("onExhibitDir", MODE_PRIVATE);
+        String onExhibitPrevious = sharedPref3.getString("onExhibit", "");
 
 
-        if (useLocationService) {
-            setupLocationListener(model::mockLocation);
+        if(onDirections && !onExhibitPrevious.equals("")){
+            Intent intent = new Intent(MainActivity.this, DirectionsActivity.class);
+            startActivity(intent);
         }
-
-        else {
-            LocationPermissionChecker permissionChecker = new LocationPermissionChecker(this);
-            permissionChecker.ensurePermissions();
-
-            LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-            String provider = LocationManager.GPS_PROVIDER;
-            model.addLocationProviderSource(locationManager, provider);
-        }*/
-
-
-        SettingsStaticClass.detailed = false;
-        // Uncomment for debugging:
-        ZooDataDatabase.setShouldForceRepopulate();
-
-
-        Intent intent = new Intent(this, SearchActivity.class);
-        startActivity(intent);
+        else{
+            Intent intent = new Intent(this, SearchActivity.class);
+            startActivity(intent);
+        }
     }
 
 
@@ -95,4 +94,9 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+
+        //@Override
+        public void run() {
+            ZooDataDatabase.setShouldForceRepopulate();
+        }
 }

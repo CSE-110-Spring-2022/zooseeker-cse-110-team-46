@@ -22,15 +22,16 @@ import edu.ucsd.cse110.zooseeker46.locations.ExhibitBuilder;
 import edu.ucsd.cse110.zooseeker46.locations.Exhibit_Group;
 import edu.ucsd.cse110.zooseeker46.locations.Gate;
 import edu.ucsd.cse110.zooseeker46.locations.Intersection;
+import edu.ucsd.cse110.zooseeker46.locations.Status;
 import edu.ucsd.cse110.zooseeker46.locations.languageConverterTags;
 
 
-@Database(entities = {Exhibit.class, Gate.class, Intersection.class, Exhibit_Group.class}, version = 1, exportSchema = false)
+@Database(entities = {Exhibit.class, Gate.class, Intersection.class, Exhibit_Group.class, Status.class}, version = 1, exportSchema = false)
 @TypeConverters({languageConverterTags.class})
 public abstract class ZooDataDatabase extends RoomDatabase {
     private static ZooDataDatabase singleton = null;
 
-    static ZooData zooDataObj = new ZooData();
+    public Map<String, ZooData.VertexInfo> info;
 
     public static void setShouldForceRepopulate() {
         ZooDataDatabase.shouldForceRepopulate = true;
@@ -46,6 +47,15 @@ public abstract class ZooDataDatabase extends RoomDatabase {
 
     public abstract ExhibitGroupDao exhibitGroupDao();
 
+    public abstract StatusDao statusDao();
+
+    public static boolean populated;
+
+    public static boolean onDirections;
+
+    public boolean onDir(){
+        return this.onDirections;
+    }
 
     //creating/getting singleton
     public synchronized static ZooDataDatabase getSingleton(Context context) {
@@ -53,7 +63,27 @@ public abstract class ZooDataDatabase extends RoomDatabase {
             String msg = "Singleton is null!";
             Log.d("! + ", msg);
             singleton = ZooDataDatabase.makeDatabase(context);
+//            onDirections = false;
         }
+        return singleton;
+    }
+
+    public ZooDataDatabase resetSelected() {
+        ExhibitDao exhibitDao = this.exhibitDao();
+        List<Exhibit> selected = this.exhibitDao().getSelectedExhibits();
+        for(Exhibit curr: selected){
+            curr.setSelected(false);
+            exhibitDao.update(curr);
+        }
+        return this;
+    }
+    public ZooDataDatabase resetSingleton(Context context){
+        Executors.newSingleThreadExecutor().execute(() -> {
+            ZooDataDatabase zb = ZooDataDatabase.getSingleton(context);
+            zb.clearAllTables();
+            Map<String, ZooData.VertexInfo> info = ZooData.loadVertexInfoJSON(context, "sample_node_info.json");
+            populateDatabase(zb, info);
+        });
         return singleton;
     }
 
@@ -90,11 +120,11 @@ public abstract class ZooDataDatabase extends RoomDatabase {
 
     private static void populateDatabase(ZooDataDatabase zb, Map<String, ZooData.VertexInfo> info) {
         //Single thread for singleton
-        Log.d("size of map --- : ", String.valueOf(info.size()));
+        //Log.d("size of map --- : ", String.valueOf(info.size()));
         //checking format and calling constructor accordingly to add object
+        populated = false;
         for (Map.Entry<String, ZooData.VertexInfo> entry : info.entrySet()) {
             ZooData.VertexInfo curr = entry.getValue();
-            //if (entry.getValue().kind.equals("exhibit")) {
 
             Log.d("entry: ", curr.name);
             Kind kind = entry.getValue().kind;
@@ -106,28 +136,23 @@ public abstract class ZooDataDatabase extends RoomDatabase {
                 ex.addParentid(curr.group_id);
                 ex.addtags(curr.tags);
                 Exhibit exhibitObj = ex.getExhibit();
-                        //new Exhibit(curr.id, curr.name, curr.parent_id, curr.tags, (Double) curr.latitude, curr.longitude);
-                //getSingleton(context).exhibitDao().insert(exhibitObj);
+
                 zb.exhibitDao().insert(exhibitObj);
             } else if (kind == Kind.GATE) {
                 Gate gateObj = new Gate(curr.id, curr.name, curr.tags, curr.lat, curr.lng);
-                //getSingleton(context).gateDao().insert(gateObj);
                 zb.gateDao().insert(gateObj);
             } else if (kind == Kind.INTERSECTION) {
                 Intersection intersectionObj = new Intersection(curr.id, curr.name, curr.tags, curr.lat, curr.lng);
-                //getSingleton(context).intersectionDao().insert(intersectionObj);
                 zb.intersectionDao().insert(intersectionObj);
             } else if (kind == Kind.EXHIBIT_GROUP) {
-                //Log.d("new entry! with lat: ", String.valueOf(curr.lat));
-                //Log.d(" and long ", String.valueOf(curr.lng));
                 Exhibit_Group exhibit_groupObj = new Exhibit_Group(curr.id, curr.name, curr.lat, curr.lng);
-                //getSingleton(context).exhibitGroupDao().insert(exhibit_groupObj);
                 zb.exhibitGroupDao().insert(exhibit_groupObj);
             } else {
                 // "unreachable" error.
                 throw new RuntimeException("Unknown kind! What have you done!?");
             }
         }
+        populated = true;
     }
 
     @VisibleForTesting
