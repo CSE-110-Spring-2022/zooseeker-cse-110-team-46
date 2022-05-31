@@ -63,11 +63,8 @@ public class SearchActivity extends AppCompatActivity {
 
         SharedPreferences sharedPrefActivity = this.getSharedPreferences("onDirections", MODE_PRIVATE);
         boolean startOver = sharedPrefActivity.getBoolean("startover", false);
+        Log.d("start over boolean: ", String.valueOf(startOver));
 
-        if(startOver) {
-            Button clearbtn = (Button) findViewById(R.id.clear_btn);
-            clearbtn.performClick();
-        }
 
         List<Exhibit> allexhibits = exhibitDao.getAll();
         int size = allexhibits.size();
@@ -110,6 +107,8 @@ public class SearchActivity extends AppCompatActivity {
         clearbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Log.d("in clear ", String.valueOf(startOver));
+
                 //System.out.println("being called");
                 customAdapter.forceRepopulate();
                 //zb.resetSelected();
@@ -118,6 +117,14 @@ public class SearchActivity extends AppCompatActivity {
                 selectadapter.clearData();
             }
         });
+        if(startOver) {
+            Log.d("start over called: ", String.valueOf(startOver));
+//            Button clearbtn = (Button) findViewById(R.id.clear_btn);
+            clearbtn.performClick();
+        }
+        SharedPreferences.Editor editor= sharedPrefActivity.edit();
+        editor.putBoolean("startover", false);
+        editor.commit();
     }
 
     @Override
