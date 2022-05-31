@@ -403,7 +403,7 @@ public class DirectionsActivity extends AppCompatActivity {
 
             adapter.setPath(finalPath.get(counter));
             recyclerView.setAdapter(adapter);
-        }
+        //}
 
         Log.d("PREV BTN: onExhibit var changed: ", currPage);
         // Create object of SharedPreferences.
