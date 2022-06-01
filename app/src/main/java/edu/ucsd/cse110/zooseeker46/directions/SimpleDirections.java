@@ -22,6 +22,7 @@ public class SimpleDirections implements DirectionTypeInterface{
         return (int) graph.getEdgeWeight(edge);
     }
 
+
     public String pathFormat(String startName, String endName, String streetName, int length){
         if (startName.contains("/") && endName.contains("/")){
             String[] partsStart = startName.split("/");
