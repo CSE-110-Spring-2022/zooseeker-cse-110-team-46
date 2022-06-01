@@ -44,7 +44,7 @@ public class DirectionsTest {
                 DijkstraShortestPath.findPathBetween(zoo, "flamingo", "capuchin");
 
         double total = (double) path.getWeight();
-        assertEquals(150.0, total,0.01 );
+        assertEquals(3100.0, total,0.01 );
     }
 
     @Test
@@ -53,15 +53,16 @@ public class DirectionsTest {
         placestoVist.put("flamingo",places.get("flamingo"));
         Directions d = new Directions(placestoVist,zoo);
         d.exhibitsVertex = places;
+        d.setStartID("entrance_exit_gate");
         assertEquals(2, d.getExhibitsToVisit().size());
         GraphPath f = d.findNearestNeighbor("entrance_exit_gate");
         assertEquals(1, d.getExhibitsToVisit().size());
-        assertEquals("koi", f.getEndVertex());
-        assertEquals(60, f.getWeight(), 0.01);
+        assertEquals("flamingo", f.getEndVertex());
+        assertEquals(5300.0, f.getWeight(), 0.01);
         f = d.findNearestNeighbor((String)f.getEndVertex());
         assertEquals(0, d.getExhibitsToVisit().size());
-        assertEquals("flamingo", f.getEndVertex());
-        assertEquals(130, f.getWeight(), 0.01);
+        assertEquals("koi", f.getEndVertex());
+        assertEquals(9600, f.getWeight(), 0.01);
     }
 
     @Test
@@ -70,13 +71,14 @@ public class DirectionsTest {
         placestoVist.put("flamingo",places.get("flamingo"));
         placestoVist.put("koi",places.get("koi"));
         Directions d = new Directions(placestoVist,zoo);
+        d.setStartID("entrance_exit_gate");
         d.exhibitsVertex = places;
         d.finalListOfPaths();
         List<GraphPath<String,IdentifiedWeightedEdge>> f = d.getFinalPath();
         assertEquals("entrance_exit_gate", f.get(0).getStartVertex());
-        assertEquals("koi", f.get(1).getStartVertex());
-        assertEquals("flamingo", f.get(2).getStartVertex());
-        assertEquals("capuchin", f.get(3).getStartVertex());
+        assertEquals("flamingo", f.get(1).getStartVertex());
+        assertEquals("capuchin", f.get(2).getStartVertex());
+        assertEquals("koi", f.get(3).getStartVertex());
         assertEquals("entrance_exit_gate", f.get(0).getStartVertex());
     }
 }

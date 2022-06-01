@@ -59,6 +59,7 @@ public class SettingsTest {
         testMapZoo.put("capuchin", adapter.exhibitsVertex.get("capuchin"));
         d = new Directions(testMapZoo,adapter.exhibitsGraph);
         d.exhibitsVertex = adapter.exhibitsVertex;
+        d.setStartID("entrance_exit_gate");
         d.finalListOfPaths();
         adapter.orderPlan(d.getFinalPath(),d.getExhibitsNamesID());
 
@@ -89,7 +90,7 @@ public class SettingsTest {
         assertEquals(true, test);
 
         //plan user story
-        assertEquals((Integer) 240, adapter.exhibitsDistFromStart.get("capuchin"));
+        assertEquals((Integer) 8400, adapter.exhibitsDistFromStart.get("capuchin"));
 
         List<IdentifiedWeightedEdge> edges = adapter2.path.getEdgeList();
 

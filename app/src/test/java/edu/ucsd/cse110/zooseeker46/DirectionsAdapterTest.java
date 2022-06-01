@@ -32,7 +32,7 @@ public class DirectionsAdapterTest {
 
     @Test
     public void isSize(){
-        assertEquals(7,adapter.getItemCount());
+        assertEquals(9,adapter.getItemCount());
     }
 
     @Test

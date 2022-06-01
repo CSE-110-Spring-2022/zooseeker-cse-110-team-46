@@ -33,6 +33,7 @@ public class Directions {
         this.exhibitsToVisit = exhibitsToVisit;
         this.finalPath = new ArrayList<>();
         this.exhibitsNamesID = new ArrayList<>();
+        this.exhibitToVisitWO = new HashMap<>();
     }
     public void findStart(Map<String, ZooData.VertexInfo> places) {
         for (String placeToVisit : places.keySet()) {
