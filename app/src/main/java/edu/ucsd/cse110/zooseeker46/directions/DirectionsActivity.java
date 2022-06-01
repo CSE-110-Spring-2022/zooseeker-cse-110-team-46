@@ -1,5 +1,7 @@
 package edu.ucsd.cse110.zooseeker46.directions;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,9 +20,12 @@ import org.jgrapht.GraphPath;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -424,13 +429,6 @@ public class DirectionsActivity extends AppCompatActivity {
 
     }
 
-
-    public void onSettingsButtonClicked(View view) {
-        Intent intent = new Intent(DirectionsActivity.this, SettingsActivity.class);
-        startActivity(intent);
-    }
-
-
     public void setAdapter(){
         //set adapter
         if(vertexForNames.get(exhibitNamesID.get(counter)).group_id != null ){
@@ -457,8 +455,22 @@ public class DirectionsActivity extends AppCompatActivity {
         return exhibitNamesID;
     }
 
+    public void onSettingsButtonClicked(View view) {
+        Intent intent = new Intent(DirectionsActivity.this, SettingsActivity.class);
+        startActivity(intent);
+    }
+
     public void onMockButtonClicked(View view) {
         Intent intent = new Intent(this, MockLocation.class);
         startActivity(intent);
+    }
+
+    public void onSkipButtonClicked(View view) {
+        List<String> remainingExhibits = TrackingStatic.remainingExhibits;
+
+        if (counter < finalPath.size() - 1){
+            remainingExhibits.remove(counter+1);
+        }
+        TrackingStatic.remainingExhibits = remainingExhibits;
     }
 }
