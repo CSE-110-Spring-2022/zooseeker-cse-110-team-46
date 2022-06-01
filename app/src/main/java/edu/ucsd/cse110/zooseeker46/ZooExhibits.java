@@ -18,7 +18,7 @@ public class ZooExhibits extends AppCompatActivity {
     //private Context context;
 
     public ZooExhibits(Map<String, ZooData.VertexInfo> vertexInfoMap){
-        //this.vertexInfoMap = ZooData.loadVertexInfoJSON(context, "sample_node_info.json");
+        //this.vertexInfoMap = ZooData.loadVertexInfoJSON(context, "exhibit_info.json");
         //this.context = context;
         this.vertexInfoMap = vertexInfoMap;
     }

@@ -359,7 +359,7 @@ public class zooDatabaseTest {
 
 //    @Test
 //    public void testExhibitSelectMany() {
-//        Map<String, ZooData.VertexInfo> map = ZooData.loadVertexInfoJSON(context, "sample_node_info.json");
+//        Map<String, ZooData.VertexInfo> map = ZooData.loadVertexInfoJSON(context, "exhibit_info.json");
 //        ZooExhibits zoo = new ZooExhibits(map);
 //        List<Exhibit> actList = zoo.getExhibits();
 //       // List<Long> ids = new ArrayList<>();

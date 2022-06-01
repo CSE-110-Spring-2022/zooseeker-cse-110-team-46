@@ -1,5 +1,4 @@
 package edu.ucsd.cse110.zooseeker46;
-
 import android.content.Context;
 
 import java.io.IOException;
@@ -25,6 +24,7 @@ import edu.ucsd.cse110.zooseeker46.locations.Exhibit_Group;
 
 public class ZooData {
     public static class VertexInfo {
+
         public static enum Kind {
             // The SerializedName annotation tells GSON how to convert
             // from the strings in our JSON to this Enum.
@@ -38,9 +38,11 @@ public class ZooData {
         public Kind kind;
         public String name;
         public List<String> tags;
-        public String parent_id;
-        public Double lat;
-        public Double lng;
+        public String group_id;
+
+        public double lat;
+        public double lng;
+
     }
 
     public static class EdgeInfo {

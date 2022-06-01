@@ -31,15 +31,16 @@ public class PlanPageUnitTest {
     Directions d;
     @Before
     public void createAdapter(){
-        adapter.exhibitsGraph = ZooData.loadZooGraphJSON(context, "sample_zoo_graph.json");
-        adapter.exhibitsEdge = ZooData.loadEdgeInfoJSON(context, "sample_edge_info.json");
-        adapter.exhibitsVertex = ZooData.loadVertexInfoJSON(context, "sample_node_info.json");
+        adapter.exhibitsGraph = ZooData.loadZooGraphJSON(context, "zoo_graph.json");
+        adapter.exhibitsEdge = ZooData.loadEdgeInfoJSON(context, "trail_info.json");
+        adapter.exhibitsVertex = ZooData.loadVertexInfoJSON(context, "exhibit_info.json");
         testMapZoo.put("flamingo", adapter.exhibitsVertex.get("flamingo"));
         testMapZoo.put("capuchin", adapter.exhibitsVertex.get("capuchin"));
         testMapZoo.put("toucan", adapter.exhibitsVertex.get("toucan"));
         testMapZoo.put("motmot", adapter.exhibitsVertex.get("motmot"));
         d = new Directions(testMapZoo,adapter.exhibitsGraph);
         d.exhibitsVertex = adapter.exhibitsVertex;
+        d.setStartID("entrance_exit_gate");
         d.finalListOfPaths();
         adapter.orderPlan(d.getFinalPath(),d.getExhibitsNamesID());
     }
@@ -55,10 +56,10 @@ public class PlanPageUnitTest {
     @Test
     public void DistanceIsCorrect() {
         createAdapter();
-        assertEquals((Integer) 90, adapter.exhibitsDistFromStart.get("flamingo"));
-        assertEquals((Integer) 240, adapter.exhibitsDistFromStart.get("capuchin"));
-        assertEquals((Integer) 420, adapter.exhibitsDistFromStart.get("toucan"));
-        assertEquals((Integer) 420, adapter.exhibitsDistFromStart.get("motmot"));
+        assertEquals((Integer) 5300, adapter.exhibitsDistFromStart.get("flamingo"));
+        assertEquals((Integer) 8400, adapter.exhibitsDistFromStart.get("capuchin"));
+        assertEquals((Integer) 17500, adapter.exhibitsDistFromStart.get("toucan"));
+        assertEquals((Integer) 17500, adapter.exhibitsDistFromStart.get("motmot"));
 
     }
 

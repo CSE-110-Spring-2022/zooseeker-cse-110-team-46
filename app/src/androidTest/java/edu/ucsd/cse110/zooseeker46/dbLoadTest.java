@@ -18,9 +18,6 @@ import edu.ucsd.cse110.zooseeker46.database.GateDao;
 import edu.ucsd.cse110.zooseeker46.database.IntersectionDao;
 import edu.ucsd.cse110.zooseeker46.database.ZooDataDatabase;
 import edu.ucsd.cse110.zooseeker46.locations.Exhibit;
-import edu.ucsd.cse110.zooseeker46.locations.Exhibit_Group;
-import edu.ucsd.cse110.zooseeker46.locations.Gate;
-import edu.ucsd.cse110.zooseeker46.locations.Intersection;
 
 @RunWith(AndroidJUnit4.class)
 public class dbLoadTest {
@@ -41,14 +38,14 @@ public class dbLoadTest {
         ExhibitDao exhibitDao_new = testDb.exhibitDao();
 
         Map<String, ZooData.VertexInfo> info =
-                zooDataObj.loadVertexInfoJSON(context,"sample_node_info.json");
+                zooDataObj.loadVertexInfoJSON(context,"exhibit_info.json");
         //checking format and calling constructor accordingly to add object
         for (Map.Entry<String,ZooData.VertexInfo> entry : info.entrySet()) {
             ZooData.VertexInfo curr = entry.getValue();
             if (entry.getValue().kind.equals("exhibit")) {
                 String pid = "";
-                if(!(curr.parent_id.equals(""))){
-                    pid = curr.parent_id;
+                if(!(curr.group_id.equals(""))){
+                    pid = curr.group_id;
 
                 }
                 Exhibit exhibitObj = new Exhibit(curr.id, curr.name, pid, curr.tags,0 , 0);

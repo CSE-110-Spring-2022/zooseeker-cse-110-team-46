@@ -11,15 +11,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
-import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import edu.ucsd.cse110.zooseeker46.IdentifiedWeightedEdge;
@@ -73,7 +70,7 @@ public class PlanExhibitsAdapter extends RecyclerView.Adapter<PlanExhibitsAdapte
         Log.d("elements", exhibitNamesID.toString());
         while(i < exhibitNamesID.size()){
             //case of exhibit groups
-            if(exhibitsVertex.get(exhibitNamesID.get(i)).parent_id != null){
+            if(exhibitsVertex.get(exhibitNamesID.get(i)).group_id != null){
                 initialDist = initialDist + (int)finalPath.get(i).getWeight();
                 exhibitsDistFromStart.put(exhibitNamesID.get(i),initialDist);
                 indxOfPath = finalPath.get(i).getEdgeList().size()-1;
