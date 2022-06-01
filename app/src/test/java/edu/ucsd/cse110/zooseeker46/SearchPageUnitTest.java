@@ -34,7 +34,7 @@ public class SearchPageUnitTest {
     ArrayList<Exhibit> totalExhibits;
     //ExhibitSelectAdapter customAdapter;
     mockExhibitSelectAdapter customAdapter;
-    ZooExhibits ze = new ZooExhibits(ZooData.loadVertexInfoJSON(context, "sample_node_info.json"));
+    ZooExhibits ze = new ZooExhibits(ZooData.loadVertexInfoJSON(context, "exhibit_info.json"));
 
     public void createAdapter() {
         Map<String, Exhibit> mapExhibits =  ze.nameToVertexMap();

@@ -82,13 +82,13 @@ public abstract class ZooDataDatabase extends RoomDatabase {
         Executors.newSingleThreadExecutor().execute(() -> {
             ZooDataDatabase zb = ZooDataDatabase.getSingleton(context);
             zb.clearAllTables();
-            Map<String, ZooData.VertexInfo> info = ZooData.loadVertexInfoJSON(context, "sample_node_info.json");
+            Map<String, ZooData.VertexInfo> info = ZooData.loadVertexInfoJSON(context, "exhibit_info.json");
             populateDatabase(zb, info);
         });
         return singleton;
     }
 
-    //making db from "sample_node_info.json" and adding to db with the appropriate DAO depending on "kind"
+    //making db from "exhibit_info.json" and adding to db with the appropriate DAO depending on "kind"
     private static ZooDataDatabase makeDatabase(Context context) {
         return Room.databaseBuilder(context, ZooDataDatabase.class, "ZooData.db")
                 .allowMainThreadQueries()
@@ -98,7 +98,7 @@ public abstract class ZooDataDatabase extends RoomDatabase {
                         super.onCreate(db);
                         Executors.newSingleThreadExecutor().execute(() -> {
                             ZooDataDatabase zb = ZooDataDatabase.getSingleton(context);
-                            Map<String, ZooData.VertexInfo> info = ZooData.loadVertexInfoJSON(context, "sample_node_info.json");
+                            Map<String, ZooData.VertexInfo> info = ZooData.loadVertexInfoJSON(context, "exhibit_info.json");
                             populateDatabase(zb, info);
                         });
                     }
@@ -110,7 +110,7 @@ public abstract class ZooDataDatabase extends RoomDatabase {
                             Executors.newSingleThreadExecutor().execute(() -> {
                                 ZooDataDatabase zb = ZooDataDatabase.getSingleton(context);
                                 zb.clearAllTables();
-                                Map<String, ZooData.VertexInfo> info = ZooData.loadVertexInfoJSON(context, "sample_node_info.json");
+                                Map<String, ZooData.VertexInfo> info = ZooData.loadVertexInfoJSON(context, "exhibit_info.json");
                                 populateDatabase(zb, info);
                             });
                         }

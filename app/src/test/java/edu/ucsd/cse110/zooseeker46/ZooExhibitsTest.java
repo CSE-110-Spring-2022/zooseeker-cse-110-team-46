@@ -28,7 +28,7 @@ public class ZooExhibitsTest {
 
     @Test
     public void ZooExhibitsNameMap() {
-        Map<String, ZooData.VertexInfo> map = ZooData.loadVertexInfoJSON(context, "sample_node_info.json");
+        Map<String, ZooData.VertexInfo> map = ZooData.loadVertexInfoJSON(context, "exhibit_info.json");
         ZooExhibits zoo = new ZooExhibits(map);
         Map<String, Exhibit> map2 = zoo.nameToVertexMap();
         Set<String> keyMap = map2.keySet();
@@ -36,7 +36,7 @@ public class ZooExhibitsTest {
     }
     @Test
     public void ZooExhibitsConstruct(){
-        Map<String, ZooData.VertexInfo> map = ZooData.loadVertexInfoJSON(context, "sample_node_info.json");
+        Map<String, ZooData.VertexInfo> map = ZooData.loadVertexInfoJSON(context, "exhibit_info.json");
         ZooExhibits zoo = new ZooExhibits(map);
         ArrayList<String> selected = new ArrayList<>();
         selected.add("Capuchin Monkeys");
@@ -48,7 +48,7 @@ public class ZooExhibitsTest {
 
     @Test
     public void ZooExhibitsList(){
-        Map<String, ZooData.VertexInfo> map = ZooData.loadVertexInfoJSON(context, "sample_node_info.json");
+        Map<String, ZooData.VertexInfo> map = ZooData.loadVertexInfoJSON(context, "exhibit_info.json");
         ZooExhibits zoo = new ZooExhibits(map);
         ArrayList<String> namesList = zoo.exhibitList();
         assertEquals(14, namesList.size());

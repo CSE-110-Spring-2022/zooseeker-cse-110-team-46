@@ -58,9 +58,9 @@ public class PlanActivity extends AppCompatActivity {
 
         PlanExhibitsAdapter adapter = new PlanExhibitsAdapter();
         //sets the graph, nodes, and edges. May be better as database?
-        adapter.exhibitsGraph = ZooData.loadZooGraphJSON(this,"sample_zoo_graph.json");
-        adapter.exhibitsEdge = ZooData.loadEdgeInfoJSON(this, "sample_edge_info.json");
-        adapter.exhibitsVertex = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
+        adapter.exhibitsGraph = ZooData.loadZooGraphJSON(this,"zoo_graph.json");
+        adapter.exhibitsEdge = ZooData.loadEdgeInfoJSON(this, "trail_info.json");
+        adapter.exhibitsVertex = ZooData.loadVertexInfoJSON(this, "exhibit_info.json");
 
         Log.d("graph", adapter.exhibitsGraph.toString());
 
@@ -92,7 +92,7 @@ public class PlanActivity extends AppCompatActivity {
         }
         d = new Directions(placesToVisit, adapter.exhibitsGraph);
         d.setStartID("entrance_exit_gate");
-        d.exhibitsVertex = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
+        d.exhibitsVertex = ZooData.loadVertexInfoJSON(this, "exhibit_info.json");
         d.finalListOfPaths();
         if (selectedList.size() != 0) {
             adapter.orderPlan(d.getFinalPath(), d.getExhibitsNamesID());
