@@ -48,6 +48,7 @@ import edu.ucsd.cse110.zooseeker46.search.SearchActivity;
 
 import edu.ucsd.cse110.zooseeker46.tracking.Coord;
 import edu.ucsd.cse110.zooseeker46.tracking.MockDirections;
+import edu.ucsd.cse110.zooseeker46.tracking.RecalculateDirections;
 import edu.ucsd.cse110.zooseeker46.tracking.TrackingStatic;
 
 import edu.ucsd.cse110.zooseeker46.SettingsActivity;
@@ -489,12 +490,36 @@ public class DirectionsActivity extends AppCompatActivity {
     }
 
     public void onSkipButtonClicked(View view) {
-        /*List<String> remainingExhibits = TrackingStatic.remainingExhibits;
+        List<String> remainingExhibits = TrackingStatic.remainingExhibits;
 
         if (counter < finalPath.size() - 1){
-            remainingExhibits.remove(counter);
+            remainingExhibits.remove(0);
+            counter++;
         }
-        adapter.setPath(DijkstraShortestPath.findPathBetween(TrackingStatic.zoo, visitor.getCurrentNode().id, exhibitNamesID.get(counter)));
-        TrackingStatic.remainingExhibits = remainingExhibits;*/
+        TrackingStatic.remainingExhibits = remainingExhibits;
+        RecalculateDirections r = new RecalculateDirections();
+        r.newRerouted();
+        r.newListIDs();
+        //adapter.setPath(DijkstraShortestPath.findPathBetween(TrackingStatic.zoo, visitor.getCurrentNode().id, exhibitNamesID.get(counter)));
+
+        //recyclerView = findViewById(R.id.directions_recycler);
+        //recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        //visitor = TrackingStatic.visitor;
+        finalPath = TrackingStatic.finalPath;
+        exhibitNamesID = TrackingStatic.exhibitNamesIDs;
+        Log.d("order of vist", "ON SKIP CALLED: " + exhibitNamesID);
+        System.out.println(finalPath);
+        if(vertexForNames.get(exhibitNamesID.get(counter)).group_id != null){
+            adapter.setPath(DijkstraShortestPath.findPathBetween(TrackingStatic.zoo, visitor.getCurrentNode().id, vertexForNames.get(exhibitNamesID.get(counter)).group_id));
+        }
+        else{
+            adapter.setPath(DijkstraShortestPath.findPathBetween(TrackingStatic.zoo, visitor.getCurrentNode().id, exhibitNamesID.get(counter)));
+        }
+        TextView animalText = findViewById(R.id.animalView);
+        animalText.setText(vertexForNames.get(exhibitNamesID.get(counter)).name);
+
+
+        recyclerView.setAdapter(adapter);
+
     }
 }
