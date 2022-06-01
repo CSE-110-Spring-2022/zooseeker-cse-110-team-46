@@ -18,7 +18,7 @@ public class Utilities {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         RecalculateDirections r = new RecalculateDirections();
-                        r.newFinalPath();
+                        r.newRerouted();
                         r.newListIDs();
                         activity.finish();
                     }

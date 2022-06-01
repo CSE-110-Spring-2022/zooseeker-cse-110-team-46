@@ -71,6 +71,7 @@ public class SettingsActivity extends AppCompatActivity {
         //put your value
         editor.putBoolean("onDir", false);
         editor.putBoolean("startover", true);
+        editor.putInt("counter", 0);
         //commits your edits
         editor.commit();
         Intent intent = new Intent(this, SearchActivity.class);

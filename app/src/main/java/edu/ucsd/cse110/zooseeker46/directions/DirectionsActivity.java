@@ -37,6 +37,7 @@ import edu.ucsd.cse110.zooseeker46.Utilities;
 import edu.ucsd.cse110.zooseeker46.ZooData;
 import edu.ucsd.cse110.zooseeker46.ZooExhibits;
 
+import edu.ucsd.cse110.zooseeker46.database.ExhibitDao;
 import edu.ucsd.cse110.zooseeker46.database.StatusDao;
 import edu.ucsd.cse110.zooseeker46.database.ZooDataDatabase;
 import edu.ucsd.cse110.zooseeker46.locations.Exhibit;
@@ -57,6 +58,7 @@ public class DirectionsActivity extends AppCompatActivity {
 
     public RecyclerView recyclerView;
     DirectionsAdapter adapter;
+    private static Context context;
 
     public int getCounter() {
         return counter;
@@ -149,8 +151,8 @@ public class DirectionsActivity extends AppCompatActivity {
         TrackingStatic.finalPath = finalPath;
 
         visitedExhibits = new ArrayList<>();
-        remainingExhibits = new ArrayList<>();
-        remainingExhibits.addAll(d.getExhibitToVisitWO().keySet());
+        remainingExhibits = exhibitNamesID;
+        Log.d("order of reamaning", "onCreate: " + d.getExhibitToVisitWO().keySet());
         TrackingStatic.visitedExhibits = visitedExhibits;
         TrackingStatic.remainingExhibits = remainingExhibits;
 
@@ -257,9 +259,20 @@ public class DirectionsActivity extends AppCompatActivity {
         visitor = TrackingStatic.visitor;
         finalPath = TrackingStatic.finalPath;
         exhibitNamesID = TrackingStatic.exhibitNamesIDs;
+        Log.d("order of vist", "ON RESUME CALLED: " + exhibitNamesID);
         System.out.println(finalPath);
-        adapter.setPath(DijkstraShortestPath.findPathBetween(TrackingStatic.zoo, visitor.getCurrentNode().id, exhibitNamesID.get(counter)));
+        if(vertexForNames.get(exhibitNamesID.get(counter)).group_id != null){
+            adapter.setPath(DijkstraShortestPath.findPathBetween(TrackingStatic.zoo, visitor.getCurrentNode().id, vertexForNames.get(exhibitNamesID.get(counter)).group_id));
+        }
+        else{
+            adapter.setPath(DijkstraShortestPath.findPathBetween(TrackingStatic.zoo, visitor.getCurrentNode().id, exhibitNamesID.get(counter)));
+        }
+        TextView animalText = findViewById(R.id.animalView);
+        animalText.setText(vertexForNames.get(exhibitNamesID.get(counter)).name);
+
+
         recyclerView.setAdapter(adapter);
+
     }
 
     public void onNextButtonClicked(View view) {
@@ -292,8 +305,12 @@ public class DirectionsActivity extends AppCompatActivity {
             animalText.setText(vertexForNames.get(exhibitNamesID.get(counter)).name);
             //your moving through already visited
             if(counter < visitedExhibits.size()){
-                adapter.setPath(DijkstraShortestPath.findPathBetween(TrackingStatic.zoo, visitor.getCurrentNode().id, visitedExhibits
-                        .get(counter)));
+                if(vertexForNames.get(visitedExhibits.get(counter)).group_id != null){
+                    adapter.setPath(DijkstraShortestPath.findPathBetween(TrackingStatic.zoo, visitor.getCurrentNode().id, vertexForNames.get(visitedExhibits.get(counter)).group_id));
+                }
+                else{
+                    adapter.setPath(DijkstraShortestPath.findPathBetween(TrackingStatic.zoo, visitor.getCurrentNode().id, visitedExhibits.get(counter)));
+                }
             }
             //your moving through not visited yet
             else {
@@ -310,8 +327,12 @@ public class DirectionsActivity extends AppCompatActivity {
                         adapter.setPath(DijkstraShortestPath.findPathBetween(TrackingStatic.zoo, visitor.getCurrentNode().id, "entrance_exit_gate"));
                     }
                     else {
-                        adapter.setPath(DijkstraShortestPath.findPathBetween(TrackingStatic.zoo, visitor.getCurrentNode().id, remainingExhibits
-                                .get(0)));
+                        if(vertexForNames.get(remainingExhibits.get(0)).group_id != null){
+                            adapter.setPath(DijkstraShortestPath.findPathBetween(TrackingStatic.zoo, visitor.getCurrentNode().id, vertexForNames.get(remainingExhibits.get(0)).group_id));
+                        }
+                        else{
+                            adapter.setPath(DijkstraShortestPath.findPathBetween(TrackingStatic.zoo, visitor.getCurrentNode().id, remainingExhibits.get(0)));
+                        }
                     }
             }
             recyclerView.setAdapter(adapter);
@@ -400,14 +421,16 @@ public class DirectionsActivity extends AppCompatActivity {
             setAdapter();
             animalText.setText(vertexForNames.get(visitedExhibits.get(counter)).name);
 
-            adapter.setPath(DijkstraShortestPath.findPathBetween(TrackingStatic.zoo, visitor.getCurrentNode().id, visitedExhibits.get(counter)));
+            if(vertexForNames.get(visitedExhibits.get(counter)).group_id != null){
+                adapter.setPath(DijkstraShortestPath.findPathBetween(TrackingStatic.zoo, visitor.getCurrentNode().id, vertexForNames.get(visitedExhibits.get(counter)).group_id));
+            }
+            else{
+                adapter.setPath(DijkstraShortestPath.findPathBetween(TrackingStatic.zoo, visitor.getCurrentNode().id, visitedExhibits.get(counter)));
+            }
             recyclerView.setAdapter(adapter);
         }
             Log.d ("count", String.valueOf(counter));
             currPage = vertexForNames.get(exhibitNamesID.get(counter)).name;
-
-            adapter.setPath(finalPath.get(counter));
-            recyclerView.setAdapter(adapter);
         //}
 
         Log.d("PREV BTN: onExhibit var changed: ", currPage);
@@ -441,7 +464,7 @@ public class DirectionsActivity extends AppCompatActivity {
         adapter.setExhibitsGraph(ZooData.loadZooGraphJSON(this,"zoo_graph.json"));
         adapter.setExhibitsEdge(ZooData.loadEdgeInfoJSON(this, "trail_info.json"));
         adapter.setExhibitsVertex(ZooData.loadVertexInfoJSON(this, "exhibit_info.json"));
-        adapter.setEnd(d.getExhibitsNamesID().get(0));
+        adapter.setEnd(d.getExhibitsNamesID().get(counter));
         //adapter.setDirectionsType(new DetailedDirections());
         if(SettingsStaticClass.detailed)
             adapter.setDirectionsType(new DetailedDirections());

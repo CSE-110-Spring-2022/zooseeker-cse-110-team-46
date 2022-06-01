@@ -1,12 +1,16 @@
 package edu.ucsd.cse110.zooseeker46.tracking;
 
 
+import android.content.SharedPreferences;
+
 import org.jgrapht.GraphPath;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import android.content.SharedPreferences;
 
 import edu.ucsd.cse110.zooseeker46.IdentifiedWeightedEdge;
 import edu.ucsd.cse110.zooseeker46.ZooData;
@@ -31,6 +35,13 @@ public class RecalculateDirections {
 
     public List<GraphPath<String, IdentifiedWeightedEdge>> newFinalPath(){
         remainingNoGate.remove(TrackingStatic.remainingExhibits.size()-1);
+        if(TrackingStatic.visitor.getCurrentNode().group_id != null){
+            this.startID = TrackingStatic.visitor.getCurrentNode().group_id;
+        }
+        else{
+            this.startID = TrackingStatic.visitor.getCurrentNode().id;
+        }
+        /*
         if(TrackingStatic.counter == 0){
             this.startID = "entrance_exit_gate";
         }
@@ -40,8 +51,10 @@ public class RecalculateDirections {
                 this.startID = TrackingStatic.places.get(startID).group_id;
             }
         }
+        */
         directions.setStartID(startID);
         directions.exhibitsVertex = TrackingStatic.places;
+        directions.setExhibitsToVisit(newMap(remainingNoGate));
         directions.finalListOfPaths();
         newOrderList = directions.getExhibitsNamesID();
         TrackingStatic.remainingExhibits = newOrderList;
