@@ -7,5 +7,6 @@ public class SettingsStaticClass {
 
     public static boolean detailed;
     public static boolean onDirections = false;
-
+    public static String startName = "";
+    public static String endName = "";
 }
