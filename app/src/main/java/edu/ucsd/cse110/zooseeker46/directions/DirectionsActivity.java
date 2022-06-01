@@ -146,8 +146,8 @@ public class DirectionsActivity extends AppCompatActivity {
         TrackingStatic.finalPath = finalPath;
 
         visitedExhibits = new ArrayList<>();
-        remainingExhibits = new ArrayList<>();
-        remainingExhibits.addAll(d.getExhibitToVisitWO().keySet());
+        remainingExhibits = exhibitNamesID;
+        Log.d("order of reamaning", "onCreate: " + d.getExhibitToVisitWO().keySet());
         TrackingStatic.visitedExhibits = visitedExhibits;
         TrackingStatic.remainingExhibits = remainingExhibits;
 
@@ -462,7 +462,7 @@ public class DirectionsActivity extends AppCompatActivity {
         adapter.setExhibitsGraph(ZooData.loadZooGraphJSON(this,"zoo_graph.json"));
         adapter.setExhibitsEdge(ZooData.loadEdgeInfoJSON(this, "trail_info.json"));
         adapter.setExhibitsVertex(ZooData.loadVertexInfoJSON(this, "exhibit_info.json"));
-        adapter.setEnd(d.getExhibitsNamesID().get(0));
+        adapter.setEnd(d.getExhibitsNamesID().get(counter));
         //adapter.setDirectionsType(new DetailedDirections());
         if(SettingsStaticClass.detailed)
             adapter.setDirectionsType(new DetailedDirections());
