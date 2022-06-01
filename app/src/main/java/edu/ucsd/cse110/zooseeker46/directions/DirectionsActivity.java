@@ -254,6 +254,7 @@ public class DirectionsActivity extends AppCompatActivity {
         visitor = TrackingStatic.visitor;
         finalPath = TrackingStatic.finalPath;
         exhibitNamesID = TrackingStatic.exhibitNamesIDs;
+        Log.d("order of vist", "ON RESUME CALLED: " + exhibitNamesID);
         System.out.println(finalPath);
         if(vertexForNames.get(exhibitNamesID.get(counter)).group_id != null){
             adapter.setPath(DijkstraShortestPath.findPathBetween(TrackingStatic.zoo, visitor.getCurrentNode().id, vertexForNames.get(exhibitNamesID.get(counter)).group_id));
@@ -261,9 +262,12 @@ public class DirectionsActivity extends AppCompatActivity {
         else{
             adapter.setPath(DijkstraShortestPath.findPathBetween(TrackingStatic.zoo, visitor.getCurrentNode().id, exhibitNamesID.get(counter)));
         }
+        TextView animalText = findViewById(R.id.animalView);
+        animalText.setText(vertexForNames.get(exhibitNamesID.get(counter)).name);
 
 
         recyclerView.setAdapter(adapter);
+
     }
 
     public void onNextButtonClicked(View view) {
