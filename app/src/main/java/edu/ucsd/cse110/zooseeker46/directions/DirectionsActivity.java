@@ -87,11 +87,11 @@ public class DirectionsActivity extends AppCompatActivity {
 //        Log.d("Boolean CHANGED for onDirections: ", String.valueOf(SettingsStaticClass.onDirections));
 
         setContentView(R.layout.activity_directions);
-        vertexForNames = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
+        vertexForNames = ZooData.loadVertexInfoJSON(this, "exhibit_info.json");
 
         //load zoo graph and places
-        Graph<String, IdentifiedWeightedEdge> zoo = ZooData.loadZooGraphJSON(this, "sample_zoo_graph.json");
-        Map<String, ZooData.VertexInfo> places = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
+        Graph<String, IdentifiedWeightedEdge> zoo = ZooData.loadZooGraphJSON(this, "zoo_graph.json");
+        Map<String, ZooData.VertexInfo> places = ZooData.loadVertexInfoJSON(this, "exhibit_info.json");
 
         TrackingStatic.zoo = zoo;
         TrackingStatic.places = places;
@@ -134,7 +134,7 @@ public class DirectionsActivity extends AppCompatActivity {
         //Find shortest path with Directions object
         d = new Directions(placesToVisit, zoo);
         d.setStartID("entrance_exit_gate");
-        d.exhibitsVertex = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
+        d.exhibitsVertex = ZooData.loadVertexInfoJSON(this, "exhibit_info.json");
         d.finalListOfPaths();
         finalPath = d.getFinalPath();
         exhibitNamesID = d.getExhibitsNamesID();
@@ -164,9 +164,9 @@ public class DirectionsActivity extends AppCompatActivity {
             adapter = new DirectionsAdapter();
         }
 
-        adapter.setExhibitsGraph(ZooData.loadZooGraphJSON(this,"sample_zoo_graph.json"));
-        adapter.setExhibitsEdge(ZooData.loadEdgeInfoJSON(this, "sample_edge_info.json"));
-        adapter.setExhibitsVertex(ZooData.loadVertexInfoJSON(this, "sample_node_info.json"));
+        adapter.setExhibitsGraph(ZooData.loadZooGraphJSON(this,"zoo_graph.json"));
+        adapter.setExhibitsEdge(ZooData.loadEdgeInfoJSON(this, "trail_info.json"));
+        adapter.setExhibitsVertex(ZooData.loadVertexInfoJSON(this, "exhibit_info.json"));
         adapter.setEnd(exhibitNamesID.get(counter));
         adapter.setDirectionsType(new DetailedDirections());
 
@@ -440,9 +440,9 @@ public class DirectionsActivity extends AppCompatActivity {
             adapter = new DirectionsAdapter();
         }
 
-        adapter.setExhibitsGraph(ZooData.loadZooGraphJSON(this,"sample_zoo_graph.json"));
-        adapter.setExhibitsEdge(ZooData.loadEdgeInfoJSON(this, "sample_edge_info.json"));
-        adapter.setExhibitsVertex(ZooData.loadVertexInfoJSON(this, "sample_node_info.json"));
+        adapter.setExhibitsGraph(ZooData.loadZooGraphJSON(this,"zoo_graph.json"));
+        adapter.setExhibitsEdge(ZooData.loadEdgeInfoJSON(this, "trail_info.json"));
+        adapter.setExhibitsVertex(ZooData.loadVertexInfoJSON(this, "exhibit_info.json"));
         adapter.setEnd(d.getExhibitsNamesID().get(0));
         //adapter.setDirectionsType(new DetailedDirections());
         if(SettingsStaticClass.detailed)

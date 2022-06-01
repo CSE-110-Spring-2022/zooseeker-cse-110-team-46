@@ -21,6 +21,6 @@ public class ExampleUnitTest {
 
     @Test
     public void testSize() {
-        //Map<String, ZooData.VertexInfo> mapVertex = loadVertexInfoJSON(this, "sample_node_info.json");
+        //Map<String, ZooData.VertexInfo> mapVertex = loadVertexInfoJSON(this, "exhibit_info.json");
     }
 }

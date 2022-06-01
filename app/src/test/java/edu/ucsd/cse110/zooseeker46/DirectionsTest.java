@@ -31,9 +31,9 @@ public class DirectionsTest {
     Graph<String, IdentifiedWeightedEdge> zoo;
     @Before
     public void setGraph(){
-        zoo = ZooData.loadZooGraphJSON(context, "sample_zoo_graph.json");
-        streets = ZooData.loadEdgeInfoJSON(context, "sample_edge_info.json");
-        places = ZooData.loadVertexInfoJSON(context, "sample_node_info.json");
+        zoo = ZooData.loadZooGraphJSON(context, "zoo_graph.json");
+        streets = ZooData.loadEdgeInfoJSON(context, "trail_info.json");
+        places = ZooData.loadVertexInfoJSON(context, "exhibit_info.json");
     }
 
     @Test

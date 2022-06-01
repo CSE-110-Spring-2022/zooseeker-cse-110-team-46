@@ -31,9 +31,9 @@ public class PlanPageUnitTest {
     Directions d;
     @Before
     public void createAdapter(){
-        adapter.exhibitsGraph = ZooData.loadZooGraphJSON(context, "sample_zoo_graph.json");
-        adapter.exhibitsEdge = ZooData.loadEdgeInfoJSON(context, "sample_edge_info.json");
-        adapter.exhibitsVertex = ZooData.loadVertexInfoJSON(context, "sample_node_info.json");
+        adapter.exhibitsGraph = ZooData.loadZooGraphJSON(context, "zoo_graph.json");
+        adapter.exhibitsEdge = ZooData.loadEdgeInfoJSON(context, "trail_info.json");
+        adapter.exhibitsVertex = ZooData.loadVertexInfoJSON(context, "exhibit_info.json");
         testMapZoo.put("flamingo", adapter.exhibitsVertex.get("flamingo"));
         testMapZoo.put("capuchin", adapter.exhibitsVertex.get("capuchin"));
         testMapZoo.put("toucan", adapter.exhibitsVertex.get("toucan"));
