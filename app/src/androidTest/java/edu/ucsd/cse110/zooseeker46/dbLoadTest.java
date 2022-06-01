@@ -38,7 +38,7 @@ public class dbLoadTest {
         ExhibitDao exhibitDao_new = testDb.exhibitDao();
 
         Map<String, ZooData.VertexInfo> info =
-                zooDataObj.loadVertexInfoJSON(context,"sample_node_info.json");
+                zooDataObj.loadVertexInfoJSON(context,"exhibit_info.json");
         //checking format and calling constructor accordingly to add object
         for (Map.Entry<String,ZooData.VertexInfo> entry : info.entrySet()) {
             ZooData.VertexInfo curr = entry.getValue();

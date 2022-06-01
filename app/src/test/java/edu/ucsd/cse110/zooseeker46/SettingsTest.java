@@ -48,14 +48,14 @@ public class SettingsTest {
     DirectionsAdapter adapter2 = new DirectionsAdapter();
 
     mockExhibitSelectAdapter customAdapter;
-    ZooExhibits ze = new ZooExhibits(ZooData.loadVertexInfoJSON(context, "sample_node_info.json"));
+    ZooExhibits ze = new ZooExhibits(ZooData.loadVertexInfoJSON(context, "exhibit_info.json"));
     ArrayList<Exhibit> totalExhibits;
 
     @Before
     public void createAdapter(){
-        adapter.exhibitsGraph = ZooData.loadZooGraphJSON(context, "sample_zoo_graph.json");
-        adapter.exhibitsEdge = ZooData.loadEdgeInfoJSON(context, "sample_edge_info.json");
-        adapter.exhibitsVertex = ZooData.loadVertexInfoJSON(context, "sample_node_info.json");
+        adapter.exhibitsGraph = ZooData.loadZooGraphJSON(context, "zoo_graph.json");
+        adapter.exhibitsEdge = ZooData.loadEdgeInfoJSON(context, "trail_info.json");
+        adapter.exhibitsVertex = ZooData.loadVertexInfoJSON(context, "exhibit_info.json");
         testMapZoo.put("capuchin", adapter.exhibitsVertex.get("capuchin"));
         d = new Directions(testMapZoo,adapter.exhibitsGraph);
         d.exhibitsVertex = adapter.exhibitsVertex;
@@ -64,7 +64,7 @@ public class SettingsTest {
         adapter.orderPlan(d.getFinalPath(),d.getExhibitsNamesID());
 
         adapter2.setPath(DijkstraShortestPath.findPathBetween
-                (ZooData.loadZooGraphJSON(context, "sample_zoo_graph.json"),
+                (ZooData.loadZooGraphJSON(context, "zoo_graph.json"),
                         "entrance_exit_gate", "capuchin"));
 
         Map<String, Exhibit> mapExhibits =  ze.nameToVertexMap();
