@@ -466,11 +466,12 @@ public class DirectionsActivity extends AppCompatActivity {
     }
 
     public void onSkipButtonClicked(View view) {
-        List<String> remainingExhibits = TrackingStatic.remainingExhibits;
+        /*List<String> remainingExhibits = TrackingStatic.remainingExhibits;
 
         if (counter < finalPath.size() - 1){
-            remainingExhibits.remove(counter+1);
+            remainingExhibits.remove(counter);
         }
-        TrackingStatic.remainingExhibits = remainingExhibits;
+        adapter.setPath(DijkstraShortestPath.findPathBetween(TrackingStatic.zoo, visitor.getCurrentNode().id, exhibitNamesID.get(counter)));
+        TrackingStatic.remainingExhibits = remainingExhibits;*/
     }
 }
